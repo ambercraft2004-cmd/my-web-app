@@ -17,22 +17,21 @@
         
         .wallet-card { background: linear-gradient(135deg, var(--secondary), #000); padding: 25px; border-radius: 20px; width: 95%; max-width: 400px; text-align: center; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
         .support-btn { position: fixed; bottom: 20px; right: 20px; background: #0088cc; color: white; padding: 12px 18px; border-radius: 50px; display: flex; align-items: center; gap: 8px; text-decoration: none; z-index: 1000; font-size: 0.8rem; font-weight: bold; border: 1px solid rgba(255,255,255,0.2); }
-        .support-btn img { width: 22px; height: 22px; }
-
-        .shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; max-width: 600px; margin-top: 15px; }
-        .item-card { background: var(--card); border: 1px solid #333; padding: 12px; border-radius: 15px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; height: 100%; box-sizing: border-box; }
-        .item-img { width: 100%; border-radius: 10px; margin-bottom: 8px; display: block; object-fit: cover; aspect-ratio: 1/1; border: 1px solid #444; background: #222; }
-        .item-card h3 { font-size: 0.9rem; margin: 0 0 5px 0; line-height: 1.2; color: #fff; }
-        .item-card p { font-size: 0.7rem; color: #aaa; margin: 0 0 8px 0; }
-        .price-tag { color: #ffca28; font-weight: bold; font-size: 1.1rem; display: block; margin: auto 0 8px 0; }
         
-        /* Modal for Account Display */
-        .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #222; padding: 30px; border-radius: 20px; border: 2px solid var(--primary); z-index: 3000; width: 85%; max-width: 400px; text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2999; }
+        /* Shop Layout */
+        .shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; width: 100%; max-width: 600px; margin-top: 15px; }
+        .item-card { background: var(--card); border: 1px solid #333; padding: 10px; border-radius: 15px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; height: 100%; box-sizing: border-box; }
+        .item-img { width: 100%; border-radius: 10px; margin-bottom: 8px; object-fit: cover; aspect-ratio: 1/1; border: 1px solid #444; }
+        .item-card h3 { font-size: 0.85rem; margin: 0 0 5px 0; line-height: 1.3; color: #fff; height: 40px; overflow: hidden; }
+        .item-card p { font-size: 0.65rem; color: #aaa; margin-bottom: 8px; }
+        .price-tag { color: #ffca28; font-weight: bold; font-size: 1rem; display: block; margin-bottom: 8px; }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.8rem; }
-        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
-        #status { position: fixed; top: 10px; padding: 15px; border-radius: 10px; display: none; z-index: 5000; width: 80%; text-align: center; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .category-title { color: var(--primary); align-self: flex-start; margin: 20px 0 10px 10px; font-size: 1.1rem; border-left: 4px solid var(--primary); padding-left: 10px; }
+
+        /* Modal & Status */
+        .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #222; padding: 25px; border-radius: 20px; border: 2px solid var(--primary); z-index: 3000; width: 85%; max-width: 380px; text-align: center; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2999; }
+        #status { position: fixed; top: 10px; padding: 15px; border-radius: 10px; display: none; z-index: 5000; width: 80%; text-align: center; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -42,18 +41,15 @@
     <div id="accModal" class="hidden">
         <div class="overlay"></div>
         <div class="modal">
-            <h2 style="color:#4caf50; margin-top:0;">ဝယ်ယူမှု အောင်မြင်သည်! ✅</h2>
-            <p style="color:#aaa; font-size:0.9rem;">သင့်အကောင့် အချက်အလက်မှာ -</p>
-            <div id="accDetails" style="background:#000; padding:15px; border-radius:10px; color:#ffca28; font-family:monospace; font-size:1.1rem; margin:15px 0; border:1px dashed #555; word-break: break-all;"></div>
-            
-            <button class="btn-primary" id="copyBtn" onclick="copyAccount()" style="background:#2196f3; margin-bottom:10px;">📋 Copy ယူမည်</button>
+            <h2 style="color:#4caf50;">ဝယ်ယူမှု အောင်မြင်သည်! ✅</h2>
+            <div id="accDetails" style="background:#000; padding:15px; border-radius:10px; color:#ffca28; font-family:monospace; margin:15px 0; border:1px dashed #555; word-break: break-all;"></div>
+            <button class="btn-primary" id="copyBtn" onclick="copyAccount()" style="background:#2196f3; margin-bottom:10px;">📋 Copy Account</button>
             <button class="btn-primary" onclick="closeModal()" style="background:#555;">ပိတ်မည်</button>
-            <p style="font-size:0.7rem; color:#ff9800; margin-top:10px;">*Screenshot ရိုက်ထားရန် မမေ့ပါနှင့်*</p>
         </div>
     </div>
 
     <a href="https://t.me/Botambershop" target="_blank" class="support-btn">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="20">
         <span>အဆင်မပြေတာရှိပါက ဆက်သွယ်ရန်</span>
     </a>
 
@@ -61,8 +57,8 @@
         <h2 style="color:var(--primary); text-align:center;">Amber Blox Hub</h2>
         <input type="text" id="authUser" placeholder="Username">
         <input type="password" id="authPass" placeholder="Password">
-        <button class="btn-primary" onclick="handleAuth()">ဝင်ရောက်မည် / အကောင့်ဖွင့်မည်</button>
-        <p style="text-align:center; font-size:0.7rem; margin-top:20px; color:#444; cursor:pointer;" onclick="showAdminLogin()">🛡️ Admin Panel Access</p>
+        <button class="btn-primary" onclick="handleAuth()">ဝင်ရောက်မည်</button>
+        <p style="text-align:center; font-size:0.7rem; margin-top:20px; color:#444; cursor:pointer;" onclick="showAdminLogin()">🛡️ Admin Panel</p>
     </div>
 
     <div id="adminAuthSection" class="box hidden">
@@ -71,25 +67,18 @@
     </div>
 
     <div id="adminPanel" class="box hidden" style="max-width: 600px; width:100%;">
-        <h3 style="color:var(--primary);">🛡️ Admin Dashboard</h3>
-        <p style="font-size:0.8rem;">📦 အမျိုးအစားအလိုက် Stock ထည့်ရန်</p>
+        <h3>🛡️ Stock Management</h3>
         <select id="stockTarget">
-            <option value="item1">Lv Max God Gas (3000)</option>
-            <option value="tiger1">Tiger 1 (4500)</option>
-            <option value="tiger2">Tiger 2 (5500)</option>
-            <option value="tiger3">Tiger 3 (8000)</option>
+            <option value="item1">Lv Max + God + Gas (3000)</option>
+            <option value="tiger1">1. Lv Max + God + Tiger (4500)</option>
+            <option value="tiger2">2. Lv Max + God + Tiger + Mythical (5500)</option>
+            <option value="tiger3">3. Lv Max + God + Cdk + Tiger (8000)</option>
         </select>
-        <textarea id="stockData" rows="4" placeholder="အကောင့်များကို တစ်ကြောင်းချင်းစီထည့်ပါ..."></textarea>
-        <button class="btn-primary" onclick="addStock()">Stock ပေါင်းထည့်မည်</button>
-
+        <textarea id="stockData" rows="4" placeholder="acc:pass (တစ်ကြောင်းချင်းစီထည့်ပါ)"></textarea>
+        <button class="btn-primary" onclick="addStock()">Add Stock</button>
         <hr style="border:0.5px solid #333; margin:20px 0;">
         <input type="text" id="userSearch" placeholder="🔍 Search User..." onkeyup="filterUsers()">
-        <div style="max-height: 250px; overflow-y: auto;">
-            <table id="userTable">
-                <thead><tr><th>Name</th><th>Balance</th><th>Action</th></tr></thead>
-                <tbody id="userTableBody"></tbody>
-            </table>
-        </div>
+        <div style="max-height: 200px; overflow-y: auto;"><table id="userTable"><tbody id="userTableBody"></tbody></table></div>
         <button class="btn-primary" style="margin-top:15px; background:#f44336;" onclick="location.reload()">ပိတ်မည်</button>
     </div>
 
@@ -101,50 +90,54 @@
         </div>
 
         <div class="box">
-            <h3 style="color:var(--primary); margin-top:0;">💰 Deposit (ငွေဖြည့်)</h3>
-            <div style="background:#111; padding:12px; border-radius:8px; font-size:0.8rem; border:1px solid #333; margin-bottom:15px; color:#fff;">
+            <h3 style="color:var(--primary); margin:0 0 10px 0;">💰 Deposit</h3>
+            <div style="background:#111; padding:10px; border-radius:8px; font-size:0.8rem; border:1px solid #333; margin-bottom:10px;">
                 <b>Kpay/Wave:</b> 09671811551 (Bhone Pyae Shan)
             </div>
-            <select id="method"><option value="Kpay">Kpay</option><option value="Wave">Wave</option></select>
             <select id="amount">
-                <option value="1000">1000 Ks</option><option value="3000">3000 Ks</option><option value="4500">4500 Ks</option>
-                <option value="5500">5500 Ks</option><option value="8000">8000 Ks</option><option value="10000">10000 Ks</option>
+                <option value="3000">3000 Ks</option><option value="4500">4500 Ks</option>
+                <option value="5500">5500 Ks</option><option value="8000">8000 Ks</option>
+                <option value="10000">10000 Ks</option><option value="20000">20000 Ks</option>
             </select>
             <input type="file" id="fileInput" hidden accept="image/*">
-            <button onclick="document.getElementById('fileInput').click()" style="width:100%; padding:10px; background:#222; border:1px dashed #555; color:#ccc; margin-bottom:10px; border-radius:8px; cursor:pointer;">📷 ပြေစာ Screenshot တင်ရန်</button>
-            <button class="btn-primary" style="background:#2196f3;" onclick="requestDeposit()">ငွေဖြည့်တောင်းဆိုမည်</button>
+            <button onclick="document.getElementById('fileInput').click()" style="width:100%; padding:10px; background:#222; border:1px dashed #555; color:#ccc; margin-bottom:10px; border-radius:8px;">📷 Screenshot တင်ရန်</button>
+            <button class="btn-primary" style="background:#2196f3;" onclick="requestDeposit()">ငွေဖြည့်မည်</button>
         </div>
 
-        <h3 style="color:var(--primary); align-self: flex-start; margin-left: 10px;">🛒 BLOX FRUIT ACCOUNTS</h3>
-        
+        <div class="category-title">GAS INVENTORY ACCOUNTS</div>
         <div class="shop-grid">
             <div class="item-card">
                 <img src="https://i.ibb.co/CKwsLsBk/image.png" class="item-img">
-                <h3>Lv Max God Gas</h3>
+                <h3>Lv Max + God + Gas (100% Inv)</h3>
+                <p>Radom | Cdk, SG, MM</p>
                 <p>Stock: <span id="stock-item1" style="color:#4caf50;">0</span></p>
                 <span class="price-tag">3,000 Ks</span>
                 <button class="btn-primary" onclick="purchase('item1', 'Lv Max God Gas', 3000)">ဝယ်ယူမည်</button>
             </div>
+        </div>
 
+        <div class="category-title">TIGER INVENTORY 100% ACCOUNTS</div>
+        <div class="shop-grid">
             <div class="item-card">
                 <img src="https://i.ibb.co/cKbHjfxM/image.png" class="item-img">
-                <h3>Tiger 1 (Basic)</h3>
+                <h3>1. Lv Max + God + Tiger</h3>
+                <p>100% Inventory</p>
                 <p>Stock: <span id="stock-tiger1" style="color:#4caf50;">0</span></p>
                 <span class="price-tag">4,500 Ks</span>
                 <button class="btn-primary" onclick="purchase('tiger1', 'Tiger 1', 4500)">ဝယ်ယူမည်</button>
             </div>
-
             <div class="item-card">
                 <img src="https://i.ibb.co/cKbHjfxM/image.png" class="item-img">
-                <h3>Tiger 2 (Mythic)</h3>
+                <h3>2. Lv Max + Tiger + Mythical</h3>
+                <p>Radom | Cdk, SG, MM</p>
                 <p>Stock: <span id="stock-tiger2" style="color:#4caf50;">0</span></p>
                 <span class="price-tag">5,500 Ks</span>
                 <button class="btn-primary" onclick="purchase('tiger2', 'Tiger 2', 5500)">ဝယ်ယူမည်</button>
             </div>
-
             <div class="item-card">
                 <img src="https://i.ibb.co/cKbHjfxM/image.png" class="item-img">
-                <h3>Tiger 3 (CDK)</h3>
+                <h3>3. Lv Max + God + Cdk + Tiger</h3>
+                <p>Radom | Cdk, SG, MM</p>
                 <p>Stock: <span id="stock-tiger3" style="color:#4caf50;">0</span></p>
                 <span class="price-tag">8,000 Ks</span>
                 <button class="btn-primary" onclick="purchase('tiger3', 'Tiger 3', 8000)">ဝယ်ယူမည်</button>
@@ -157,9 +150,6 @@
             apiKey: "AIzaSyCS7bb_vbbthRgekyLIDhWMUPtVLY63wSo",
             authDomain: "amberbloxfruitshop.firebaseapp.com",
             projectId: "amberbloxfruitshop",
-            storageBucket: "amberbloxfruitshop.firebasestorage.app",
-            messagingSenderId: "712977986178",
-            appId: "1:712977986178:web:d5402cbd3f12ea01e4fa9b",
             databaseURL: "https://amberbloxfruitshop-default-rtdb.firebaseio.com"
         };
         firebase.initializeApp(firebaseConfig);
@@ -175,46 +165,6 @@
             updateStocks();
         };
 
-        // Purchase & Modal Logic
-        async function purchase(itemId, itemName, price) {
-            const userSnap = await db.ref('users/'+currentUser).once('value');
-            const balance = userSnap.val().balance || 0;
-            if(balance < price) return notify("❌ လက်ကျန်ငွေ မလုံလောက်ပါ", "#f44336");
-
-            const stockSnap = await db.ref('stocks/' + itemId).once('value');
-            const stocks = stockSnap.val();
-            if(!stocks || stocks.length === 0) return notify("❌ ပစ္စည်းပြတ်နေပါသည်", "#ff9800");
-
-            if(confirm(`${itemName} ကို ${price} Ks ဖြင့် ဝယ်ယူမှာလား?`)) {
-                const boughtAcc = stocks.shift();
-                await db.ref('stocks/' + itemId).set(stocks);
-                await db.ref('users/' + currentUser).update({ balance: balance - price });
-                
-                // Set Account info and show modal
-                document.getElementById('accDetails').innerText = boughtAcc;
-                document.getElementById('accModal').classList.remove('hidden');
-                
-                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent("📦 AUTO SALE\nUser: "+currentUser+"\nItem: "+itemName+"\nAcc: "+boughtAcc)}`);
-            }
-        }
-
-        function copyAccount() {
-            const accText = document.getElementById('accDetails').innerText;
-            navigator.clipboard.writeText(accText).then(() => {
-                const btn = document.getElementById('copyBtn');
-                btn.innerText = "✅ Copied!";
-                btn.style.background = "#4caf50";
-                setTimeout(() => {
-                    btn.innerText = "📋 Copy ယူမည်";
-                    btn.style.background = "#2196f3";
-                }, 2000);
-                notify("📋 Copy ကူးပြီးပါပြီ", "#4caf50");
-            });
-        }
-
-        function closeModal() { document.getElementById('accModal').classList.add('hidden'); }
-
-        // Core Functions
         async function handleAuth() {
             const user = document.getElementById('authUser').value.trim().toLowerCase();
             const pass = document.getElementById('authPass').value.trim();
@@ -236,16 +186,41 @@
             db.ref('users/' + currentUser).on('value', (s) => { if(s.val()) document.getElementById('balanceDisplay').innerText = s.val().balance.toLocaleString() + " Ks"; });
         }
 
+        async function purchase(itemId, itemName, price) {
+            const userSnap = await db.ref('users/'+currentUser).once('value');
+            const balance = userSnap.val().balance || 0;
+            if(balance < price) return notify("❌ လက်ကျန်ငွေ မလုံလောက်ပါ", "#f44336");
+            const stockSnap = await db.ref('stocks/' + itemId).once('value');
+            const stocks = stockSnap.val();
+            if(!stocks || stocks.length === 0) return notify("❌ ပစ္စည်းပြတ်နေပါသည်", "#ff9800");
+
+            if(confirm(`${itemName} ကို ဝယ်ယူမှာလား?`)) {
+                const boughtAcc = stocks.shift();
+                await db.ref('stocks/' + itemId).set(stocks);
+                await db.ref('users/' + currentUser).update({ balance: balance - price });
+                document.getElementById('accDetails').innerText = boughtAcc;
+                document.getElementById('accModal').classList.remove('hidden');
+                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent("📦 SALE\nUser: "+currentUser+"\nItem: "+itemName+"\nAcc: "+boughtAcc)}`);
+            }
+        }
+
+        function copyAccount() {
+            navigator.clipboard.writeText(document.getElementById('accDetails').innerText).then(() => {
+                notify("📋 Copy ကူးပြီးပါပြီ", "#4caf50");
+            });
+        }
+        function closeModal() { document.getElementById('accModal').classList.add('hidden'); }
+
         async function addStock() {
             const target = document.getElementById('stockTarget').value;
             const rawData = document.getElementById('stockData').value.trim();
             if(!rawData) return;
-            const newAccounts = rawData.split('\n').map(s => s.trim()).filter(s => s !== "");
+            const newAccs = rawData.split('\n').map(s => s.trim()).filter(s => s !== "");
             const snap = await db.ref('stocks/' + target).once('value');
             const existing = snap.val() || [];
-            await db.ref('stocks/' + target).set([...existing, ...newAccounts]);
+            await db.ref('stocks/' + target).set([...existing, ...newAccs]);
             document.getElementById('stockData').value = "";
-            notify("✅ Stock ပေါင်းထည့်ပြီးပါပြီ", "#4caf50");
+            notify("✅ Stock Added", "#4caf50");
         }
 
         function updateStocks() {
@@ -266,47 +241,37 @@
                 loadUsers();
             }
         }
-
         function loadUsers() {
-            db.ref('users').on('value', (snapshot) => {
-                const users = snapshot.val();
-                let html = '';
+            db.ref('users').on('value', (s) => {
+                const users = s.val(); let html = '';
                 for(let id in users) {
-                    html += `<tr><td>${id}</td><td>${users[id].balance}</td>
-                    <td><div style="display:flex;gap:3px;"><input type="number" id="in-${id}" style="width:50px;"><button onclick="addBal('${id}')">Add</button></div></td></tr>`;
+                    html += `<tr><td>${id}</td><td>${users[id].balance}</td><td><input type="number" id="in-${id}" style="width:60px;margin:0;"><button onclick="addBal('${id}')">Add</button></td></tr>`;
                 }
                 document.getElementById('userTableBody').innerHTML = html;
             });
         }
-
         async function addBal(id) {
             const amt = parseInt(document.getElementById('in-'+id).value);
-            if(!amt) return;
             const snap = await db.ref('users/'+id+'/balance').once('value');
             await db.ref('users/'+id).update({ balance: (snap.val() || 0) + amt });
-            notify("✅ ငွေဖြည့်ပေးပြီးပါပြီ", "#4caf50");
+            notify("✅ Updated", "#4caf50");
         }
-
         async function requestDeposit() {
             const f = document.getElementById('fileInput').files[0];
-            if(!f) return notify("⚠️ ပုံအရင်ရွေးပါ", "#ff9800");
-            notify("⏳ ပို့နေပါသည်...", "#2196f3");
+            if(!f) return notify("⚠️ ပုံတင်ပါ", "#ff9800");
             const fd = new FormData();
             fd.append('chat_id', ADMIN_CHAT_ID); fd.append('photo', f);
-            fd.append('caption', `💰 Deposit Request\nUser: ${currentUser}\nAmount: ${document.getElementById('amount').value} Ks`);
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
-            notify("✅ ပို့ပြီးပါပြီ။ Admin စစ်ဆေးပေးပါမည်", "#4caf50");
+            fd.append('caption', `💰 Deposit Request\nUser: ${currentUser}\nAmount: ${document.getElementById('amount').value}`);
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
+            notify("✅ ပို့ပြီးပါပြီ", "#4caf50");
         }
-
         function filterUsers() {
             let input = document.getElementById("userSearch").value.toLowerCase();
             let tr = document.getElementById("userTable").getElementsByTagName("tr");
-            for (let i = 1; i < tr.length; i++) {
-                let td = tr[i].getElementsByTagName("td")[0];
-                if (td) tr[i].style.display = td.innerText.toLowerCase().includes(input) ? "" : "none";
+            for (let i = 0; i < tr.length; i++) {
+                tr[i].style.display = tr[i].innerText.toLowerCase().includes(input) ? "" : "none";
             }
         }
-
         function notify(m, c) { const s = document.getElementById('status'); s.innerText = m; s.style.backgroundColor = c; s.style.color="white"; s.style.display = 'block'; setTimeout(() => s.style.display='none', 3000); }
     </script>
 </body>
