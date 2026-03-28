@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amber Blox Hub - Full Edition</title>
+    <title>Amber Blox Hub - Official Shop</title>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
@@ -15,10 +15,12 @@
         .btn-primary { background: #4caf50; color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.2s; }
         .btn-primary:active { transform: scale(0.98); }
         
+        /* Layout Elements */
         .wallet-card { background: linear-gradient(135deg, var(--secondary), #000); padding: 25px; border-radius: 20px; width: 95%; max-width: 400px; text-align: center; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
         .support-btn { position: fixed; bottom: 20px; right: 20px; background: #0088cc; color: white; padding: 12px 18px; border-radius: 50px; display: flex; align-items: center; gap: 8px; text-decoration: none; box-shadow: 0 5px 15px rgba(0,0,0,0.4); z-index: 1000; font-size: 0.8rem; font-weight: bold; border: 1px solid rgba(255,255,255,0.2); }
         .support-btn img { width: 22px; height: 22px; }
 
+        /* Admin Table */
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.8rem; }
         th, td { border: 1px solid #333; padding: 8px; text-align: left; }
         th { background: #222; color: var(--primary); }
@@ -26,6 +28,7 @@
         .update-box { display: flex; gap: 5px; }
         .update-box input { margin-bottom: 0; padding: 5px; width: 60px; height: 35px; }
 
+        /* Shop Cards */
         .item-card { background: var(--card); border: 1px solid #333; padding: 15px; border-radius: 12px; width: 100%; margin-bottom: 15px; text-align: center; }
         .price-tag { color: #ffca28; font-weight: bold; font-size: 1.2rem; display: block; margin: 8px 0; }
         #status { position: fixed; top: 10px; padding: 15px; border-radius: 10px; display: none; z-index: 2000; width: 80%; text-align: center; font-weight: bold; }
@@ -42,22 +45,21 @@
 
     <div id="authSection" class="box">
         <h2 style="color:var(--primary); text-align:center; margin:0 0 15px 0;">Amber Blox Hub</h2>
-        <p style="text-align:center; font-size:0.75rem; color:#888; margin-top:-10px;">နာမည်တူယူ၍မရပါ။ သီးသန့်နာမည်ပေးပါ။</p>
-        <input type="text" id="authUser" placeholder="Username">
-        <input type="password" id="authPass" placeholder="Password">
+        <input type="text" id="authUser" placeholder="Username (နာမည်ပေးပါ)">
+        <input type="password" id="authPass" placeholder="Password (လျှို့ဝှက်ချက်)">
         <button class="btn-primary" onclick="handleAuth()">ဝင်ရောက်မည် / အကောင့်ဖွင့်မည်</button>
         <p style="text-align:center; font-size:0.75rem; margin-top:20px; color:#444; cursor:pointer;" onclick="showAdminLogin()">🛡️ Admin Panel Access</p>
     </div>
 
     <div id="adminAuthSection" class="box hidden">
-        <h3 style="color:#ffca28; margin:0 0 15px 0;">Admin Key ရိုက်ပါ</h3>
-        <input type="password" id="adminPassInput" placeholder="Secret Key">
+        <h3 style="color:#ffca28; margin:0 0 15px 0;">Admin Security</h3>
+        <input type="password" id="adminPassInput" placeholder="Admin Key ရိုက်ပါ">
         <button class="btn-primary" style="background:#ffca28; color:black;" onclick="checkAdmin()">Admin ဝင်မည်</button>
         <button class="btn-primary" style="background:none; border:1px solid #444; margin-top:5px; color:#777;" onclick="location.reload()">ပြန်ထွက်မည်</button>
     </div>
 
     <div id="adminPanel" class="box hidden" style="max-width: 600px; width:100%;">
-        <h3 style="color:#ffca28; margin:0;">User List (Search & Add Balance)</h3>
+        <h3 style="color:#ffca28; margin:0;">Admin Dashboard</h3>
         <input type="text" id="userSearch" class="search-input" placeholder="🔍 Username ဖြင့် ရှာရန်..." onkeyup="filterUsers()">
         <div style="max-height: 400px; overflow-y: auto; border: 1px solid #333;">
             <table id="userTable">
@@ -70,7 +72,7 @@
 
     <div id="mainContent" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
         <div class="wallet-card">
-            <span style="font-size: 0.7rem; opacity: 0.7;">WELCOME, <span id="displayUserName"></span></span>
+            <span style="font-size: 0.7rem; opacity: 0.7;">WELCOME, <span id="displayUserName" style="color:#ffca28;"></span></span>
             <span style="font-size: 2.5rem; font-weight: bold; display: block;" id="balanceDisplay">0 Ks</span>
             <button onclick="logout()" style="background:rgba(255,255,255,0.1); border:none; color:white; padding:5px 12px; border-radius:20px; font-size:0.7rem; cursor:pointer; margin-top:10px;">Logout</button>
         </div>
@@ -81,47 +83,49 @@
                 <b>Kpay/Wave:</b> 09671811551 (Bhone Pyae Shan)
             </div>
             <select id="method"><option value="Kpay">Kpay</option><option value="Wave Pay">Wave Pay</option></select>
-            
             <select id="amount">
-                <option value="1000">1,000 Ks</option>
-                <option value="3000">3,000 Ks</option>
-                <option value="4000">4,000 Ks</option>
-                <option value="5000">5,000 Ks</option>
-                <option value="10000">10,000 Ks</option>
-                <option value="12000">12,000 Ks</option>
-                <option value="15000">15,000 Ks</option>
-                <option value="18000">18,000 Ks</option>
-                <option value="20000">20,000 Ks</option>
-                <option value="30000">30,000 Ks</option>
-                <option value="35000">35,000 Ks</option>
-                <option value="45000">45,000 Ks</option>
+                <option value="1000">1,000 Ks</option><option value="3000">3,000 Ks</option>
+                <option value="4000">4,000 Ks</option><option value="5000">5,000 Ks</option>
+                <option value="10000">10,000 Ks</option><option value="12000">12,000 Ks</option>
+                <option value="15000">15,000 Ks</option><option value="18000">18,000 Ks</option>
+                <option value="20000">20,000 Ks</option><option value="30000">30,000 Ks</option>
+                <option value="35000">35,000 Ks</option><option value="45000">45,000 Ks</option>
                 <option value="50000">50,000 Ks</option>
             </select>
-            
             <input type="file" id="fileInput" hidden accept="image/*">
             <button onclick="document.getElementById('fileInput').click()" style="width:100%; padding:10px; background:#222; border:1px dashed #555; color:#ccc; margin-bottom:10px; border-radius:8px; cursor:pointer;">📷 ပြေစာ Screenshot တင်ရန်</button>
             <button class="btn-primary" style="background:#2196f3;" onclick="requestDeposit()">ငွေဖြည့်တောင်းဆိုမည်</button>
         </div>
 
         <div style="width:95%; max-width:450px;">
-            <h3 style="color:var(--primary); margin-left:5px;">🛒 Shop Items</h3>
+            <h3 style="color:var(--primary); margin-left:5px;">🛒 Tiger Inventory List</h3>
             
+            <div class="item-card">
+                <h3>Tiger Inventory (A)</h3>
+                <p style="font-size:0.8rem; color:#aaa; margin:0;">Level Max + Fighting Styles + Rare Items</p>
+                <span class="price-tag">3,000 Ks</span>
+                <button class="btn-primary" onclick="purchase('Tiger Inventory (A)', 3000)">ဝယ်ယူမည်</button>
+            </div>
+
+            <div class="item-card">
+                <h3>Tiger Inventory (B)</h3>
+                <p style="font-size:0.8rem; color:#aaa; margin:0;">Level Max + Mythical Fruits + Swords</p>
+                <span class="price-tag">4,500 Ks</span>
+                <button class="btn-primary" onclick="purchase('Tiger Inventory (B)', 4500)">ဝယ်ယူမည်</button>
+            </div>
+
+            <div class="item-card">
+                <h3>Tiger Inventory (C)</h3>
+                <p style="font-size:0.8rem; color:#aaa; margin:0;">Level Max + Full Awakened Fruits + Bounty</p>
+                <span class="price-tag">6,000 Ks</span>
+                <button class="btn-primary" onclick="purchase('Tiger Inventory (C)', 6000)">ဝယ်ယူမည်</button>
+            </div>
+
+            <h3 style="color:var(--primary); margin-left:5px; margin-top:25px;">🛒 Special Services</h3>
             <div class="item-card">
                 <h3>Lv Max + God + Gas</h3>
                 <span class="price-tag">3,000 Ks</span>
-                <button class="btn-primary" onclick="purchase('Lv Max + God + Gas', 3000)">ဝယ်ယူမည်</button>
-            </div>
-
-            <div class="item-card">
-                <h3>Tiger Inventory 100%</h3>
-                <span class="price-tag">4,500 Ks</span>
-                <button class="btn-primary" onclick="purchase('Tiger Inventory 100%', 4500)">ဝယ်ယူမည်</button>
-            </div>
-
-            <div class="item-card">
-                <h3>Reroll Stats / Skills</h3>
-                <span class="price-tag">1,000 Ks</span>
-                <button class="btn-primary" onclick="purchase('Reroll Stats', 1000)">ဝယ်ယူမည်</button>
+                <button class="btn-primary" style="background:linear-gradient(to right, #00d2ff, #3a7bd5);" onclick="purchase('Lv Max + God + Gas', 3000)">ဝယ်ယူမည်</button>
             </div>
         </div>
     </div>
@@ -149,11 +153,11 @@
         async function handleAuth() {
             const user = document.getElementById('authUser').value.trim().toLowerCase();
             const pass = document.getElementById('authPass').value.trim();
-            if(!user || !pass) { notify("⚠️ အချက်အလက်ဖြည့်ပါ", "#ff9800"); return; }
+            if(!user || !pass) return;
             const snap = await db.ref('users/' + user).once('value');
             if(snap.val()) {
                 if(snap.val().password === pass) { login(user); } 
-                else { notify("❌ နာမည်ယူပြီးသားဖြစ်သည် သို့မဟုတ် Password မှားသည်", "#f44336"); }
+                else { notify("❌ နာမည်ယူပြီးသား (သို့) Password မှားသည်", "#f44336"); }
             } else { await db.ref('users/' + user).set({ password: pass, balance: 0 }); login(user); }
         }
 
@@ -208,11 +212,11 @@
 
         async function requestDeposit() {
             const f = document.getElementById('fileInput').files[0];
-            if(!f) { notify("⚠️ ပြေစာပုံအရင်တင်ပါ", "#ff9800"); return; }
+            if(!f) { notify("⚠️ ပြေစာပုံတင်ပါ", "#ff9800"); return; }
             notify("⏳ ပို့နေပါသည်...", "#2196f3");
             const fd = new FormData();
             fd.append('chat_id', ADMIN_CHAT_ID); fd.append('photo', f);
-            fd.append('caption', `🔔 **Deposit Alert**\n👤 User: ${currentUser}\n💰 Amount: ${document.getElementById('amount').value} Ks\n💳 Method: ${document.getElementById('method').value}`);
+            fd.append('caption', `🔔 **Deposit Request**\n👤 User: ${currentUser}\n💰 Amount: ${document.getElementById('amount').value} Ks\n💳 Method: ${document.getElementById('method').value}`);
             await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
             notify("✅ ပို့ပြီးပါပြီ!", "#4caf50");
         }
@@ -222,7 +226,7 @@
             const bal = snap.val() || 0;
             if(bal >= price) {
                 await db.ref('users/' + currentUser).update({ balance: bal - price });
-                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent("📦 Order!\n👤 User: "+currentUser+"\n🎮 Item: "+name)}`);
+                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent("📦 **Order Received!**\n👤 User: "+currentUser+"\n🎮 Item: "+name)}`);
                 notify("✅ ဝယ်ယူမှုအောင်မြင်သည်!", "#4caf50");
             } else { notify("❌ လက်ကျန်ငွေ မလုံလောက်ပါ!", "#f44336"); }
         }
