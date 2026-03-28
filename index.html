@@ -19,7 +19,7 @@
         .support-btn { position: fixed; bottom: 20px; right: 20px; background: #0088cc; color: white; padding: 12px 18px; border-radius: 50px; display: flex; align-items: center; gap: 8px; text-decoration: none; z-index: 1000; font-size: 0.8rem; font-weight: bold; border: 1px solid rgba(255,255,255,0.2); }
         .support-btn img { width: 22px; height: 22px; }
 
-        /* --- SHOP GRID (NEW: 2-COLUMN LAYOUT) --- */
+        /* --- SHOP GRID (2-COLUMN LAYOUT) --- */
         .shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; max-width: 600px; margin-top: 15px; }
         
         /* item-card ကို Grid ထဲမှာ အဆင်ပြေအောင် ပြင်ဆင်ချက် */
@@ -82,6 +82,9 @@
 
         <div class="box">
             <h3 style="color:var(--primary); margin-top:0;">💰 Deposit (ငွေဖြည့်)</h3>
+            <div style="background:#111; padding:12px; border-radius:8px; font-size:0.8rem; border:1px solid #333; margin-bottom:15px; color:#fff;">
+                <b>Kpay/Wave:</b> 09671811551 (Bhone Pyae Shan)
+            </div>
             <select id="method"><option value="Kpay">Kpay</option><option value="Wave">Wave</option></select>
             <select id="amount">
                 <option value="1000">1000 Ks</option><option value="3000">3000 Ks</option><option value="4000">4000 Ks</option>
@@ -91,7 +94,7 @@
                 <option value="50000">50000 Ks</option>
             </select>
             <input type="file" id="fileInput" hidden accept="image/*">
-            <button onclick="document.getElementById('fileInput').click()" style="width:100%; padding:10px; background:#222; border:1px dashed #555; color:#ccc; margin-bottom:10px; border-radius:8px;">📷 ပြေစာ Screenshot တင်ရန်</button>
+            <button onclick="document.getElementById('fileInput').click()" style="width:100%; padding:10px; background:#222; border:1px dashed #555; color:#ccc; margin-bottom:10px; border-radius:8px; cursor:pointer;">📷 ပြေစာ Screenshot တင်ရန်</button>
             <button class="btn-primary" style="background:#2196f3;" onclick="requestDeposit()">ငွေဖြည့်တောင်းဆိုမည်</button>
         </div>
 
@@ -99,7 +102,7 @@
         
         <div class="shop-grid">
             <div class="item-card">
-                <img src="https://i.ibb.co/VWVm0Yv/godhuman.jpg" class="item-img" alt="Lv Max God Gas">
+                <img src="https://i.ibb.co/VWVm0Yv/godhuman.jpg" class="item-img" alt="Godhuman Image">
                 <h3>Lv Max + God + Gas (100% Inventory)</h3>
                 <p>Radom | Cdk , SG , MM</p>
                 <span class="price-tag">3,000 Ks</span>
@@ -107,7 +110,7 @@
             </div>
 
             <div class="item-card">
-                <img src="https://i.ibb.co/L6V6Y1P/tiger.jpg" class="item-img" alt="Tiger 1">
+                <img src="https://i.ibb.co/L6V6Y1P/tiger.jpg" class="item-img" alt="Tiger Image">
                 <h3>1. Lv Max + God + Tiger (100% Inventory)</h3>
                 <p>Premium Account</p>
                 <span class="price-tag">4,500 Ks</span>
@@ -115,7 +118,7 @@
             </div>
 
             <div class="item-card">
-                <img src="https://i.ibb.co/L6V6Y1P/tiger.jpg" class="item-img" alt="Tiger 2">
+                <img src="https://i.ibb.co/L6V6Y1P/tiger.jpg" class="item-img" alt="Tiger Image">
                 <h3>2. Lv Max + God + Tiger + Mythical (100% Inventory)</h3>
                 <p>Radom | Cdk , SG , MM</p>
                 <span class="price-tag">5,500 Ks</span>
@@ -123,7 +126,7 @@
             </div>
 
             <div class="item-card">
-                <img src="https://i.ibb.co/L6V6Y1P/tiger.jpg" class="item-img" alt="Tiger 3">
+                <img src="https://i.ibb.co/L6V6Y1P/tiger.jpg" class="item-img" alt="Tiger Image">
                 <h3>3. Lv Max + God + Cdk + Tiger</h3>
                 <p>Radom | Cdk , SG , MM</p>
                 <span class="price-tag">8,000 Ks</span>
