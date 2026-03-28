@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amber Blox Hub</title>
+    <style>
+        body { background: #0b0e14; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; }
+        .header { background: #161b22; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #00f2fe; position: sticky; top: 0; z-index: 100; }
+        .wallet-box { background: #21262d; padding: 10px 15px; border-radius: 8px; border: 1px solid #30363d; }
+        .balance { color: #00f2fe; font-weight: bold; font-size: 1.2rem; }
+        .topup-btn { background: #00f2fe; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-left: 10px; }
+        .container { padding: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .card { background: #161b22; border-radius: 12px; overflow: hidden; border: 1px solid #30363d; text-align: center; padding-bottom: 10px; }
+        .card img { width: 100%; height: 150px; object-fit: cover; }
+        .card h4 { margin: 10px 0 5px; font-size: 0.9rem; }
+        .price { color: #00f2fe; font-weight: bold; margin-bottom: 10px; }
+        .buy-btn { background: #238636; color: white; border: none; padding: 8px 20px; border-radius: 5px; cursor: pointer; width: 80%; }
+        /* Modal Style */
+        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #161b22; padding: 20px; border-radius: 15px; border: 1px solid #00f2fe; width: 80%; z-index: 200; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="font-weight: bold;">AMBER BLOX HUB</div>
+        <div class="wallet-box">
+            <span class="balance">0 MMK</span>
+            <button class="topup-btn" onclick="openTopup()">+</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <img src="https://via.placeholder.com/150" alt="Item">
+            <h4>LV MAX + GODHUMAN</h4>
+            <div class="price">3,700 KS</div>
+            <button class="buy-btn">Buy Now</button>
+        </div>
+        <div class="card">
+            <img src="https://via.placeholder.com/150" alt="Item">
+            <h4>DOUGH FRUIT ACC</h4>
+            <div class="price">4,500 KS</div>
+            <button class="buy-btn">Buy Now</button>
+        </div>
+    </div>
+
+    <div id="topupModal" class="modal">
+        <h3>Top Up MMK</h3>
+        <p>Kpay QR ကိုနှိပ်ပြီး ငွေလွှဲပြေစာတင်ပါ</p>
+        <button onclick="closeTopup()" style="background:red; color:white; border:none; padding:5px 10px; border-radius:5px;">Close</button>
+    </div>
+
+    <script>
+        function openTopup() { document.getElementById('topupModal').style.display = 'block'; }
+        function closeTopup() { document.getElementById('topupModal').style.display = 'none'; }
+    </script>
+</body>
+</html>
