@@ -13,7 +13,6 @@
         .header { text-align: center; margin-bottom: 20px; }
         .header h1 { color: var(--primary); text-transform: uppercase; letter-spacing: 3px; margin: 0; font-size: 1.5rem; }
         
-        /* Login Area */
         .auth-container { background: var(--card); padding: 25px; border-radius: 15px; width: 95%; max-width: 400px; border: 1px solid #333; margin-bottom: 20px; }
         .hidden { display: none; }
         
@@ -35,6 +34,7 @@
         
         #status { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 15px 25px; border-radius: 10px; display: none; z-index: 1000; font-weight: bold; text-align: center; width: 80%; max-width: 400px; }
         .note { font-size: 0.75rem; color: #aaa; margin-top: -10px; margin-bottom: 15px; display: block; }
+        .payment-info { background: #111; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 0.85rem; border: 1px solid #333; color: #00d2ff; text-align: left; }
     </style>
 </head>
 <body>
@@ -43,22 +43,31 @@
     <div class="header"><h1>Amber Blox Hub</h1></div>
 
     <div id="authSection" class="auth-container">
-        <h3 id="authTitle" style="color:var(--primary); margin-top:0;">Login / Register</h3>
+        <h3 style="color:var(--primary); margin-top:0;">Login / Register</h3>
         <p class="note">⚠️ Username နဲ့ Password ကို သေချာမှတ်ထားပါ။</p>
-        <input type="text" id="authUser" placeholder="Username (နာမည်)">
-        <input type="password" id="authPass" placeholder="Password (လျှို့ဝှက်နံပါတ်)">
-        <button class="btn-primary" onclick="handleAuth()">ဝင်ရောက်မည် / အကောင့်ဖွင့်မည်</button>
+        <input type="text" id="authUser" placeholder="Username">
+        <input type="password" id="authPass" placeholder="Password">
+        <button class="btn-primary" onclick="handleAuth()">ဝင်ရောက်မည်</button>
     </div>
 
     <div id="mainContent" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
         <div class="wallet-card">
-            <span style="font-size: 0.8rem; opacity: 0.7; letter-spacing: 2px;">WELCOME, <span id="displayUserName">User</span></span>
+            <span style="font-size: 0.8rem; opacity: 0.7; letter-spacing: 2px;">WELCOME, <span id="displayUserName"></span></span>
             <span class="balance-amount" id="balanceDisplay">0 Ks</span>
             <button class="btn-logout" onclick="logout()">Logout ထွက်မည်</button>
         </div>
 
         <div class="box">
             <h3>💰 ငွေဖြည့်ရန် (Deposit)</h3>
+            <div class="payment-info">
+                <p style="margin: 5px 0;"><b>KPay/Wave:</b> 09671811551</p>
+                <p style="margin: 5px 0;"><b>Name:</b> Bhone Pyae Shan</p>
+                <p style="font-size: 0.7rem; color: #ffca28;">(ငွေအရင်လွှဲပြီးမှ ပြေစာတင်ပေးပါ)</p>
+            </div>
+            <select id="method">
+                <option value="Kpay">Kpay ဖြင့်လွှဲထားသည်</option>
+                <option value="Wave Pay">Wave Pay ဖြင့်လွှဲထားသည်</option>
+            </select>
             <select id="amount">
                 <option value="1000">1,000 Ks</option>
                 <option value="3000">3,000 Ks</option>
@@ -85,6 +94,7 @@
     </div>
 
     <script>
+        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyCS7bb_vbbthRgekyLIDhWMUPtVLY63wSo",
             authDomain: "amberbloxfruitshop.firebaseapp.com",
@@ -94,116 +104,93 @@
             appId: "1:712977986178:web:d5402cbd3f12ea01e4fa9b",
             databaseURL: "https://amberbloxfruitshop-default-rtdb.firebaseio.com"
         };
-
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
+        // Telegram Bot Config
         const BOT_TOKEN = "8678530738:AAGkk72-WHfqcP7UPdd_WNCJKsHnqA_A3kE";
         const ADMIN_CHAT_ID = "6318450352"; 
 
         let currentUser = null;
         let userBalance = 0;
 
-        // Check for saved session
-        window.onload = function() {
+        // Session Check
+        window.onload = () => {
             const saved = localStorage.getItem('loggedUser');
-            if(saved) {
-                currentUser = saved;
-                showMain();
-            }
+            if(saved) { currentUser = saved; showMain(); }
         };
 
+        // Login & Register Logic
         async function handleAuth() {
             const user = document.getElementById('authUser').value.trim().toLowerCase();
             const pass = document.getElementById('authPass').value.trim();
-
-            if(!user || !pass) { notify("⚠️ အချက်အလက်အကုန်ဖြည့်ပါ!", "#ff9800"); return; }
-
-            const snapshot = await db.ref('users/' + user).once('value');
-            const data = snapshot.val();
-
-            if(data) {
-                // Login existing user
-                if(data.password === pass) {
-                    currentUser = user;
-                    localStorage.setItem('loggedUser', user);
-                    showMain();
-                    notify("✅ Login အောင်မြင်ပါသည်!", "#4caf50");
-                } else {
-                    notify("❌ Password မှားနေပါသည်!", "#f44336");
-                }
-            } else {
-                // Register new user
-                await db.ref('users/' + user).set({
-                    password: pass,
-                    balance: 0
-                });
-                currentUser = user;
-                localStorage.setItem('loggedUser', user);
-                showMain();
-                notify("🎊 အကောင့်အသစ် ဖွင့်ပြီးပါပြီ!", "#4caf50");
+            if(!user || !pass) { notify("⚠️ အကုန်ဖြည့်ပါ!", "#ff9800"); return; }
+            
+            const snap = await db.ref('users/' + user).once('value');
+            if(snap.val()) {
+                if(snap.val().password === pass) { login(user); } 
+                else { notify("❌ Password မှားနေသည်!", "#f44336"); }
+            } else { 
+                await db.ref('users/' + user).set({ password: pass, balance: 0 }); 
+                login(user); 
             }
         }
+
+        function login(user) { currentUser = user; localStorage.setItem('loggedUser', user); showMain(); }
+        function logout() { localStorage.removeItem('loggedUser'); location.reload(); }
 
         function showMain() {
             document.getElementById('authSection').classList.add('hidden');
             document.getElementById('mainContent').classList.remove('hidden');
-            document.getElementById('mainContent').style.display = 'flex';
             document.getElementById('displayUserName').innerText = currentUser.toUpperCase();
             
-            db.ref('users/' + currentUser).on('value', (snapshot) => {
-                if(snapshot.val()) {
-                    userBalance = snapshot.val().balance;
+            db.ref('users/' + currentUser).on('value', (s) => {
+                if(s.val()) {
+                    userBalance = s.val().balance;
                     document.getElementById('balanceDisplay').innerText = userBalance.toLocaleString() + " Ks";
                 }
             });
         }
 
-        function logout() {
-            localStorage.removeItem('loggedUser');
-            location.reload();
-        }
-
-        document.getElementById('fileInput').onchange = function() {
-            if(this.files[0]) document.getElementById('fileLabel').innerText = "ပုံရွေးပြီးပါပြီ- " + this.files[0].name;
-        };
-
+        // Deposit Request
         async function requestDeposit() {
-            const amount = document.getElementById('amount').value;
-            const file = document.getElementById('fileInput').files[0];
-
-            if(!file) { notify("⚠️ ငွေလွှဲပြေစာ ပုံတင်ပေးပါ!", "#ff9800"); return; }
-
-            notify("⏳ Admin ဆီ ပို့နေပါသည်...", "#2196f3");
-
-            const formData = new FormData();
-            formData.append('chat_id', ADMIN_CHAT_ID);
-            formData.append('photo', file);
-            formData.append('caption', `🔔 **ငွေဖြည့်တောင်းဆိုမှု**\n👤 User: ${currentUser}\n💵 Amount: ${amount} Ks`);
+            const m = document.getElementById('method').value;
+            const a = document.getElementById('amount').value;
+            const f = document.getElementById('fileInput').files[0];
+            if(!f) { notify("⚠️ ပြေစာ တင်ပေးပါ!", "#ff9800"); return; }
+            
+            notify("⏳ ပို့နေပါသည်...", "#2196f3");
+            const fd = new FormData();
+            fd.append('chat_id', ADMIN_CHAT_ID); 
+            fd.append('photo', f);
+            fd.append('caption', `🔔 **ငွေဖြည့်တောင်းဆိုမှု**\n👤 User: ${currentUser}\n💰 Amount: ${a} Ks\n💳 Method: ${m}`);
             
             try {
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: formData });
-                notify("✅ ပို့ပြီးပါပြီ။ Admin စစ်ဆေးပြီးမှ ငွေတက်လာပါမည်!", "#4caf50");
-            } catch (e) { notify("❌ ပို့ဆောင်မှု မအောင်မြင်ပါ။", "#f44336"); }
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
+                notify("✅ ပို့ပြီးပါပြီ! Admin က မကြာခင် ငွေဖြည့်ပေးပါလိမ့်မည်။", "#4caf50");
+            } catch (e) { notify("❌ Error ဖြစ်သွားပါသည်!", "#f44336"); }
         }
 
-        async function purchase(itemName, price) {
+        // Purchase Logic
+        async function purchase(name, price) {
             if(userBalance >= price) {
                 const newBalance = userBalance - price;
                 await db.ref('users/' + currentUser).update({ balance: newBalance });
-                const text = `📦 **Order New!**\n👤 User: ${currentUser}\n🎮 Item: ${itemName}\n💰 Paid: ${price} Ks`;
+                const text = `📦 **Order New!**\n👤 User: ${currentUser}\n🎮 Item: ${name}\n💰 Paid: ${price} Ks`;
                 fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent(text)}`);
-                notify("✅ ဝယ်ယူမှု အောင်မြင်ပါသည်။", "#4caf50");
-            } else {
-                notify("❌ လက်ကျန်ငွေ မလုံလောက်ပါ။", "#f44336");
-            }
+                notify("✅ ဝယ်ယူမှု အောင်မြင်သည်!", "#4caf50");
+            } else { notify("❌ လက်ကျန်ငွေ မလုံလောက်ပါ!", "#f44336"); }
         }
 
-        function notify(msg, color) {
+        function notify(m, c) {
             const s = document.getElementById('status');
-            s.innerText = msg; s.style.backgroundColor = color; s.style.display = 'block';
-            setTimeout(() => { s.style.display = 'none'; }, 4000);
+            s.innerText = m; s.style.backgroundColor = c; s.style.display = 'block';
+            setTimeout(() => s.style.display='none', 4000);
         }
+
+        document.getElementById('fileInput').onchange = function() {
+            if(this.files[0]) document.getElementById('fileLabel').innerText = "ရွေးပြီးပါပြီ: " + this.files[0].name;
+        };
     </script>
 </body>
 </html>
