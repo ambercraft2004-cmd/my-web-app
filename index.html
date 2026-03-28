@@ -1,26 +1,73 @@
+<p class="details">100% Inventory<br>Random | Cdk, SG, MM</p>
+            </div>
+            <div>
+                <span class="price-tag">3,000 Ks</span>
+                <button class="buy-btn" onclick="autoBuy('Lv Max + God + Gas', 3000)">Purchase Now</button>
+            </div>
+        </div>
 
-function autoBuy(name, price) {
+        <div class="item-card">
+            <div>
+                <div class="item-icon">🐯</div>
+                <h3>Tiger Inventory 100%</h3>
+                <p class="details">Select your preferred package:</p>
+                
+                <select id="tiger-select" onchange="updateTigerUI()">
+                    <option value="4500" data-name="Lv Max + God + Tiger">Package 1: Lv Max + God + Tiger (4500ks)</option>
+                    <option value="5500" data-name="Tiger + Mythical">Package 2: Tiger + Mythical (5500ks)</option>
+                    <option value="8000" data-name="Lv Max + God + Cdk + Tiger">Package 3: Cdk + Tiger (8000ks)</option>
+                </select>
+            </div>
+            <div>
+                <span id="tiger-price-display" class="price-tag">4,500 Ks</span>
+                <button class="buy-btn" onclick="buyTigerAuto()">Purchase Now</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Balance Loading Logic
+        let balance = localStorage.getItem('userBalance') ? parseInt(localStorage.getItem('userBalance')) : 0;
+        updateUI();
+
+        function updateUI() {
+            document.getElementById('balanceDisplay').innerText = balance.toLocaleString() + " Ks";
+            localStorage.setItem('userBalance', balance);
+        }
+
+        function updateTigerUI() {
+            const select = document.getElementById('tiger-select');
+            const price = select.value;
+            document.getElementById('tiger-price-display').innerText = parseInt(price).toLocaleString() + " Ks";
+        }
+
+        function autoBuy(name, price) {
             if (balance >= price) {
                 balance -= price;
                 updateUI();
-                showStatus("✅ ဝယ်ယူမှု အောင်မြင်ပါသည်။ ကျန်ငွေ: " + balance + " Ks", "#4caf50");
-                // ဤနေရာတွင် Customer ဝယ်လိုက်ကြောင်း သင့်ဆီ Log ပို့မည့် စနစ်ထည့်နိုင်ပါသည်
+                showStatus("✅ ဝယ်ယူမှု အောင်မြင်ပါသည်။ \nItems: " + name, "#4caf50");
+                
+                // တကယ့်လုပ်ငန်းမှာဆိုရင် ဒီနေရာကနေ သင့် Telegram ဆီ Log ပို့လို့ရပါတယ်
+                console.log("Ordered: " + name + " for " + price + " Ks");
             } else {
-                showStatus("❌ လက်ကျန်ငွေ မလုံလောက်ပါ။ ငွေအရင်ဖြည့်ပါ!", "#f44336");
+                showStatus("❌ လက်ကျန်ငွေ မလုံလောက်ပါ။ \nငွေအရင်ဖြည့်ပေးပါ!", "#f44336");
             }
         }
 
         function buyTigerAuto() {
-            const price = parseInt(document.getElementById('tiger-select').value);
-            autoBuy("Tiger Package", price);
+            const select = document.getElementById('tiger-select');
+            const price = parseInt(select.value);
+            const name = select.options[select.selectedIndex].getAttribute('data-name');
+            autoBuy(name, price);
         }
 
         function requestTopup() {
-            const amount = prompt("ဘယ်လောက်ဖိုး ငွေဖြည့်မလဲ? (နမူနာစနစ်ဖြစ်၍ ဂဏန်းရိုက်ထည့်ရုံဖြင့် ငွေတက်လာပါမည်)");
+            const amount = prompt("ဘယ်လောက်ဖိုး ငွေဖြည့်မလဲ?\n(နမူနာစနစ်ဖြစ်၍ ဂဏန်းရိုက်ထည့်ရုံဖြင့် ငွေတက်လာပါမည်)");
             if (amount && !isNaN(amount)) {
                 balance += parseInt(amount);
                 updateUI();
-                showStatus("💰 " + amount + " Ks ဖြည့်သွင်းမှု အောင်မြင်ပါသည်!", "#2196f3");
+                showStatus("💰 " + parseInt(amount).toLocaleString() + " Ks ဖြည့်သွင်းမှု အောင်မြင်ပါသည်!", "#2196f3");
             }
         }
 
@@ -29,7 +76,7 @@ function autoBuy(name, price) {
             s.innerText = msg;
             s.style.backgroundColor = color;
             s.style.display = 'block';
-            setTimeout(() => { s.style.display = 'none'; }, 3000);
+            setTimeout(() => { s.style.display = 'none'; }, 4000);
         }
     </script>
 </body>
