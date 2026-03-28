@@ -3,98 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amber Blox Hub - Official Shop</title>
+    <title>Amber Blox Hub - Admin & Shop</title>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-    
     <style>
         :root { --primary: #00d2ff; --secondary: #3a7bd5; --dark: #0f0f0f; --card: #1a1a1a; --text: #ffffff; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--dark); color: var(--text); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        .header { text-align: center; margin-bottom: 20px; }
-        .header h1 { color: var(--primary); text-transform: uppercase; letter-spacing: 3px; margin: 0; font-size: 1.5rem; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--dark); color: var(--text); margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .hidden { display: none !important; }
+        .box { background: var(--card); padding: 20px; border-radius: 15px; width: 95%; max-width: 450px; margin-bottom: 20px; border: 1px solid #333; box-sizing: border-box; }
+        input, select { width: 100%; padding: 12px; background: #111; color: white; border: 1px solid #444; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; outline: none; }
+        .btn-primary { background: #4caf50; color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        .wallet-card { background: linear-gradient(135deg, var(--secondary), #000); padding: 25px; border-radius: 20px; width: 95%; max-width: 400px; text-align: center; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
         
-        .auth-container { background: var(--card); padding: 25px; border-radius: 15px; width: 95%; max-width: 400px; border: 1px solid #333; margin-bottom: 20px; }
-        .hidden { display: none; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.8rem; }
+        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
+        th { background: #222; color: var(--primary); }
+        .update-box { display: flex; gap: 5px; }
+        .update-box input { margin-bottom: 0; padding: 5px; width: 60px; height: 30px; }
+        .btn-sm { padding: 5px 8px; font-size: 0.7rem; border-radius: 5px; cursor: pointer; border: none; background: #2196f3; color: white; }
         
-        .wallet-card { background: linear-gradient(135deg, var(--secondary), #000); padding: 30px; border-radius: 20px; width: 95%; max-width: 400px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); margin-bottom: 25px; }
-        .balance-amount { font-size: 2.5rem; font-weight: bold; margin: 10px 0; display: block; }
-        
-        .box { background: var(--card); padding: 20px; border-radius: 15px; width: 95%; max-width: 400px; margin-bottom: 20px; border: 1px solid #333; box-sizing: border-box; }
-        .box h3 { margin-top: 0; font-size: 1rem; color: var(--primary); border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 15px; }
-        
-        input, select { width: 100%; padding: 12px; background: #111; color: white; border: 1px solid #444; border-radius: 8px; box-sizing: border-box; margin-bottom: 15px; outline: none; }
-        .btn-upload { background: #222; border: 1px dashed #555; padding: 10px; text-align: center; border-radius: 8px; cursor: pointer; font-size: 0.8rem; color: #ccc; }
-        .btn-primary { background: #4caf50; color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
-        .btn-logout { background: #f44336; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 0.8rem; margin-top: 10px; }
-        
-        .shop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; max-width: 900px; }
-        .item { background: var(--card); border-radius: 15px; padding: 20px; text-align: center; border: 1px solid #333; }
-        .price { font-size: 1.5rem; color: #ffca28; font-weight: bold; display: block; margin: 10px 0; }
-        .buy-btn { background: linear-gradient(45deg, var(--primary), var(--secondary)); color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; }
-        
-        #status { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 15px 25px; border-radius: 10px; display: none; z-index: 1000; font-weight: bold; text-align: center; width: 80%; max-width: 400px; }
-        .note { font-size: 0.75rem; color: #aaa; margin-top: -10px; margin-bottom: 15px; display: block; }
-        .payment-info { background: #111; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 0.85rem; border: 1px solid #333; color: #00d2ff; text-align: left; }
+        .item-card { background: var(--card); border: 1px solid #333; padding: 15px; border-radius: 12px; width: 100%; margin-bottom: 10px; text-align: center; }
+        .price-tag { color: #ffca28; font-weight: bold; font-size: 1.2rem; display: block; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-    <div id="status"></div>
-    <div class="header"><h1>Amber Blox Hub</h1></div>
+    <div id="status" style="position:fixed; top:10px; padding:15px; border-radius:10px; display:none; z-index:1000; width:80%; text-align:center; font-weight:bold;"></div>
 
-    <div id="authSection" class="auth-container">
+    <div id="authSection" class="box">
         <h3 style="color:var(--primary); margin-top:0;">Login / Register</h3>
-        <p class="note">⚠️ Username နဲ့ Password ကို သေချာမှတ်ထားပါ။</p>
+        <p style="font-size:0.7rem; color:#aaa; margin-top:-10px;">Username နဲ့ Password ကို မှတ်ထားပေးပါ။</p>
         <input type="text" id="authUser" placeholder="Username">
         <input type="password" id="authPass" placeholder="Password">
         <button class="btn-primary" onclick="handleAuth()">ဝင်ရောက်မည်</button>
+        <p style="text-align:center; font-size:0.7rem; margin-top:20px; color:#333; cursor:pointer;" onclick="showAdminLogin()">Admin Panel Access</p>
+    </div>
+
+    <div id="adminAuthSection" class="box hidden">
+        <h3 style="color:#ffca28; margin-top:0;">Admin Access Only</h3>
+        <input type="password" id="adminPassInput" placeholder="Admin Key ရိုက်ပါ">
+        <button class="btn-primary" style="background:#ffca28; color:black;" onclick="checkAdmin()">Admin ဝင်မည်</button>
+        <button class="btn-primary" style="background:none; border:1px solid #555; margin-top:5px; color:#aaa;" onclick="location.reload()">ပြန်ထွက်မည်</button>
+    </div>
+
+    <div id="adminPanel" class="box hidden" style="max-width: 600px; width:100%;">
+        <h3 style="color:#ffca28; margin-top:0;">User Management</h3>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr><th>User ID</th><th>Balance</th><th>Add Ks</th></tr>
+                </thead>
+                <tbody id="userTableBody"></tbody>
+            </table>
+        </div>
+        <button class="btn-primary" style="margin-top:20px; background:#f44336;" onclick="location.reload()">Dashboard ပိတ်မည်</button>
     </div>
 
     <div id="mainContent" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
         <div class="wallet-card">
-            <span style="font-size: 0.8rem; opacity: 0.7; letter-spacing: 2px;">WELCOME, <span id="displayUserName"></span></span>
-            <span class="balance-amount" id="balanceDisplay">0 Ks</span>
-            <button class="btn-logout" onclick="logout()">Logout ထွက်မည်</button>
+            <span style="font-size: 0.7rem; opacity: 0.7; letter-spacing: 1px;">WELCOME, <span id="displayUserName"></span></span>
+            <span style="font-size: 2.5rem; font-weight: bold; display: block; margin: 5px 0;" id="balanceDisplay">0 Ks</span>
+            <button onclick="logout()" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; padding:5px 12px; border-radius:20px; font-size:0.7rem; cursor:pointer;">Logout</button>
         </div>
 
         <div class="box">
-            <h3>💰 ငွေဖြည့်ရန် (Deposit)</h3>
-            <div class="payment-info">
-                <p style="margin: 5px 0;"><b>KPay/Wave:</b> 09671811551</p>
-                <p style="margin: 5px 0;"><b>Name:</b> Bhone Pyae Shan</p>
-                <p style="font-size: 0.7rem; color: #ffca28;">(ငွေအရင်လွှဲပြီးမှ ပြေစာတင်ပေးပါ)</p>
+            <h3 style="color:var(--primary); margin-top:0;">💰 ငွေဖြည့်ရန် (Deposit)</h3>
+            <div style="background:#111; padding:12px; border-radius:8px; font-size:0.8rem; border:1px solid #333; margin-bottom:15px; line-height:1.5;">
+                <b style="color:#ffca28;">Kpay/Wave:</b> 09671811551<br>
+                <b>Name:</b> Bhone Pyae Shan
             </div>
-            <select id="method">
-                <option value="Kpay">Kpay ဖြင့်လွှဲထားသည်</option>
-                <option value="Wave Pay">Wave Pay ဖြင့်လွှဲထားသည်</option>
-            </select>
-            <select id="amount">
-                <option value="1000">1,000 Ks</option>
-                <option value="3000">3,000 Ks</option>
-                <option value="5000">5,000 Ks</option>
-                <option value="10000">10,000 Ks</option>
-            </select>
-            <div class="btn-upload" onclick="document.getElementById('fileInput').click()" id="fileLabel">📷 ပြေစာ (Screenshot) တင်ရန် နှိပ်ပါ</div>
+            <select id="method"><option value="Kpay">Kpay ဖြင့်လွှဲထားသည်</option><option value="Wave Pay">Wave Pay ဖြင့်လွှဲထားသည်</option></select>
+            <select id="amount"><option value="1000">1,000 Ks</option><option value="3000">3,000 Ks</option><option value="5000">5,000 Ks</option></select>
             <input type="file" id="fileInput" hidden accept="image/*">
-            <button class="btn-primary" onclick="requestDeposit()" style="margin-top: 15px; background: #2196f3;">ငွေဖြည့်ရန် တောင်းဆိုမည်</button>
+            <button onclick="document.getElementById('fileInput').click()" style="width:100%; padding:12px; background:#222; border:1px dashed #555; color:#ccc; margin-bottom:10px; border-radius:8px; cursor:pointer;">📷 ပြေစာ Screenshot တင်ရန်</button>
+            <button class="btn-primary" style="background:#2196f3;" onclick="requestDeposit()">ငွေဖြည့်တောင်းဆိုမည်</button>
         </div>
 
-        <div class="shop-grid">
-            <div class="item">
+        <div style="width:95%; max-width:450px;">
+            <h3 style="color:var(--primary); margin-left:5px;">🛒 Shop Items</h3>
+            <div class="item-card">
                 <h3>Lv Max + God + Gas</h3>
-                <span class="price">3,000 Ks</span>
-                <button class="buy-btn" onclick="purchase('Lv Max + God + Gas', 3000)">ဝယ်ယူမည်</button>
+                <span class="price-tag">3,000 Ks</span>
+                <button class="btn-primary" style="background:linear-gradient(to right, #00d2ff, #3a7bd5);" onclick="purchase('Lv Max + God + Gas', 3000)">ဝယ်ယူမည်</button>
             </div>
-            <div class="item">
+            <div class="item-card">
                 <h3>Tiger Inventory 100%</h3>
-                <span class="price">4,500 Ks</span>
-                <button class="buy-btn" onclick="purchase('Tiger Package 1', 4500)">ဝယ်ယူမည်</button>
+                <span class="price-tag">4,500 Ks</span>
+                <button class="btn-primary" style="background:linear-gradient(to right, #00d2ff, #3a7bd5);" onclick="purchase('Tiger Inventory 100%', 4500)">ဝယ်ယူမည်</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyCS7bb_vbbthRgekyLIDhWMUPtVLY63wSo",
             authDomain: "amberbloxfruitshop.firebaseapp.com",
@@ -106,34 +106,22 @@
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-
-        // Telegram Bot Config
         const BOT_TOKEN = "8678530738:AAGkk72-WHfqcP7UPdd_WNCJKsHnqA_A3kE";
         const ADMIN_CHAT_ID = "6318450352"; 
+        const ADMIN_KEY = "200412"; // လူကြီးမင်း သတ်မှတ်ထားသော Key
 
         let currentUser = null;
-        let userBalance = 0;
 
-        // Session Check
-        window.onload = () => {
-            const saved = localStorage.getItem('loggedUser');
-            if(saved) { currentUser = saved; showMain(); }
-        };
+        window.onload = () => { if(localStorage.getItem('loggedUser')) { currentUser = localStorage.getItem('loggedUser'); showMain(); } };
 
-        // Login & Register Logic
         async function handleAuth() {
             const user = document.getElementById('authUser').value.trim().toLowerCase();
             const pass = document.getElementById('authPass').value.trim();
-            if(!user || !pass) { notify("⚠️ အကုန်ဖြည့်ပါ!", "#ff9800"); return; }
-            
+            if(!user || !pass) { notify("⚠️ အချက်အလက်ဖြည့်ပါ", "#ff9800"); return; }
             const snap = await db.ref('users/' + user).once('value');
             if(snap.val()) {
-                if(snap.val().password === pass) { login(user); } 
-                else { notify("❌ Password မှားနေသည်!", "#f44336"); }
-            } else { 
-                await db.ref('users/' + user).set({ password: pass, balance: 0 }); 
-                login(user); 
-            }
+                if(snap.val().password === pass) { login(user); } else { notify("❌ Password မှားသည်!", "#f44336"); }
+            } else { await db.ref('users/' + user).set({ password: pass, balance: 0 }); login(user); }
         }
 
         function login(user) { currentUser = user; localStorage.setItem('loggedUser', user); showMain(); }
@@ -143,54 +131,75 @@
             document.getElementById('authSection').classList.add('hidden');
             document.getElementById('mainContent').classList.remove('hidden');
             document.getElementById('displayUserName').innerText = currentUser.toUpperCase();
-            
-            db.ref('users/' + currentUser).on('value', (s) => {
-                if(s.val()) {
-                    userBalance = s.val().balance;
-                    document.getElementById('balanceDisplay').innerText = userBalance.toLocaleString() + " Ks";
+            db.ref('users/' + currentUser).on('value', (s) => { if(s.val()) document.getElementById('balanceDisplay').innerText = s.val().balance.toLocaleString() + " Ks"; });
+        }
+
+        // --- Admin Dash Functions ---
+        function showAdminLogin() { document.getElementById('authSection').classList.add('hidden'); document.getElementById('adminAuthSection').classList.remove('hidden'); }
+        
+        function checkAdmin() {
+            if(document.getElementById('adminPassInput').value === ADMIN_KEY) {
+                document.getElementById('adminAuthSection').classList.add('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+                loadUsers();
+            } else { notify("❌ Admin Key မှားသည်!", "#f44336"); }
+        }
+
+        function loadUsers() {
+            db.ref('users').on('value', (snapshot) => {
+                const users = snapshot.val();
+                let html = '';
+                for(let id in users) {
+                    html += `<tr>
+                        <td><b>${id}</b></td>
+                        <td>${users[id].balance}</td>
+                        <td>
+                            <div class="update-box">
+                                <input type="number" id="input-${id}" placeholder="+Ks">
+                                <button class="btn-sm" onclick="addBalance('${id}')">Add</button>
+                            </div>
+                        </td>
+                    </tr>`;
                 }
+                document.getElementById('userTableBody').innerHTML = html;
             });
         }
 
-        // Deposit Request
+        async function addBalance(userId) {
+            const amount = parseInt(document.getElementById('input-'+userId).value);
+            if(!amount) return;
+            const snap = await db.ref('users/'+userId+'/balance').once('value');
+            const currentBal = snap.val() || 0;
+            await db.ref('users/'+userId).update({ balance: currentBal + amount });
+            notify("✅ " + userId + " ထံ " + amount + " Ks ဖြည့်ပြီး!", "#4caf50");
+            document.getElementById('input-'+userId).value = '';
+        }
+
+        // --- User Actions ---
         async function requestDeposit() {
             const m = document.getElementById('method').value;
             const a = document.getElementById('amount').value;
             const f = document.getElementById('fileInput').files[0];
-            if(!f) { notify("⚠️ ပြေစာ တင်ပေးပါ!", "#ff9800"); return; }
-            
-            notify("⏳ ပို့နေပါသည်...", "#2196f3");
+            if(!f) { notify("⚠️ ပြေစာပုံအရင်တင်ပါ", "#ff9800"); return; }
+            notify("⏳ Admin ထံ ပို့နေပါသည်...", "#2196f3");
             const fd = new FormData();
-            fd.append('chat_id', ADMIN_CHAT_ID); 
-            fd.append('photo', f);
-            fd.append('caption', `🔔 **ငွေဖြည့်တောင်းဆိုမှု**\n👤 User: ${currentUser}\n💰 Amount: ${a} Ks\n💳 Method: ${m}`);
-            
-            try {
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
-                notify("✅ ပို့ပြီးပါပြီ! Admin က မကြာခင် ငွေဖြည့်ပေးပါလိမ့်မည်။", "#4caf50");
-            } catch (e) { notify("❌ Error ဖြစ်သွားပါသည်!", "#f44336"); }
+            fd.append('chat_id', ADMIN_CHAT_ID); fd.append('photo', f);
+            fd.append('caption', `🔔 **Deposit Request**\n👤 User: ${currentUser}\n💰 Amount: ${a} Ks\n💳 Method: ${m}`);
+            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
+            notify("✅ ပို့ပြီးပါပြီ! ခေတ္တစောင့်ပေးပါ", "#4caf50");
         }
 
-        // Purchase Logic
         async function purchase(name, price) {
-            if(userBalance >= price) {
-                const newBalance = userBalance - price;
-                await db.ref('users/' + currentUser).update({ balance: newBalance });
-                const text = `📦 **Order New!**\n👤 User: ${currentUser}\n🎮 Item: ${name}\n💰 Paid: ${price} Ks`;
-                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent(text)}`);
-                notify("✅ ဝယ်ယူမှု အောင်မြင်သည်!", "#4caf50");
+            const snap = await db.ref('users/'+currentUser+'/balance').once('value');
+            const bal = snap.val() || 0;
+            if(bal >= price) {
+                await db.ref('users/' + currentUser).update({ balance: bal - price });
+                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent("📦 **Order New!**\n👤 User: "+currentUser+"\n🎮 Item: "+name+"\n💰 Price: "+price+" Ks")}`);
+                notify("✅ ဝယ်ယူမှုအောင်မြင်သည်!", "#4caf50");
             } else { notify("❌ လက်ကျန်ငွေ မလုံလောက်ပါ!", "#f44336"); }
         }
 
-        function notify(m, c) {
-            const s = document.getElementById('status');
-            s.innerText = m; s.style.backgroundColor = c; s.style.display = 'block';
-            setTimeout(() => s.style.display='none', 4000);
-        }
-
-        document.getElementById('fileInput').onchange = function() {
-            if(this.files[0]) document.getElementById('fileLabel').innerText = "ရွေးပြီးပါပြီ: " + this.files[0].name;
-        };
+        function notify(m, c) { const s = document.getElementById('status'); s.innerText = m; s.style.backgroundColor = c; s.style.display = 'block'; setTimeout(() => s.style.display='none', 3000); }
     </script>
 </body>
 </html>
