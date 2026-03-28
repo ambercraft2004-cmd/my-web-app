@@ -11,7 +11,7 @@
         body { font-family: 'Segoe UI', sans-serif; background: var(--dark); color: var(--text); margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 100px; }
         .hidden { display: none !important; }
         .box { background: var(--card); padding: 20px; border-radius: 15px; width: 95%; max-width: 450px; margin-bottom: 20px; border: 1px solid #333; box-sizing: border-box; }
-        input, select { width: 100%; padding: 12px; background: #111; color: white; border: 1px solid #444; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; outline: none; }
+        input, select, textarea { width: 100%; padding: 12px; background: #111; color: white; border: 1px solid #444; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; outline: none; }
         .btn-primary { background: #4caf50; color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.2s; }
         .btn-primary:active { transform: scale(0.98); }
         
@@ -19,22 +19,16 @@
         .support-btn { position: fixed; bottom: 20px; right: 20px; background: #0088cc; color: white; padding: 12px 18px; border-radius: 50px; display: flex; align-items: center; gap: 8px; text-decoration: none; z-index: 1000; font-size: 0.8rem; font-weight: bold; border: 1px solid rgba(255,255,255,0.2); }
         .support-btn img { width: 22px; height: 22px; }
 
-        /* --- SHOP GRID (2-COLUMN LAYOUT) --- */
         .shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; max-width: 600px; margin-top: 15px; }
-        
-        /* item-card ကို Grid ထဲမှာ အဆင်ပြေအောင် ပြင်ဆင်ချက် */
         .item-card { background: var(--card); border: 1px solid #333; padding: 12px; border-radius: 15px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; height: 100%; box-sizing: border-box; }
-        
-        /* ပုံအရွယ်အစား Grid ထဲမှာ ညှိရန် */
         .item-img { width: 100%; border-radius: 10px; margin-bottom: 8px; display: block; object-fit: cover; aspect-ratio: 1/1; border: 1px solid #444; background: #222; }
-        
-        /* စာသားအရွယ်အစားGrid ထဲမှာ ညှိရန် */
         .item-card h3 { font-size: 0.9rem; margin: 0 0 5px 0; line-height: 1.2; color: #fff; }
         .item-card p { font-size: 0.7rem; color: #aaa; margin: 0 0 8px 0; }
         .price-tag { color: #ffca28; font-weight: bold; font-size: 1.1rem; display: block; margin: auto 0 8px 0; }
-        .item-card .btn-primary { padding: 8px; font-size: 0.8rem; border-radius: 8px; }
+        
+        .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #222; padding: 30px; border-radius: 20px; border: 2px solid var(--primary); z-index: 3000; width: 85%; max-width: 400px; text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2999; }
 
-        /* Admin/General */
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.8rem; }
         th, td { border: 1px solid #333; padding: 8px; text-align: left; }
         #status { position: fixed; top: 10px; padding: 15px; border-radius: 10px; display: none; z-index: 2000; width: 80%; text-align: center; font-weight: bold; }
@@ -43,6 +37,16 @@
 <body>
 
     <div id="status"></div>
+    <div id="accModal" class="hidden">
+        <div class="overlay"></div>
+        <div class="modal">
+            <h2 style="color:#4caf50;">ဝယ်ယူမှု အောင်မြင်သည်! ✅</h2>
+            <p style="color:#aaa;">သင့်အကောင့် အချက်အလက်မှာ -</p>
+            <div id="accDetails" style="background:#000; padding:15px; border-radius:10px; color:#ffca28; font-family:monospace; font-size:1.1rem; margin:20px 0; border:1px dashed #555; word-break: break-all;"></div>
+            <p style="font-size:0.7rem; color:#ff9800;">*Screenshot ရိုက်ထားရန် မမေ့ပါနှင့်*</p>
+            <button class="btn-primary" onclick="closeModal()">ပိတ်မည်</button>
+        </div>
+    </div>
 
     <a href="https://t.me/Botambershop" target="_blank" class="support-btn">
         <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg">
@@ -63,8 +67,20 @@
     </div>
 
     <div id="adminPanel" class="box hidden" style="max-width: 600px; width:100%;">
-        <input type="text" id="userSearch" placeholder="🔍 Search User..." onkeyup="filterUsers()" style="border:1px solid var(--primary);">
-        <div style="max-height: 350px; overflow-y: auto;">
+        <h3 style="color:var(--primary);">🛡️ Admin Dashboard</h3>
+        <p style="font-size:0.8rem;">📦 အမျိုးအစားအလိုက် Stock ထည့်ရန်</p>
+        <select id="stockTarget">
+            <option value="item1">Lv Max God Gas (3000)</option>
+            <option value="tiger1">Tiger 1 (4500)</option>
+            <option value="tiger2">Tiger 2 (5500)</option>
+            <option value="tiger3">Tiger 3 (8000)</option>
+        </select>
+        <textarea id="stockData" rows="4" placeholder="အကောင့်များကို တစ်ကြောင်းချင်းစီထည့်ပါ..."></textarea>
+        <button class="btn-primary" onclick="addStock()">Stock ပေါင်းထည့်မည်</button>
+
+        <hr style="border:0.5px solid #333; margin:20px 0;">
+        <input type="text" id="userSearch" placeholder="🔍 Search User..." onkeyup="filterUsers()">
+        <div style="max-height: 250px; overflow-y: auto;">
             <table id="userTable">
                 <thead><tr><th>Name</th><th>Balance</th><th>Action</th></tr></thead>
                 <tbody id="userTableBody"></tbody>
@@ -87,14 +103,11 @@
             </div>
             <select id="method"><option value="Kpay">Kpay</option><option value="Wave">Wave</option></select>
             <select id="amount">
-                <option value="1000">1000 Ks</option><option value="3000">3000 Ks</option><option value="4000">4000 Ks</option>
-                <option value="5000">5000 Ks</option><option value="10000">10000 Ks</option><option value="12000">12000 Ks</option>
-                <option value="15000">15000 Ks</option><option value="18000">18000 Ks</option><option value="20000">20000 Ks</option>
-                <option value="30000">30000 Ks</option><option value="35000">35000 Ks</option><option value="45000">45000 Ks</option>
-                <option value="50000">50000 Ks</option>
+                <option value="1000">1000 Ks</option><option value="3000">3000 Ks</option><option value="4500">4500 Ks</option>
+                <option value="5500">5500 Ks</option><option value="8000">8000 Ks</option><option value="10000">10000 Ks</option>
             </select>
             <input type="file" id="fileInput" hidden accept="image/*">
-            <button onclick="document.getElementById('fileInput').click()" style="width:100%; padding:10px; background:#222; border:1px dashed #555; color:#ccc; margin-bottom:10px; border-radius:8px; cursor:pointer;">📷 ပြေစာ Screenshot တင်ရန်</button>
+            <button onclick="document.getElementById('fileInput').click()" style="width:100%; padding:10px; background:#222; border:1px dashed #555; color:#ccc; margin-bottom:10px; border-radius:8px;">📷 ပြေစာ Screenshot တင်ရန်</button>
             <button class="btn-primary" style="background:#2196f3;" onclick="requestDeposit()">ငွေဖြည့်တောင်းဆိုမည်</button>
         </div>
 
@@ -102,35 +115,35 @@
         
         <div class="shop-grid">
             <div class="item-card">
-                <img src="https://i.ibb.co/CKwsLsBk/image.png" class="item-img" alt="Godhuman Image">
-                <h3>Lv Max + God + Gas (100% Inventory)</h3>
-                <p>Radom | Cdk , SG , MM</p>
+                <img src="https://i.ibb.co/CKwsLsBk/image.png" class="item-img">
+                <h3>Lv Max God Gas</h3>
+                <p>Stock: <span id="stock-item1" style="color:#4caf50;">0</span></p>
                 <span class="price-tag">3,000 Ks</span>
-                <button class="btn-primary" onclick="purchase('Lv Max+God+Gas', 3000)">ဝယ်ယူမည်</button>
+                <button class="btn-primary" onclick="purchase('item1', 'Lv Max God Gas', 3000)">ဝယ်ယူမည်</button>
             </div>
 
             <div class="item-card">
-                <img src="https://i.ibb.co/cKbHjfxM/image.png" class="item-img" alt="Tiger Image">
-                <h3>1. Lv Max + God + Tiger (100% Inventory)</h3>
-                <p>Premium Account</p>
+                <img src="https://i.ibb.co/cKbHjfxM/image.png" class="item-img">
+                <h3>Tiger 1 (Basic)</h3>
+                <p>Stock: <span id="stock-tiger1" style="color:#4caf50;">0</span></p>
                 <span class="price-tag">4,500 Ks</span>
-                <button class="btn-primary" onclick="purchase('Tiger 1 (4500)', 4500)">ဝယ်ယူမည်</button>
+                <button class="btn-primary" onclick="purchase('tiger1', 'Tiger 1', 4500)">ဝယ်ယူမည်</button>
             </div>
 
             <div class="item-card">
-                <img src="https://i.ibb.co/cKbHjfxM/image.png" class="item-img" alt="Tiger Image">
-                <h3>2. Lv Max + God + Tiger + Mythical (100% Inventory)</h3>
-                <p>Radom | Cdk , SG , MM</p>
+                <img src="https://i.ibb.co/cKbHjfxM/image.png" class="item-img">
+                <h3>Tiger 2 (Mythic)</h3>
+                <p>Stock: <span id="stock-tiger2" style="color:#4caf50;">0</span></p>
                 <span class="price-tag">5,500 Ks</span>
-                <button class="btn-primary" onclick="purchase('Tiger 2 (5500)', 5500)">ဝယ်ယူမည်</button>
+                <button class="btn-primary" onclick="purchase('tiger2', 'Tiger 2', 5500)">ဝယ်ယူမည်</button>
             </div>
 
             <div class="item-card">
-                <img src="https://i.ibb.co/cKbHjfxM/image.png" class="item-img" alt="Tiger Image">
-                <h3>3. Lv Max + God + Cdk + Tiger</h3>
-                <p>Radom | Cdk , SG , MM</p>
+                <img src="https://i.ibb.co/cKbHjfxM/image.png" class="item-img">
+                <h3>Tiger 3 (CDK)</h3>
+                <p>Stock: <span id="stock-tiger3" style="color:#4caf50;">0</span></p>
                 <span class="price-tag">8,000 Ks</span>
-                <button class="btn-primary" onclick="purchase('Tiger 3 (8000)', 8000)">ဝယ်ယူမည်</button>
+                <button class="btn-primary" onclick="purchase('tiger3', 'Tiger 3', 8000)">ဝယ်ယူမည်</button>
             </div>
         </div>
     </div>
@@ -153,7 +166,10 @@
 
         let currentUser = null;
 
-        window.onload = () => { if(localStorage.getItem('loggedUser')) { currentUser = localStorage.getItem('loggedUser'); showMain(); } };
+        window.onload = () => { 
+            if(localStorage.getItem('loggedUser')) { currentUser = localStorage.getItem('loggedUser'); showMain(); } 
+            updateStocks();
+        };
 
         async function handleAuth() {
             const user = document.getElementById('authUser').value.trim().toLowerCase();
@@ -174,6 +190,49 @@
             document.getElementById('mainContent').classList.remove('hidden');
             document.getElementById('displayUserName').innerText = currentUser.toUpperCase();
             db.ref('users/' + currentUser).on('value', (s) => { if(s.val()) document.getElementById('balanceDisplay').innerText = s.val().balance.toLocaleString() + " Ks"; });
+        }
+
+        async function purchase(itemId, itemName, price) {
+            const userSnap = await db.ref('users/'+currentUser).once('value');
+            const balance = userSnap.val().balance || 0;
+            if(balance < price) return notify("❌ လက်ကျန်ငွေ မလုံလောက်ပါ", "#f44336");
+
+            const stockSnap = await db.ref('stocks/' + itemId).once('value');
+            const stocks = stockSnap.val();
+            if(!stocks || stocks.length === 0) return notify("❌ ပစ္စည်းပြတ်နေပါသည်", "#ff9800");
+
+            if(confirm(`${itemName} ကို ${price} Ks ဖြင့် ဝယ်ယူမှာလား?`)) {
+                const boughtAcc = stocks.shift();
+                await db.ref('stocks/' + itemId).set(stocks);
+                await db.ref('users/' + currentUser).update({ balance: balance - price });
+                document.getElementById('accDetails').innerText = boughtAcc;
+                document.getElementById('accModal').classList.remove('hidden');
+                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent("📦 AUTO SALE\nUser: "+currentUser+"\nItem: "+itemName+"\nAcc: "+boughtAcc)}`);
+            }
+        }
+
+        function closeModal() { document.getElementById('accModal').classList.add('hidden'); }
+
+        async function addStock() {
+            const target = document.getElementById('stockTarget').value;
+            const rawData = document.getElementById('stockData').value.trim();
+            if(!rawData) return;
+            const newAccounts = rawData.split('\n').map(s => s.trim()).filter(s => s !== "");
+            const snap = await db.ref('stocks/' + target).once('value');
+            const existing = snap.val() || [];
+            await db.ref('stocks/' + target).set([...existing, ...newAccounts]);
+            document.getElementById('stockData').value = "";
+            notify("✅ Stock ပေါင်းထည့်ပြီးပါပြီ", "#4caf50");
+        }
+
+        function updateStocks() {
+            db.ref('stocks').on('value', (snap) => {
+                const data = snap.val() || {};
+                document.getElementById('stock-item1').innerText = (data.item1 || []).length;
+                document.getElementById('stock-tiger1').innerText = (data.tiger1 || []).length;
+                document.getElementById('stock-tiger2').innerText = (data.tiger2 || []).length;
+                document.getElementById('stock-tiger3').innerText = (data.tiger3 || []).length;
+            });
         }
 
         function showAdminLogin() { document.getElementById('adminAuthSection').classList.toggle('hidden'); }
@@ -205,15 +264,6 @@
             notify("✅ ငွေဖြည့်ပေးပြီးပါပြီ", "#4caf50");
         }
 
-        function filterUsers() {
-            let input = document.getElementById("userSearch").value.toLowerCase();
-            let tr = document.getElementById("userTable").getElementsByTagName("tr");
-            for (let i = 1; i < tr.length; i++) {
-                let td = tr[i].getElementsByTagName("td")[0];
-                if (td) tr[i].style.display = td.innerText.toLowerCase().includes(input) ? "" : "none";
-            }
-        }
-
         async function requestDeposit() {
             const f = document.getElementById('fileInput').files[0];
             if(!f) return notify("⚠️ ပုံအရင်ရွေးပါ", "#ff9800");
@@ -223,18 +273,6 @@
             fd.append('caption', `💰 Deposit Request\nUser: ${currentUser}\nAmount: ${document.getElementById('amount').value} Ks`);
             await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
             notify("✅ ပို့ပြီးပါပြီ။ Admin စစ်ဆေးပေးပါမည်", "#4caf50");
-        }
-
-        async function purchase(name, price) {
-            const snap = await db.ref('users/'+currentUser+'/balance').once('value');
-            const bal = snap.val() || 0;
-            if(bal >= price) {
-                if(confirm(name + " ကို ဝယ်ယူမှာလား?")) {
-                    await db.ref('users/' + currentUser).update({ balance: bal - price });
-                    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent("📦 ORDER\nUser: "+currentUser+"\nItem: "+name)}`);
-                    notify("✅ ဝယ်ယူမှုအောင်မြင်ပါသည်", "#4caf50");
-                }
-            } else notify("❌ လက်ကျန်ငွေမလုံလောက်ပါ", "#f44336");
         }
 
         function notify(m, c) { const s = document.getElementById('status'); s.innerText = m; s.style.backgroundColor = c; s.style.color="white"; s.style.display = 'block'; setTimeout(() => s.style.display='none', 3000); }
