@@ -38,7 +38,7 @@
 
     <div class="box">
         <h3>💰 ငွေဖြည့်ရန် ပုံစံဖြည့်ပါ</h3>
-        <input type="text" id="username" placeholder="Roblox Username...">
+        <input type="text" id="username" placeholder="ဂိမ်း ID (သို့မဟုတ်) အကောင့်နာမည်...">
         <select id="amount">
             <option value="1000">1,000 Ks</option>
             <option value="3000">3,000 Ks</option>
@@ -64,7 +64,6 @@
     </div>
 
     <script>
-        // --- 1. FIREBASE CONFIG (အကုန်ဖြည့်ပေးထားပြီးသားဖြစ်သည်) ---
         const firebaseConfig = {
             apiKey: "AIzaSyCS7bb_vbbthRgekyLIDhWMUPtVLY63wSo",
             authDomain: "amberbloxfruitshop.firebaseapp.com",
@@ -78,9 +77,9 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // --- 2. TELEGRAM CONFIG ---
+        // Admin Telegram Config
         const BOT_TOKEN = "7953922687:AAHUO_L-mK49PWh9Xy9N9_H9_H9_H9_H";
-        const ADMIN_CHAT_ID = "619000000"; 
+        const ADMIN_CHAT_ID = "6318450352"; // လူကြီးမင်းရဲ့ ID ပြောင်းထားပြီးပါပြီ
 
         let userBalance = 0;
         let savedUser = localStorage.getItem('savedUser') || "";
@@ -98,7 +97,7 @@
         }
 
         document.getElementById('fileInput').onchange = function() {
-            document.getElementById('fileLabel').innerText = "Selected: " + this.files[0].name;
+            if(this.files[0]) document.getElementById('fileLabel').innerText = "Selected: " + this.files[0].name;
         };
 
         async function requestDeposit() {
@@ -106,7 +105,7 @@
             const amount = document.getElementById('amount').value;
             const file = document.getElementById('fileInput').files[0];
 
-            if(!user || !file) { notify("⚠️ Username နှင့် ပြေစာ တင်ပေးပါ!", "#ff9800"); return; }
+            if(!user || !file) { notify("⚠️ အချက်အလက်နှင့် ပြေစာ တင်ပေးပါ!", "#ff9800"); return; }
 
             localStorage.setItem('savedUser', user);
             syncBalance(user);
@@ -115,7 +114,7 @@
             const formData = new FormData();
             formData.append('chat_id', ADMIN_CHAT_ID);
             formData.append('photo', file);
-            formData.append('caption', `🔔 **ငွေဖြည့်တောင်းဆိုမှု**\n👤 User: ${user}\n💵 Amount: ${amount} Ks`);
+            formData.append('caption', `🔔 **ငွေဖြည့်တောင်းဆိုမှု**\n👤 User: ${user}\n💵 Amount: ${amount} Ks\n\nစစ်ဆေးပြီးပါက Firebase မှာ ဤ User ကို ငွေဖြည့်ပေးလိုက်ပါ။`);
             
             try {
                 await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: formData });
@@ -125,7 +124,7 @@
 
         function purchase(itemName, price) {
             const user = document.getElementById('username').value.trim().toLowerCase();
-            if(!user) { notify("⚠️ Username အရင်ထည့်ပါ!", "#ff9800"); return; }
+            if(!user) { notify("⚠️ ID အရင်ထည့်ပါ!", "#ff9800"); return; }
 
             if(userBalance >= price) {
                 db.ref('users/' + user).update({ balance: userBalance - price });
