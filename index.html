@@ -71,15 +71,15 @@
             storageBucket: "amberbloxfruitshop.firebasestorage.app",
             messagingSenderId: "712977986178",
             appId: "1:712977986178:web:d5402cbd3f12ea01e4fa9b",
-            databaseURL: "https://amberbloxfruitshop-default-rtdb.firebaseio.com" 
+            databaseURL: "https://amberbloxfruitshop-default-rtdb.firebaseio.com"
         };
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // Admin Telegram Config
-        const BOT_TOKEN = "7953922687:AAHUO_L-mK49PWh9Xy9N9_H9_H9_H9_H";
-        const ADMIN_CHAT_ID = "6318450352"; // လူကြီးမင်းရဲ့ ID ပြောင်းထားပြီးပါပြီ
+        // အောက်က Token ကို အသစ်လဲပေးထားပါတယ်ဗျ
+        const BOT_TOKEN = "8678530738:AAGkk72-WHfqcP7UPdd_WNCJKsHnqA_A3kE";
+        const ADMIN_CHAT_ID = "6318450352"; 
 
         let userBalance = 0;
         let savedUser = localStorage.getItem('savedUser') || "";
@@ -114,11 +114,15 @@
             const formData = new FormData();
             formData.append('chat_id', ADMIN_CHAT_ID);
             formData.append('photo', file);
-            formData.append('caption', `🔔 **ငွေဖြည့်တောင်းဆိုမှု**\n👤 User: ${user}\n💵 Amount: ${amount} Ks\n\nစစ်ဆေးပြီးပါက Firebase မှာ ဤ User ကို ငွေဖြည့်ပေးလိုက်ပါ။`);
+            formData.append('caption', `🔔 **ငွေဖြည့်တောင်းဆိုမှု**\n👤 User: ${user}\n💵 Amount: ${amount} Ks`);
             
             try {
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: formData });
-                notify("✅ ပို့ဆောင်ပြီးပါပြီ။ Admin စစ်ဆေးပြီးနောက် ငွေရောက်လာပါမည်!", "#4caf50");
+                const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: formData });
+                if(response.ok) {
+                    notify("✅ ပို့ဆောင်ပြီးပါပြီ။ Admin စစ်ဆေးပြီးနောက် ငွေရောက်လာပါမည်!", "#4caf50");
+                } else {
+                    notify("❌ Bot Error: Bot ထဲမှာ Start နှိပ်ထားဖို့ လိုပါတယ်!", "#f44336");
+                }
             } catch (e) { notify("❌ ပို့ဆောင်မှု မအောင်မြင်ပါ။", "#f44336"); }
         }
 
@@ -129,7 +133,7 @@
             if(userBalance >= price) {
                 db.ref('users/' + user).update({ balance: userBalance - price });
                 const text = `📦 **Order New!**\n👤 User: ${user}\n🎮 Item: ${itemName}\n💰 Paid: ${price} Ks`;
-                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat-id=${ADMIN_CHAT_ID}&text=${encodeURIComponent(text)}`);
+                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent(text)}`);
                 notify("✅ ဝယ်ယူမှု အောင်မြင်ပါသည်။ Admin က မကြာခင် ပစ္စည်းပို့ပေးပါမည်!", "#4caf50");
             } else { notify("❌ လက်ကျန်ငွေ မလုံလောက်ပါ။", "#f44336"); }
         }
@@ -142,3 +146,4 @@
     </script>
 </body>
 </html>
+
