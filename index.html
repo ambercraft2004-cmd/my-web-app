@@ -3,92 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amber Blox Hub - Admin & Shop</title>
+    <title>Amber Blox Hub - Full System</title>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
         :root { --primary: #00d2ff; --secondary: #3a7bd5; --dark: #0f0f0f; --card: #1a1a1a; --text: #ffffff; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--dark); color: var(--text); margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--dark); color: var(--text); margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 80px; }
         .hidden { display: none !important; }
-        .box { background: var(--card); padding: 20px; border-radius: 15px; width: 95%; max-width: 450px; margin-bottom: 20px; border: 1px solid #333; box-sizing: border-box; }
-        input, select { width: 100%; padding: 12px; background: #111; color: white; border: 1px solid #444; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; outline: none; }
-        .btn-primary { background: #4caf50; color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; }
-        .wallet-card { background: linear-gradient(135deg, var(--secondary), #000); padding: 25px; border-radius: 20px; width: 95%; max-width: 400px; text-align: center; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
         
-        /* Admin Styling */
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.8rem; }
-        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
+        /* Containers */
+        .box { background: var(--card); padding: 20px; border-radius: 15px; width: 95%; max-width: 450px; margin-bottom: 20px; border: 1px solid #333; box-sizing: border-box; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        input, select { width: 100%; padding: 12px; background: #111; color: white; border: 1px solid #444; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; outline: none; font-size: 1rem; }
+        input:focus { border-color: var(--primary); }
+
+        /* Buttons */
+        .btn-primary { background: #4caf50; color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 1rem; }
+        .btn-primary:active { transform: scale(0.97); }
+        .btn-admin-link { background: none; border: 1px solid #444; color: #555; padding: 8px; width: 100%; margin-top: 20px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; }
+
+        /* Wallet Card */
+        .wallet-card { background: linear-gradient(135deg, var(--secondary), #000); padding: 25px; border-radius: 20px; width: 95%; max-width: 400px; text-align: center; margin-bottom: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
+        .balance-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
+        .balance-amount { font-size: 2.5rem; font-weight: bold; display: block; margin: 5px 0; color: #fff; }
+
+        /* Admin Table */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.85rem; }
+        th, td { border: 1px solid #333; padding: 10px; text-align: left; }
         th { background: #222; color: var(--primary); position: sticky; top: 0; }
-        .search-input { border: 2px solid var(--primary) !important; background: #1a1a1a !important; margin-bottom: 15px; }
+        .search-input { border: 2px solid var(--primary) !important; margin-bottom: 15px; font-weight: bold; }
         .update-box { display: flex; gap: 5px; }
-        .update-box input { margin-bottom: 0; padding: 5px; width: 60px; height: 30px; }
-        .btn-sm { padding: 5px 8px; font-size: 0.7rem; border-radius: 5px; cursor: pointer; border: none; background: #2196f3; color: white; }
-        .item-card { background: var(--card); border: 1px solid #333; padding: 15px; border-radius: 12px; width: 100%; margin-bottom: 10px; text-align: center; }
+        .update-box input { margin-bottom: 0; padding: 5px; width: 65px; height: 35px; }
+        .btn-sm { padding: 5px 10px; background: #2196f3; border: none; color: white; border-radius: 5px; cursor: pointer; font-weight: bold; }
+
+        /* Floating Support */
+        .support-btn { position: fixed; bottom: 20px; right: 20px; background: #0088cc; color: white; padding: 12px 18px; border-radius: 50px; display: flex; align-items: center; gap: 10px; text-decoration: none; box-shadow: 0 8px 20px rgba(0,0,0,0.6); z-index: 1000; font-size: 0.85rem; font-weight: bold; border: 2px solid rgba(255,255,255,0.2); transition: 0.3s; }
+        .support-btn:hover { transform: translateY(-3px); }
+        .support-btn img { width: 24px; height: 24px; }
+
+        /* Shop Item */
+        .item-card { background: var(--card); border: 1px solid #333; padding: 15px; border-radius: 12px; width: 100%; margin-bottom: 15px; text-align: center; }
+        .item-price { color: #ffca28; font-weight: bold; font-size: 1.3rem; display: block; margin: 10px 0; }
+
+        #status { position: fixed; top: 15px; padding: 15px 25px; border-radius: 10px; display: none; z-index: 2000; width: 85%; max-width: 400px; text-align: center; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body>
 
-    <div id="status" style="position:fixed; top:10px; padding:15px; border-radius:10px; display:none; z-index:1000; width:80%; text-align:center; font-weight:bold;"></div>
+    <div id="status"></div>
+
+    <a href="https://t.me/Botambershop" target="_blank" class="support-btn">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
+        <span>အဆင်မပြေတာရှိပါက ဆက်သွယ်ရန်</span>
+    </a>
 
     <div id="authSection" class="box">
-        <h3 style="color:var(--primary); margin-top:0;">Login / Register</h3>
-        <input type="text" id="authUser" placeholder="Username">
-        <input type="password" id="authPass" placeholder="Password">
-        <button class="btn-primary" onclick="handleAuth()">ဝင်ရောက်မည်</button>
+        <h2 style="color:var(--primary); margin:0 0 10px 0; text-align:center;">Amber Blox Hub</h2>
+        <p style="font-size:0.75rem; color:#888; text-align:center; margin-bottom:20px;">စနစ်သစ်အရ နာမည်တူယူ၍မရပါ။</p>
+        <input type="text" id="authUser" placeholder="Username (အမည်)">
+        <input type="password" id="authPass" placeholder="Password (လျှို့ဝှက်ချက်)">
+        <button class="btn-primary" onclick="handleAuth()">ဝင်ရောက်မည် / အကောင့်ဖွင့်မည်</button>
         
-        <div style="margin-top: 30px; border-top: 1px solid #333; padding-top: 15px; text-align: center;">
-            <button onclick="showAdminLogin()" style="background: #222; color: #ffca28; border: 1px solid #ffca28; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; font-weight: bold; width: 100%;">
-                🛡️ ADMIN PANEL ဝင်ရန်
-            </button>
-        </div>
+        <button class="btn-admin-link" onclick="showAdminLogin()">🛡️ Admin Panel Access</button>
     </div>
 
     <div id="adminAuthSection" class="box hidden">
-        <h3 style="color:#ffca28; margin-top:0;">Admin Access Only</h3>
-        <input type="password" id="adminPassInput" placeholder="Admin Key ရိုက်ပါ">
-        <button class="btn-primary" style="background:#ffca28; color:black;" onclick="checkAdmin()">Admin ဝင်မည်</button>
-        <button class="btn-primary" style="background:none; border:1px solid #555; margin-top:5px; color:#aaa;" onclick="location.reload()">ပြန်ထွက်မည်</button>
+        <h3 style="color:#ffca28; margin-top:0;">Admin Authentication</h3>
+        <input type="password" id="adminPassInput" placeholder="Enter Admin Secret Key">
+        <button class="btn-primary" style="background:#ffca28; color:black;" onclick="checkAdmin()">Login as Admin</button>
+        <button class="btn-admin-link" onclick="location.reload()">Back to Shop</button>
     </div>
 
     <div id="adminPanel" class="box hidden" style="max-width: 600px; width:100%;">
         <h3 style="color:#ffca28; margin-top:0;">User Management</h3>
-        
         <input type="text" id="userSearch" class="search-input" placeholder="🔍 Username ဖြင့် ရှာဖွေရန်..." onkeyup="filterUsers()">
-        
-        <div style="max-height: 400px; overflow-y: auto; border: 1px solid #333;">
+        <div style="max-height: 450px; overflow-y: auto; border: 1px solid #333; border-radius: 8px;">
             <table id="userTable">
-                <thead>
-                    <tr><th>User ID</th><th>Balance</th><th>Add Ks</th></tr>
-                </thead>
+                <thead><tr><th>User ID</th><th>Balance</th><th>Action</th></tr></thead>
                 <tbody id="userTableBody"></tbody>
             </table>
         </div>
-        <button class="btn-primary" style="margin-top:20px; background:#f44336;" onclick="location.reload()">Dashboard ပိတ်မည်</button>
+        <button class="btn-primary" style="margin-top:20px; background:#f44336;" onclick="location.reload()">Close Dashboard</button>
     </div>
 
     <div id="mainContent" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
         <div class="wallet-card">
-            <span style="font-size: 0.7rem; opacity: 0.7;">WELCOME, <span id="displayUserName"></span></span>
-            <span style="font-size: 2.5rem; font-weight: bold; display: block; margin: 5px 0;" id="balanceDisplay">0 Ks</span>
-            <button onclick="logout()" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:white; padding:5px 12px; border-radius:20px; font-size:0.7rem; cursor:pointer;">Logout</button>
+            <span class="balance-label">Welcome, <span id="displayUserName" style="color:#ffca28;"></span></span>
+            <span class="balance-amount" id="balanceDisplay">0 Ks</span>
+            <button onclick="logout()" style="background:rgba(255,255,255,0.1); border:none; color:#ccc; padding:6px 15px; border-radius:20px; font-size:0.7rem; cursor:pointer; margin-top:5px;">Logout Account</button>
         </div>
         
         <div class="box">
             <h3 style="color:var(--primary); margin-top:0;">💰 ငွေဖြည့်ရန် (Deposit)</h3>
-            <div style="background:#111; padding:12px; border-radius:8px; font-size:0.8rem; border:1px solid #333; margin-bottom:15px;">
-                <b>Kpay/Wave:</b> 09671811551 (Bhone Pyae Shan)
+            <div style="background:#0a0a0a; padding:15px; border-radius:10px; font-size:0.85rem; border:1px solid #333; margin-bottom:15px; line-height:1.6;">
+                <span style="color:#ffca28;">Kpay/Wave:</span> <b>09671811551</b><br>
+                <span style="color:#ffca28;">Name:</span> <b>Bhone Pyae Shan</b>
             </div>
             <select id="method"><option value="Kpay">Kpay</option><option value="Wave Pay">Wave Pay</option></select>
             <select id="amount"><option value="1000">1,000 Ks</option><option value="3000">3,000 Ks</option><option value="5000">5,000 Ks</option></select>
             <input type="file" id="fileInput" hidden accept="image/*">
-            <button onclick="document.getElementById('fileInput').click()" style="width:100%; padding:12px; background:#222; border:1px dashed #555; color:#ccc; margin-bottom:10px; border-radius:8px;">📷 ပြေစာ Screenshot တင်ရန်</button>
+            <button onclick="document.getElementById('fileInput').click()" style="width:100%; padding:12px; background:#222; border:2px dashed #444; color:#aaa; margin-bottom:12px; border-radius:8px; cursor:pointer;">📷 ပြေစာ Screenshot တင်ရန်</button>
             <button class="btn-primary" style="background:#2196f3;" onclick="requestDeposit()">ငွေဖြည့်တောင်းဆိုမည်</button>
         </div>
 
         <div style="width:95%; max-width:450px;">
+            <h3 style="color:var(--primary); margin-left:5px;">🛒 Available Items</h3>
             <div class="item-card">
-                <h3>Lv Max + God + Gas</h3>
-                <span style="color:#ffca28; font-weight:bold; font-size:1.2rem; display:block; margin-bottom:10px;">3,000 Ks</span>
+                <h3 style="margin:0;">Lv Max + God + Gas</h3>
+                <span class="item-price">3,000 Ks</span>
                 <button class="btn-primary" style="background:linear-gradient(to right, #00d2ff, #3a7bd5);" onclick="purchase('Lv Max + God + Gas', 3000)">ဝယ်ယူမည်</button>
             </div>
         </div>
@@ -112,16 +133,32 @@
 
         let currentUser = null;
 
-        window.onload = () => { if(localStorage.getItem('loggedUser')) { currentUser = localStorage.getItem('loggedUser'); showMain(); } };
+        window.onload = () => { 
+            const savedUser = localStorage.getItem('loggedUser');
+            if(savedUser) { currentUser = savedUser; showMain(); } 
+        };
 
+        // Duplicate Check + Login/Register
         async function handleAuth() {
             const user = document.getElementById('authUser').value.trim().toLowerCase();
             const pass = document.getElementById('authPass').value.trim();
-            if(!user || !pass) return;
+            if(!user || !pass) { notify("⚠️ အချက်အလက်ဖြည့်ပါ", "#ff9800"); return; }
+            if(user.length < 3) { notify("⚠️ နာမည် အနည်းဆုံး ၃ လုံးရှိရမည်", "#ff9800"); return; }
+
             const snap = await db.ref('users/' + user).once('value');
             if(snap.val()) {
-                if(snap.val().password === pass) { login(user); } else { notify("❌ Password မှားသည်!", "#f44336"); }
-            } else { await db.ref('users/' + user).set({ password: pass, balance: 0 }); login(user); }
+                // User exists - check password
+                if(snap.val().password === pass) { 
+                    login(user); 
+                } else { 
+                    notify("❌ ဒီအမည်ကို တစ်ခြားသူယူထားပြီးဖြစ်သည် (သို့) Password မှားနေသည်", "#f44336"); 
+                }
+            } else { 
+                // Create new user
+                await db.ref('users/' + user).set({ password: pass, balance: 0 }); 
+                login(user); 
+                notify("✅ အကောင့်အသစ် ဖွင့်ပြီးပါပြီ", "#4caf50");
+            }
         }
 
         function login(user) { currentUser = user; localStorage.setItem('loggedUser', user); showMain(); }
@@ -131,17 +168,23 @@
             document.getElementById('authSection').classList.add('hidden');
             document.getElementById('mainContent').classList.remove('hidden');
             document.getElementById('displayUserName').innerText = currentUser.toUpperCase();
-            db.ref('users/' + currentUser).on('value', (s) => { if(s.val()) document.getElementById('balanceDisplay').innerText = s.val().balance.toLocaleString() + " Ks"; });
+            db.ref('users/' + currentUser).on('value', (s) => { 
+                if(s.val()) document.getElementById('balanceDisplay').innerText = s.val().balance.toLocaleString() + " Ks"; 
+            });
         }
 
-        function showAdminLogin() { document.getElementById('authSection').classList.add('hidden'); document.getElementById('adminAuthSection').classList.remove('hidden'); }
-        
+        // Admin Logics
+        function showAdminLogin() { 
+            document.getElementById('authSection').classList.add('hidden'); 
+            document.getElementById('adminAuthSection').classList.remove('hidden'); 
+        }
+
         function checkAdmin() {
             if(document.getElementById('adminPassInput').value === ADMIN_KEY) {
                 document.getElementById('adminAuthSection').classList.add('hidden');
                 document.getElementById('adminPanel').classList.remove('hidden');
                 loadUsers();
-            } else { notify("❌ Admin Key မှားသည်!", "#f44336"); }
+            } else { notify("❌ Admin Key မှားယွင်းပါသည်", "#f44336"); }
         }
 
         function loadUsers() {
@@ -149,32 +192,19 @@
                 const users = snapshot.val();
                 let html = '';
                 for(let id in users) {
-                    html += `<tr>
-                        <td><b>${id}</b></td>
-                        <td>${users[id].balance}</td>
-                        <td>
-                            <div class="update-box">
-                                <input type="number" id="input-${id}" placeholder="+">
-                                <button class="btn-sm" onclick="addBalance('${id}')">Add</button>
-                            </div>
-                        </td>
-                    </tr>`;
+                    html += `<tr><td><b>${id}</b></td><td>${users[id].balance}</td>
+                    <td><div class="update-box"><input type="number" id="input-${id}" placeholder="+Ks"><button class="btn-sm" onclick="addBalance('${id}')">Add</button></div></td></tr>`;
                 }
                 document.getElementById('userTableBody').innerHTML = html;
             });
         }
 
-        // Search Filter Function
         function filterUsers() {
             let input = document.getElementById("userSearch").value.toLowerCase();
-            let table = document.getElementById("userTable");
-            let tr = table.getElementsByTagName("tr");
+            let tr = document.getElementById("userTable").getElementsByTagName("tr");
             for (let i = 1; i < tr.length; i++) {
                 let td = tr[i].getElementsByTagName("td")[0];
-                if (td) {
-                    let txtValue = td.textContent || td.innerText;
-                    tr[i].style.display = txtValue.toLowerCase().indexOf(input) > -1 ? "" : "none";
-                }
+                if (td) tr[i].style.display = (td.innerText || td.textContent).toLowerCase().indexOf(input) > -1 ? "" : "none";
             }
         }
 
@@ -182,34 +212,41 @@
             const amount = parseInt(document.getElementById('input-'+userId).value);
             if(!amount) return;
             const snap = await db.ref('users/'+userId+'/balance').once('value');
-            const currentBal = snap.val() || 0;
-            await db.ref('users/'+userId).update({ balance: currentBal + amount });
-            notify("✅ " + userId + " ထံ " + amount + " Ks ဖြည့်ပြီး!", "#4caf50");
+            await db.ref('users/'+userId).update({ balance: (snap.val() || 0) + amount });
+            notify("✅ " + userId + " ထံ ငွေဖြည့်ပြီး!", "#4caf50");
             document.getElementById('input-'+userId).value = '';
         }
 
+        // User Deposit & Purchase
         async function requestDeposit() {
             const f = document.getElementById('fileInput').files[0];
             if(!f) { notify("⚠️ ပြေစာပုံအရင်တင်ပါ", "#ff9800"); return; }
-            notify("⏳ ပို့နေပါသည်...", "#2196f3");
+            notify("⏳ Admin ထံသို့ ပို့နေပါသည်...", "#2196f3");
             const fd = new FormData();
             fd.append('chat_id', ADMIN_CHAT_ID); fd.append('photo', f);
-            fd.append('caption', `🔔 **Deposit Request**\n👤 User: ${currentUser}\n💰 Amount: ${document.getElementById('amount').value} Ks\n💳 Method: ${document.getElementById('method').value}`);
+            fd.append('caption', `🔔 **Deposit Alert**\n👤 User: ${currentUser}\n💰 Amount: ${document.getElementById('amount').value} Ks\n💳 Method: ${document.getElementById('method').value}`);
             await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
-            notify("✅ ပို့ပြီးပါပြီ!", "#4caf50");
+            notify("✅ ပို့ပြီးပါပြီ! Admin စစ်ဆေးပြီးသည်အထိ စောင့်ပါ", "#4caf50");
         }
 
         async function purchase(name, price) {
             const snap = await db.ref('users/'+currentUser+'/balance').once('value');
             const bal = snap.val() || 0;
             if(bal >= price) {
-                await db.ref('users/' + currentUser).update({ balance: bal - price });
-                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent("📦 **Order!**\n👤 User: "+currentUser+"\n🎮 Item: "+name)}`);
-                notify("✅ ဝယ်ယူမှုအောင်မြင်သည်!", "#4caf50");
+                if(confirm(name + " ကိုဝယ်ယူမှာ သေချာပါသလား?")) {
+                    await db.ref('users/' + currentUser).update({ balance: bal - price });
+                    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent("📦 **New Order**\n👤 User: "+currentUser+"\n🎮 Item: "+name)}`);
+                    notify("✅ ဝယ်ယူမှုအောင်မြင်ပါသည်!", "#4caf50");
+                }
             } else { notify("❌ လက်ကျန်ငွေ မလုံလောက်ပါ!", "#f44336"); }
         }
 
-        function notify(m, c) { const s = document.getElementById('status'); s.innerText = m; s.style.backgroundColor = c; s.style.display = 'block'; setTimeout(() => s.style.display='none', 3000); }
+        function notify(m, c) { 
+            const s = document.getElementById('status'); 
+            s.innerText = m; s.style.backgroundColor = c; s.style.color = "white"; 
+            s.style.display = 'block'; 
+            setTimeout(() => s.style.display='none', 3500); 
+        }
     </script>
 </body>
 </html>
