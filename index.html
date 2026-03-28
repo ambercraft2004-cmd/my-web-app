@@ -3,74 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amber Blox Hub</title>
+    <title>Amber Blox Hub - Pro System</title>
     <style>
-        /* CSS Design - ဒီအပိုင်းပါမှ လှမှာပါ */
         :root { --primary: #00d2ff; --secondary: #3a7bd5; --dark: #121212; --card-bg: #1e1e1e; --text: #ffffff; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--dark); color: var(--text); padding: 15px; display: flex; flex-direction: column; align-items: center; margin: 0; min-height: 100vh; }
+        
         .header { text-align: center; margin: 20px 0; }
-        .header h1 { color: var(--primary); margin: 0; text-transform: uppercase; }
-        .wallet-card { background: linear-gradient(135deg, var(--secondary), #000); padding: 20px; border-radius: 20px; width: 90%; max-width: 380px; text-align: center; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.1); }
-        .balance-amount { font-size: 2.2rem; font-weight: bold; display: block; margin: 5px 0; }
-        .topup-btn { background: #4caf50; color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; }
+        .header h1 { color: var(--primary); margin: 0; text-transform: uppercase; font-size: 1.8rem; letter-spacing: 2px; }
+        
+        /* Wallet & Promo Box */
+        .wallet-card { background: linear-gradient(135deg, var(--secondary), #000); padding: 25px; border-radius: 20px; width: 90%; max-width: 380px; text-align: center; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .balance-amount { font-size: 2.5rem; font-weight: bold; display: block; margin: 10px 0; color: #fff; }
+        
+        .promo-box { background: #252525; padding: 15px; border-radius: 12px; width: 90%; max-width: 380px; margin-bottom: 25px; border: 1px dashed var(--primary); box-sizing: border-box; }
+        .promo-container { display: flex; gap: 10px; margin-top: 10px; }
+        .promo-box input { flex: 1; padding: 10px; border-radius: 8px; border: none; background: #333; color: white; outline: none; }
+        .promo-btn { padding: 10px 20px; border-radius: 8px; border: none; background: var(--primary); color: #000; font-weight: bold; cursor: pointer; }
+
+        /* Shop Section */
         .shop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 100%; max-width: 900px; }
-        .item-card { background: var(--card-bg); border-radius: 15px; padding: 20px; text-align: center; border: 1px solid #333; }
-        .price-tag { font-size: 1.5rem; color: #ffca28; font-weight: bold; display: block; margin: 10px 0; }
-        select { width: 100%; padding: 12px; background: #2a2a2a; color: white; border: 1px solid #444; border-radius: 8px; margin-bottom: 15px; }
-        .buy-btn { background: linear-gradient(45deg, var(--primary), var(--secondary)); color: white; border: none; padding: 14px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; }
-        #status { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 15px; border-radius: 10px; display: none; z-index: 1000; font-weight: bold; }
+        .item-card { background: var(--card-bg); border-radius: 15px; padding: 20px; text-align: center; border: 1px solid #333; transition: 0.3s; }
+        .item-card:hover { border-color: var(--primary); }
+        
+        .input-group { margin-bottom: 20px; text-align: left; width: 90%; max-width: 380px; background: #252525; padding: 15px; border-radius: 12px; border: 1px solid #444; }
+        .input-group label { font-size: 0.85rem; color: var(--primary); display: block; margin-bottom: 8px; }
+        .input-group input { width: 100%; padding: 12px; background: #1a1a1a; color: white; border: 1px solid #444; border-radius: 8px; box-sizing: border-box; }
+        
+        .price-tag { font-size: 1.6rem; color: #ffca28; font-weight: bold; margin: 15px 0; display: block; }
+        select { width: 100%; padding: 12px; background: #2a2a2a; color: white; border: 1px solid #444; border-radius: 8px; margin-bottom: 15px; cursor: pointer; }
+        .buy-btn { background: linear-gradient(45deg, var(--primary), var(--secondary)); color: white; border: none; padding: 15px; width: 100%; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+
+        #status { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); padding: 15px 25px; border-radius: 10px; display: none; z-index: 1000; font-weight: bold; text-align: center; width: 80%; max-width: 400px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body>
+
     <div id="status"></div>
+
     <div class="header">
         <h1>Amber Blox Hub</h1>
     </div>
+
     <div class="wallet-card">
-        <span style="font-size: 0.8rem; opacity: 0.8;">BALANCE</span>
+        <span style="font-size: 0.9rem; opacity: 0.8; letter-spacing: 1px;">MY BALANCE</span>
         <span class="balance-amount" id="balanceDisplay">0 Ks</span>
-        <button class="topup-btn" onclick="requestTopup()">+ Add Credit</button>
     </div>
+
+    <div class="promo-box">
+        <p style="margin: 0; font-size: 0.85rem; color: #aaa;">ငွေဖြည့်ကုဒ် ရိုက်ထည့်ရန်</p>
+        <div class="promo-container">
+            <input type="text" id="promoInput" placeholder="Enter Code (e.g. AMBER1000)">
+            <button class="promo-btn" onclick="redeemCode()">OK</button>
+        </div>
+    </div>
+
+    <div class="input-group">
+        <label>Roblox Username ထည့်ပါ (အမှန်ထည့်ရန်):</label>
+        <input type="text" id="robloxUser" placeholder="Username...">
+    </div>
+
     <div class="shop-grid">
         <div class="item-card">
+            <div style="font-size: 40px;">🔥</div>
             <h3>Lv Max + God + Gas</h3>
             <p style="font-size: 0.8rem; color: #aaa;">100% Inventory | Random: Cdk, SG, MM</p>
             <span class="price-tag">3,000 Ks</span>
-            <button class="buy-btn" onclick="autoBuy('Lv Max + God + Gas', 3000)">Purchase Now</button>
+            <button class="buy-btn" onclick="autoBuy('Lv Max + God + Gas', 3000)">ဝယ်ယူမည်</button>
         </div>
+
         <div class="item-card">
+            <div style="font-size: 40px;">🐯</div>
             <h3>Tiger Inventory 100%</h3>
             <select id="tiger-select" onchange="updateTigerUI()">
-                <option value="4500" data-name="Lv Max + God + Tiger">Package 1: Lv Max + God + Tiger (4500ks)</option>
-                <option value="5500" data-name="Tiger + Mythical">Package 2: Tiger + Mythical (5500ks)</option>
-                <option value="8000" data-name="Lv Max + God + Cdk + Tiger">Package 3: Cdk + Tiger (8000ks)</option>
+                <option value="4500" data-name="Package 1 (Tiger)">Package 1 (4500ks)</option>
+                <option value="5500" data-name="Package 2 (Tiger+Mythic)">Package 2 (5500ks)</option>
+                <option value="8000" data-name="Package 3 (Cdk+Tiger)">Package 3 (8000ks)</option>
             </select>
             <span id="tiger-price-display" class="price-tag">4,500 Ks</span>
-            <button class="buy-btn" onclick="buyTigerAuto()">Purchase Now</button>
+            <button class="buy-btn" onclick="buyTigerAuto()">ဝယ်ယူမည်</button>
         </div>
     </div>
+
     <script>
+        // --- 1. ADMIN SETTINGS (ငွေဖြည့်ကုဒ်များ) ---
+        const PROMO_CODES = {
+            "AMBER1000": 1000,
+            "AMBER3000": 3000,
+            "AMBER5000": 5000,
+            "AMBER8000": 8000,
+            "AMBER10000": 10000
+        };
+
+        // --- 2. TELEGRAM SETTINGS (အော်ဒါစာပို့ရန်) ---
+        const TELEGRAM_BOT_TOKEN = "7953922687:AAHUO_L-mK49PWh9Xy9N9_H9_H9_H9_H"; // သင့် Bot Token ပြင်ပါ
+        const ADMIN_CHAT_ID = "619000000"; // သင့် Chat ID ပြင်ပါ
+
         let balance = localStorage.getItem('userBalance') ? parseInt(localStorage.getItem('userBalance')) : 0;
         updateUI();
-        function updateUI() { document.getElementById('balanceDisplay').innerText = balance.toLocaleString() + " Ks"; localStorage.setItem('userBalance', balance); }
-        function updateTigerUI() { const price = document.getElementById('tiger-select').value; document.getElementById('tiger-price-display').innerText = parseInt(price).toLocaleString() + " Ks"; }
-        function autoBuy(name, price) {
-            if (balance >= price) { balance -= price; updateUI(); showStatus("✅ ဝယ်ယူမှု အောင်မြင်ပါသည်!", "#4caf50"); }
-            else { showStatus("❌ လက်ကျန်ငွေ မလုံလောက်ပါ!", "#f44336"); }
+
+        function updateUI() {
+            document.getElementById('balanceDisplay').innerText = balance.toLocaleString() + " Ks";
+            localStorage.setItem('userBalance', balance);
         }
+
+        function updateTigerUI() {
+            const price = document.getElementById('tiger-select').value;
+            document.getElementById('tiger-price-display').innerText = parseInt(price).toLocaleString() + " Ks";
+        }
+
+        // ကုဒ်ဖြင့် ငွေဖြည့်ခြင်း
+        function redeemCode() {
+            const input = document.getElementById('promoInput').value.trim().toUpperCase();
+            if (PROMO_CODES[input]) {
+                const amount = PROMO_CODES[input];
+                balance += amount;
+                updateUI();
+                showStatus(`💰 ${amount.toLocaleString()} Ks ဖြည့်သွင်းမှု အောင်မြင်ပါသည်!`, "#4caf50");
+                document.getElementById('promoInput').value = "";
+            } else {
+                showStatus("❌ မှားယွင်းသော ကုဒ်ဖြစ်နေပါသည်။", "#f44336");
+            }
+        }
+
+        // Telegram သို့ အော်ဒါပို့ခြင်း
+        async function sendOrderToAdmin(itemName, price, robloxUser) {
+            const text = `📦 **Order အသစ်ရရှိပါသည်!**\n\n👤 Roblox User: ${robloxUser}\n🎮 ပစ္စည်း: ${itemName}\n💰 ဈေးနှုန်း: ${price} Ks\n✅ အခြေအနေ: Wallet မှ ငွေနှုတ်ပြီးပါပြီ။`;
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat-id=${ADMIN_CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=Markdown`;
+            try { await fetch(url); } catch (e) { console.error("Error sending message", e); }
+        }
+
+        // ဝယ်ယူခြင်း လုပ်ငန်းစဉ်
+        function autoBuy(name, price) {
+            const robloxUser = document.getElementById('robloxUser').value.trim();
+            if (!robloxUser) {
+                showStatus("⚠️ ကျေးဇူးပြု၍ Roblox Username အရင်ထည့်ပါ!", "#ff9800");
+                return;
+            }
+            if (balance >= price) {
+                balance -= price;
+                updateUI();
+                sendOrderToAdmin(name, price, robloxUser);
+                showStatus("✅ ဝယ်ယူမှု အောင်မြင်ပါသည်။ Admin က မကြာခင် ပစ္စည်းပို့ပေးပါလိမ့်မည်!", "#4caf50");
+            } else {
+                showStatus("❌ လက်ကျန်ငွေ မလုံလောက်ပါ။ ငွေအရင်ဖြည့်ပါ!", "#f44336");
+            }
+        }
+
         function buyTigerAuto() {
             const select = document.getElementById('tiger-select');
-            const price = parseInt(select.value);
             const name = select.options[select.selectedIndex].getAttribute('data-name');
+            const price = parseInt(select.value);
             autoBuy(name, price);
         }
-        function requestTopup() {
-            const amount = prompt("ဘယ်လောက်ဖိုး ငွေဖြည့်မလဲ?");
-            if (amount && !isNaN(amount)) { balance += parseInt(amount); updateUI(); showStatus("💰 ငွေဖြည့်သွင်းမှု အောင်မြင်ပါသည်!", "#2196f3"); }
-        }
+
         function showStatus(msg, color) {
-            const s = document.getElementById('status'); s.innerText = msg; s.style.backgroundColor = color; s.style.display = 'block';
-            setTimeout(() => { s.style.display = 'none'; }, 3000);
+            const s = document.getElementById('status');
+            s.innerText = msg; s.style.backgroundColor = color; s.style.display = 'block';
+            setTimeout(() => { s.style.display = 'none'; }, 5000);
         }
     </script>
 </body>
