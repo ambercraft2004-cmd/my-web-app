@@ -26,25 +26,29 @@
         .item-card p { font-size: 0.7rem; color: #aaa; margin: 0 0 8px 0; }
         .price-tag { color: #ffca28; font-weight: bold; font-size: 1.1rem; display: block; margin: auto 0 8px 0; }
         
+        /* Modal for Account Display */
         .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #222; padding: 30px; border-radius: 20px; border: 2px solid var(--primary); z-index: 3000; width: 85%; max-width: 400px; text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2999; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.8rem; }
         th, td { border: 1px solid #333; padding: 8px; text-align: left; }
-        #status { position: fixed; top: 10px; padding: 15px; border-radius: 10px; display: none; z-index: 2000; width: 80%; text-align: center; font-weight: bold; }
+        #status { position: fixed; top: 10px; padding: 15px; border-radius: 10px; display: none; z-index: 5000; width: 80%; text-align: center; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body>
 
     <div id="status"></div>
+
     <div id="accModal" class="hidden">
         <div class="overlay"></div>
         <div class="modal">
-            <h2 style="color:#4caf50;">ဝယ်ယူမှု အောင်မြင်သည်! ✅</h2>
-            <p style="color:#aaa;">သင့်အကောင့် အချက်အလက်မှာ -</p>
-            <div id="accDetails" style="background:#000; padding:15px; border-radius:10px; color:#ffca28; font-family:monospace; font-size:1.1rem; margin:20px 0; border:1px dashed #555; word-break: break-all;"></div>
-            <p style="font-size:0.7rem; color:#ff9800;">*Screenshot ရိုက်ထားရန် မမေ့ပါနှင့်*</p>
-            <button class="btn-primary" onclick="closeModal()">ပိတ်မည်</button>
+            <h2 style="color:#4caf50; margin-top:0;">ဝယ်ယူမှု အောင်မြင်သည်! ✅</h2>
+            <p style="color:#aaa; font-size:0.9rem;">သင့်အကောင့် အချက်အလက်မှာ -</p>
+            <div id="accDetails" style="background:#000; padding:15px; border-radius:10px; color:#ffca28; font-family:monospace; font-size:1.1rem; margin:15px 0; border:1px dashed #555; word-break: break-all;"></div>
+            
+            <button class="btn-primary" id="copyBtn" onclick="copyAccount()" style="background:#2196f3; margin-bottom:10px;">📋 Copy ယူမည်</button>
+            <button class="btn-primary" onclick="closeModal()" style="background:#555;">ပိတ်မည်</button>
+            <p style="font-size:0.7rem; color:#ff9800; margin-top:10px;">*Screenshot ရိုက်ထားရန် မမေ့ပါနှင့်*</p>
         </div>
     </div>
 
@@ -107,7 +111,7 @@
                 <option value="5500">5500 Ks</option><option value="8000">8000 Ks</option><option value="10000">10000 Ks</option>
             </select>
             <input type="file" id="fileInput" hidden accept="image/*">
-            <button onclick="document.getElementById('fileInput').click()" style="width:100%; padding:10px; background:#222; border:1px dashed #555; color:#ccc; margin-bottom:10px; border-radius:8px;">📷 ပြေစာ Screenshot တင်ရန်</button>
+            <button onclick="document.getElementById('fileInput').click()" style="width:100%; padding:10px; background:#222; border:1px dashed #555; color:#ccc; margin-bottom:10px; border-radius:8px; cursor:pointer;">📷 ပြေစာ Screenshot တင်ရန်</button>
             <button class="btn-primary" style="background:#2196f3;" onclick="requestDeposit()">ငွေဖြည့်တောင်းဆိုမည်</button>
         </div>
 
@@ -171,6 +175,46 @@
             updateStocks();
         };
 
+        // Purchase & Modal Logic
+        async function purchase(itemId, itemName, price) {
+            const userSnap = await db.ref('users/'+currentUser).once('value');
+            const balance = userSnap.val().balance || 0;
+            if(balance < price) return notify("❌ လက်ကျန်ငွေ မလုံလောက်ပါ", "#f44336");
+
+            const stockSnap = await db.ref('stocks/' + itemId).once('value');
+            const stocks = stockSnap.val();
+            if(!stocks || stocks.length === 0) return notify("❌ ပစ္စည်းပြတ်နေပါသည်", "#ff9800");
+
+            if(confirm(`${itemName} ကို ${price} Ks ဖြင့် ဝယ်ယူမှာလား?`)) {
+                const boughtAcc = stocks.shift();
+                await db.ref('stocks/' + itemId).set(stocks);
+                await db.ref('users/' + currentUser).update({ balance: balance - price });
+                
+                // Set Account info and show modal
+                document.getElementById('accDetails').innerText = boughtAcc;
+                document.getElementById('accModal').classList.remove('hidden');
+                
+                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent("📦 AUTO SALE\nUser: "+currentUser+"\nItem: "+itemName+"\nAcc: "+boughtAcc)}`);
+            }
+        }
+
+        function copyAccount() {
+            const accText = document.getElementById('accDetails').innerText;
+            navigator.clipboard.writeText(accText).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.innerText = "✅ Copied!";
+                btn.style.background = "#4caf50";
+                setTimeout(() => {
+                    btn.innerText = "📋 Copy ယူမည်";
+                    btn.style.background = "#2196f3";
+                }, 2000);
+                notify("📋 Copy ကူးပြီးပါပြီ", "#4caf50");
+            });
+        }
+
+        function closeModal() { document.getElementById('accModal').classList.add('hidden'); }
+
+        // Core Functions
         async function handleAuth() {
             const user = document.getElementById('authUser').value.trim().toLowerCase();
             const pass = document.getElementById('authPass').value.trim();
@@ -191,27 +235,6 @@
             document.getElementById('displayUserName').innerText = currentUser.toUpperCase();
             db.ref('users/' + currentUser).on('value', (s) => { if(s.val()) document.getElementById('balanceDisplay').innerText = s.val().balance.toLocaleString() + " Ks"; });
         }
-
-        async function purchase(itemId, itemName, price) {
-            const userSnap = await db.ref('users/'+currentUser).once('value');
-            const balance = userSnap.val().balance || 0;
-            if(balance < price) return notify("❌ လက်ကျန်ငွေ မလုံလောက်ပါ", "#f44336");
-
-            const stockSnap = await db.ref('stocks/' + itemId).once('value');
-            const stocks = stockSnap.val();
-            if(!stocks || stocks.length === 0) return notify("❌ ပစ္စည်းပြတ်နေပါသည်", "#ff9800");
-
-            if(confirm(`${itemName} ကို ${price} Ks ဖြင့် ဝယ်ယူမှာလား?`)) {
-                const boughtAcc = stocks.shift();
-                await db.ref('stocks/' + itemId).set(stocks);
-                await db.ref('users/' + currentUser).update({ balance: balance - price });
-                document.getElementById('accDetails').innerText = boughtAcc;
-                document.getElementById('accModal').classList.remove('hidden');
-                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent("📦 AUTO SALE\nUser: "+currentUser+"\nItem: "+itemName+"\nAcc: "+boughtAcc)}`);
-            }
-        }
-
-        function closeModal() { document.getElementById('accModal').classList.add('hidden'); }
 
         async function addStock() {
             const target = document.getElementById('stockTarget').value;
@@ -273,6 +296,15 @@
             fd.append('caption', `💰 Deposit Request\nUser: ${currentUser}\nAmount: ${document.getElementById('amount').value} Ks`);
             await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
             notify("✅ ပို့ပြီးပါပြီ။ Admin စစ်ဆေးပေးပါမည်", "#4caf50");
+        }
+
+        function filterUsers() {
+            let input = document.getElementById("userSearch").value.toLowerCase();
+            let tr = document.getElementById("userTable").getElementsByTagName("tr");
+            for (let i = 1; i < tr.length; i++) {
+                let td = tr[i].getElementsByTagName("td")[0];
+                if (td) tr[i].style.display = td.innerText.toLowerCase().includes(input) ? "" : "none";
+            }
         }
 
         function notify(m, c) { const s = document.getElementById('status'); s.innerText = m; s.style.backgroundColor = c; s.style.color="white"; s.style.display = 'block'; setTimeout(() => s.style.display='none', 3000); }
