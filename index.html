@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amber Blox Hub - Official Store</title>
+    <title>Amber Blox Hub - Premium Store</title>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
@@ -19,11 +19,22 @@
         .support-btn { position: fixed; bottom: 20px; right: 20px; background: #0088cc; color: white; padding: 12px 18px; border-radius: 50px; display: flex; align-items: center; gap: 8px; text-decoration: none; z-index: 1000; font-size: 0.8rem; font-weight: bold; border: 1px solid rgba(255,255,255,0.2); }
         .support-btn img { width: 22px; height: 22px; }
 
-        /* Shop Styles */
-        .item-card { background: var(--card); border: 1px solid #333; padding: 15px; border-radius: 15px; width: 100%; margin-bottom: 20px; text-align: center; }
-        .item-img { width: 100%; border-radius: 10px; margin-bottom: 10px; display: block; background: #222; min-height: 180px; object-fit: cover; border: 1px solid #444; }
-        .price-tag { color: #ffca28; font-weight: bold; font-size: 1.4rem; display: block; margin: 10px 0; }
+        /* --- SHOP GRID (NEW: 2-COLUMN LAYOUT) --- */
+        .shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; max-width: 600px; margin-top: 15px; }
         
+        /* item-card ကို Grid ထဲမှာ အဆင်ပြေအောင် ပြင်ဆင်ချက် */
+        .item-card { background: var(--card); border: 1px solid #333; padding: 12px; border-radius: 15px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; height: 100%; box-sizing: border-box; }
+        
+        /* ပုံအရွယ်အစား Grid ထဲမှာ ညှိရန် */
+        .item-img { width: 100%; border-radius: 10px; margin-bottom: 8px; display: block; object-fit: cover; aspect-ratio: 1/1; border: 1px solid #444; }
+        
+        /* စာသားအရွယ်အစားGrid ထဲမှာ ညှိရန် */
+        .item-card h3 { font-size: 0.9rem; margin: 0 0 5px 0; line-height: 1.2; color: #fff; }
+        .item-card p { font-size: 0.7rem; color: #aaa; margin: 0 0 8px 0; }
+        .price-tag { color: #ffca28; font-weight: bold; font-size: 1.1rem; display: block; margin: auto 0 8px 0; }
+        .item-card .btn-primary { padding: 8px; font-size: 0.8rem; border-radius: 8px; }
+
+        /* Admin/General */
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.8rem; }
         th, td { border: 1px solid #333; padding: 8px; text-align: left; }
         #status { position: fixed; top: 10px; padding: 15px; border-radius: 10px; display: none; z-index: 2000; width: 80%; text-align: center; font-weight: bold; }
@@ -84,38 +95,37 @@
             <button class="btn-primary" style="background:#2196f3;" onclick="requestDeposit()">ငွေဖြည့်တောင်းဆိုမည်</button>
         </div>
 
-        <div style="width:95%; max-width:450px;">
-            <h3 style="color:var(--primary); margin-bottom:15px;">🛒 BLOX FRUIT ACCOUNTS</h3>
-
+        <h3 style="color:var(--primary); align-self: flex-start; margin-left: 10px;">🛒 BLOX FRUIT ACCOUNTS</h3>
+        
+        <div class="shop-grid">
             <div class="item-card">
                 <img src="https://i.ibb.co/VWVm0Yv/godhuman.jpg" class="item-img" alt="Lv Max God Gas">
-                <h3 style="margin:0;">Lv Max + God + Gas (100% Inventory)</h3>
-                <p style="font-size:0.8rem; color:#aaa;">Radom | Cdk , SG , MM</p>
+                <h3>Lv Max + God + Gas (100% Inventory)</h3>
+                <p>Radom | Cdk , SG , MM</p>
                 <span class="price-tag">3,000 Ks</span>
                 <button class="btn-primary" onclick="purchase('Lv Max+God+Gas', 3000)">ဝယ်ယူမည်</button>
             </div>
 
-            <h3 style="color:#ffca28; margin:25px 0 15px 5px;">🐯 Tiger Inventory 100% Account</h3>
-
             <div class="item-card">
-                <img src="https://i.ibb.co/L6V6Y1P/tiger.jpg" class="item-img">
-                <h3 style="margin:0;">1. Lv Max + God + Tiger (100% Inventory)</h3>
+                <img src="https://i.ibb.co/L6V6Y1P/tiger.jpg" class="item-img" alt="Tiger 1">
+                <h3>1. Lv Max + God + Tiger (100% Inventory)</h3>
+                <p>Premium Account</p>
                 <span class="price-tag">4,500 Ks</span>
                 <button class="btn-primary" onclick="purchase('Tiger 1 (4500)', 4500)">ဝယ်ယူမည်</button>
             </div>
 
             <div class="item-card">
-                <img src="https://i.ibb.co/L6V6Y1P/tiger.jpg" class="item-img">
-                <h3 style="margin:0;">2. Lv Max + God + Tiger + Mythical အပိုတစ်လုံး</h3>
-                <p style="font-size:0.8rem; color:#aaa;">Radom | Cdk , SG , MM</p>
+                <img src="https://i.ibb.co/L6V6Y1P/tiger.jpg" class="item-img" alt="Tiger 2">
+                <h3>2. Lv Max + God + Tiger + Mythical (100% Inventory)</h3>
+                <p>Radom | Cdk , SG , MM</p>
                 <span class="price-tag">5,500 Ks</span>
                 <button class="btn-primary" onclick="purchase('Tiger 2 (5500)', 5500)">ဝယ်ယူမည်</button>
             </div>
 
             <div class="item-card">
-                <img src="https://i.ibb.co/L6V6Y1P/tiger.jpg" class="item-img">
-                <h3 style="margin:0;">3. Lv Max + God + Cdk + Tiger</h3>
-                <p style="font-size:0.8rem; color:#aaa;">Radom | Cdk , SG , MM</p>
+                <img src="https://i.ibb.co/L6V6Y1P/tiger.jpg" class="item-img" alt="Tiger 3">
+                <h3>3. Lv Max + God + Cdk + Tiger</h3>
+                <p>Radom | Cdk , SG , MM</p>
                 <span class="price-tag">8,000 Ks</span>
                 <button class="btn-primary" onclick="purchase('Tiger 3 (8000)', 8000)">ဝယ်ယူမည်</button>
             </div>
