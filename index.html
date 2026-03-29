@@ -27,6 +27,9 @@
         #status { position: fixed; top: 10px; padding: 15px; border-radius: 10px; display: none; z-index: 5000; width: 80%; text-align: center; font-weight: bold; }
         table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
         th, td { border: 1px solid #333; padding: 8px; text-align: left; color: white; }
+        .vpn-notice { color: #ff5252; text-align: center; font-size: 0.85rem; margin-top: 15px; font-weight: bold; display: block; border: 1px solid #ff525233; padding: 8px; border-radius: 8px; background: #ff525211; }
+        /* YouTube Link Style */
+        .yt-link { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 15px; text-decoration: none; color: #ff0000; font-size: 0.85rem; font-weight: bold; padding: 10px; border: 1px solid #ff000044; border-radius: 8px; background: rgba(255, 0, 0, 0.05); }
     </style>
 </head>
 <body>
@@ -48,11 +51,19 @@
         <span>အဆင်မပြေတာရှိပါက ဆက်သွယ်ရန်</span>
     </a>
 
-    <div id="authSection" class="box">
+    <div id="authSection" class="box" style="margin-top: 30px;">
         <h2 style="color:var(--primary); text-align:center;">Amber Blox Hub</h2>
         <input type="text" id="authUser" placeholder="Username">
         <input type="password" id="authPass" placeholder="Password">
         <button class="btn-primary" onclick="handleAuth()">ဝင်ရောက်မည် / အကောင့်ဖွင့်မည်</button>
+        
+        <span class="vpn-notice">⚠️ Login ဝင်ရန် VPN ခံပေးပါ</span>
+
+        <a href="https://youtube.com/@ambercraftgaming?si=LY8kczw71fF3PnuW" target="_blank" class="yt-link">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" width="20">
+            <span>YouTube မှာလည်း အားပေးကြပါဦး ❤️</span>
+        </a>
+
         <p style="text-align:center; font-size:0.7rem; margin-top:20px; color:#444; cursor:pointer;" onclick="showAdminLogin()">🛡️ Admin Panel</p>
     </div>
 
@@ -134,7 +145,7 @@
 
         <div class="category-title">GAS & TIGER INVENTORY</div>
         <div class="shop-grid">
-            <div class="item-card"><img src="https://i.ibb.co/CKwsLsBk/image.png" class="item-img"><h3>Lv Max + God + Gas (100% Inv)</h3><p>Stock: <span id="stock-item1">0</span></p><span class="price-tag">5,500 Ks</span><button class="btn-primary" onclick="purchase('item1', 'Gas Account', 5500)">ဝယ်ယူမည်</button></div>
+            <div class="item-card"><img src="https://i.ibb.co/CKwsLsBk/image.png" class="item-img"><h3>Lv Max + God + Gas</h3><p>Stock: <span id="stock-item1">0</span></p><span class="price-tag">5,500 Ks</span><button class="btn-primary" onclick="purchase('item1', 'Gas Account', 5500)">ဝယ်ယူမည်</button></div>
             <div class="item-card"><img src="https://i.ibb.co/cKbHjfxM/image.png" class="item-img"><h3>Lv Max + God + Tiger</h3><p>Stock: <span id="stock-tiger1">0</span></p><span class="price-tag">6,500 Ks</span><button class="btn-primary" onclick="purchase('tiger1', 'Tiger 1', 6500)">ဝယ်ယူမည်</button></div>
             <div class="item-card"><img src="https://i.ibb.co/cKbHjfxM/image.png" class="item-img"><h3>Lv Max + Tiger + Mythical</h3><p>Stock: <span id="stock-tiger2">0</span></p><span class="price-tag">7,500 Ks</span><button class="btn-primary" onclick="purchase('tiger2', 'Tiger 2', 7500)">ဝယ်ယူမည်</button></div>
             <div class="item-card"><img src="https://i.ibb.co/cKbHjfxM/image.png" class="item-img"><h3>Lv Max + God + Cdk + Tiger</h3><p>Stock: <span id="stock-tiger3">0</span></p><span class="price-tag">9,000 Ks</span><button class="btn-primary" onclick="purchase('tiger3', 'Tiger 3', 9000)">ဝယ်ယူမည်</button></div>
@@ -142,9 +153,9 @@
 
         <div class="category-title">MYTHICAL FRUIT INVENTORY</div>
         <div class="shop-grid">
-            <div class="item-card"><img src="https://i.ibb.co/gLdvdwMZ/image.png" class="item-img"><h3>GOD + 1Mythical [RADOM SG MM]</h3><p>Stock: <span id="stock-new1">0</span></p><span class="price-tag">3,000 Ks</span><button class="btn-primary" onclick="purchase('new1', 'GOD + 1Mythical', 3000)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/gLdvdwMZ/image.png" class="item-img"><h3>GOD + 2Mythical [RADOM SG MM]</h3><p>Stock: <span id="stock-new2">0</span></p><span class="price-tag">3,900 Ks</span><button class="btn-primary" onclick="purchase('new2', 'GOD + 2Mythical', 3900)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/gLdvdwMZ/image.png" class="item-img"><h3>GOD + 3Mythical [RADOM SG MM]</h3><p>Stock: <span id="stock-new3">0</span></p><span class="price-tag">4,800 Ks</span><button class="btn-primary" onclick="purchase('new3', 'GOD + 3Mythical', 4800)">ဝယ်ယူမည်</button></div>
+            <div class="item-card"><img src="https://i.ibb.co/gLdvdwMZ/image.png" class="item-img"><h3>GOD + 1Mythical</h3><p>Stock: <span id="stock-new1">0</span></p><span class="price-tag">3,000 Ks</span><button class="btn-primary" onclick="purchase('new1', 'GOD + 1Mythical', 3000)">ဝယ်ယူမည်</button></div>
+            <div class="item-card"><img src="https://i.ibb.co/gLdvdwMZ/image.png" class="item-img"><h3>GOD + 2Mythical</h3><p>Stock: <span id="stock-new2">0</span></p><span class="price-tag">3,900 Ks</span><button class="btn-primary" onclick="purchase('new2', 'GOD + 2Mythical', 3900)">ဝယ်ယူမည်</button></div>
+            <div class="item-card"><img src="https://i.ibb.co/gLdvdwMZ/image.png" class="item-img"><h3>GOD + 3Mythical</h3><p>Stock: <span id="stock-new3">0</span></p><span class="price-tag">4,800 Ks</span><button class="btn-primary" onclick="purchase('new3', 'GOD + 3Mythical', 4800)">ဝယ်ယူမည်</button></div>
             <div class="item-card"><img src="https://i.ibb.co/fz2WKFjR/image.png" class="item-img"><h3>MAX + GOD (NORMAL)</h3><p>Stock: <span id="stock-new8">0</span></p><span class="price-tag">3,400 Ks</span><button class="btn-primary" onclick="purchase('new8', 'MAX + GOD', 3400)">ဝယ်ယူမည်</button></div>
         </div>
 
@@ -153,7 +164,7 @@
             <div class="item-card"><img src="https://i.ibb.co/Pztd5Pzd/image.png" class="item-img"><h3>GOD + SANGUINE ART</h3><p>Stock: <span id="stock-new4">0</span></p><span class="price-tag">6,000 Ks</span><button class="btn-primary" onclick="purchase('new4', 'SANGUINE ART', 6000)">ဝယ်ယူမည်</button></div>
             <div class="item-card"><img src="https://i.ibb.co/Pztd5Pzd/image.png" class="item-img"><h3>GOD + CDK + SANGUINE ART</h3><p>Stock: <span id="stock-new5">0</span></p><span class="price-tag">12,600 Ks</span><button class="btn-primary" onclick="purchase('new5', 'CDK + SANGUINE', 12600)">ဝယ်ယူမည်</button></div>
             <div class="item-card"><img src="https://i.ibb.co/cKC0T16q/image.png" class="item-img"><h3>MAX + GOD + SHARK ANCHOR</h3><p>Stock: <span id="stock-new6">0</span></p><span class="price-tag">6,500 Ks</span><button class="btn-primary" onclick="purchase('new6', 'SHARK ANCHOR', 6500)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/1GycKd4Y/image.png" class="item-img"><h3>GOD + DOUGH V2 [FULL MASTERY]</h3><p>Stock: <span id="stock-new7">0</span></p><span class="price-tag">8,000 Ks</span><button class="btn-primary" onclick="purchase('new7', 'DOUGH V2', 8000)">ဝယ်ယူမည်</button></div>
+            <div class="item-card"><img src="https://i.ibb.co/1GycKd4Y/image.png" class="item-img"><h3>GOD + DOUGH V2</h3><p>Stock: <span id="stock-new7">0</span></p><span class="price-tag">8,000 Ks</span><button class="btn-primary" onclick="purchase('new7', 'DOUGH V2', 8000)">ဝယ်ယူမည်</button></div>
         </div>
     </div>
 
