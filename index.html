@@ -253,20 +253,24 @@
 
         // --- Telegram က Confirm နှိပ်ရင် အလိုအလျောက် ငွေပေါင်းပေးမယ့်အပိုင်း ---
        function listenForTelegramConfirm() {
-    // telegram_webhook အောက်က Random Key တွေနဲ့ ဝင်လာမယ့် Data အားလုံးကို စောင့်ကြည့်မယ်
+    // Listener အဟောင်းတွေကို အရင်ဖြုတ်ပြီးမှ အသစ်ပြန်ဖွင့်မယ်
+    db.ref('telegram_webhook').off();
+
     db.ref('telegram_webhook').on('value', async (snap) => {
         const allUpdates = snap.val();
         if (!allUpdates) return;
 
-        // Firebase ထဲမှာ -Op... စတဲ့ Key တွေနဲ့ စုနေတဲ့ Update တွေကို တစ်ခုချင်း စစ်ဆေးမယ်
         for (let key in allUpdates) {
             const update = allUpdates[key];
             
             if (update && update.callback_query) {
                 const cbData = update.callback_query.data;
-                
-                // Confirm ခလုတ်နှိပ်ထားတဲ့ Data ဟုတ်မဟုတ် စစ်မယ်
+
                 if (cbData.startsWith('confirm_')) {
+                    // အရေးကြီးဆုံးအချက် - အလုပ်မလုပ်ခင် Data ကို ချက်ချင်းအရင်ဖျက်မယ်
+                    // ဒါမှ နောက်တစ်ခါ ထပ်မဖတ်မှာဖြစ်သလို စာလည်း နှစ်ခါမပို့မှာပါ
+                    await db.ref('telegram_webhook/' + key).remove();
+
                     const parts = cbData.split('_');
                     const targetUser = parts[1];
                     const amountToAdd = parseInt(parts[2]);
@@ -278,15 +282,12 @@
                         const currentBal = userSnap.val().balance || 0;
                         const newBal = currentBal + amountToAdd;
                         
-                        // အကောင့်ထဲကို ငွေပေါင်းထည့်ပေးမယ်
+                        // ငွေပေါင်းမယ်
                         await userRef.update({ balance: newBal });
                         
-                        // Admin ဆီကို အောင်မြင်ကြောင်း Telegram Message ပြန်ပို့မယ်
+                        // Admin ဆီကို Message တစ်ခါပဲ ပို့တော့မှာပါ
                         const text = encodeURIComponent(`✅ အောင်မြင်ပါသည်!\nUser: ${targetUser}\nAdded: ${amountToAdd} Ks\nTotal: ${newBal} Ks`);
                         fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${text}`);
-                        
-                        // အလုပ်လုပ်ပြီးသွားတဲ့ Data ကို Database ထဲကနေ ပြန်ဖျက်မယ်
-                        db.ref('telegram_webhook/' + key).remove();
                     }
                 }
             }
