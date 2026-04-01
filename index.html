@@ -136,23 +136,21 @@
         </div>
 <button class="info-toggle-btn" onclick="toggleInfoSection()">✨ Info ပုံပါသော အကောင့်များ ✨</button>
 
-<div id="infoSection" class="hidden" style="width: 100%; text-align: center; padding: 10px;">
-    <div class="category-title" style="color: #00d2ff; border-left: 4px solid #00d2ff; padding-left: 10px; margin: 20px 0; font-size: 0.9rem; text-align: left;">SPECIAL INFO ACCOUNTS</div>
-    <div style="background: #1a1a1a; padding: 30px; border-radius: 15px; border: 1px dashed #444; color: #888;">
-        <p><div class="item-card" style="max-width: 380px; margin: 10px auto; background: #1a1a1a; border: 1px solid #00d2ff; overflow: hidden; border-radius: 15px;">
+
+  <div class="item-card" style="max-width: 380px; margin: 10px auto; background: #1a1a1a; border: 1px solid #00d2ff; overflow: hidden; border-radius: 15px;">
     
     <div style="position: relative; width: 100%; aspect-ratio: 16/9; background: #000;">
-        <img id="display-img-info1" src="https://i.ibb.co/YBjJt6Fv/image.png" style="width: 100%; height: 100%; object-fit: contain;">
+        <img id="display-img-info1" src="https://i.ibb.co/6R8mD8Y4/YBjJt6Fv.png" style="width: 100%; height: 100%; object-fit: contain;">
         
-        <button onclick="moveSlide('info1', -1)" style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%); background: rgba(0,210,255,0.3); color: white; border: none; padding: 12px 8px; border-radius: 5px; cursor: pointer; font-weight: bold;">❮</button>
-        <button onclick="moveSlide('info1', 1)" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: rgba(0,210,255,0.3); color: white; border: none; padding: 12px 8px; border-radius: 5px; cursor: pointer; font-weight: bold;">❯</button>
+        <button onclick="moveSlide('info1', -1)" style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%); background: rgba(0,210,255,0.4); color: white; border: none; padding: 12px 8px; border-radius: 5px; cursor: pointer;">❮</button>
+        <button onclick="moveSlide('info1', 1)" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: rgba(0,210,255,0.4); color: white; border: none; padding: 12px 8px; border-radius: 5px; cursor: pointer;">❯</button>
         
-        <div id="counter-info1" style="position: absolute; bottom: 8px; right: 12px; background: rgba(0,0,0,0.6); color: #00d2ff; padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; border: 1px solid #00d2ff;">1 / 3</div>
+        <div id="counter-info1" style="position: absolute; bottom: 8px; right: 12px; background: rgba(0,0,0,0.7); color: #00d2ff; padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; border: 1px solid #00d2ff;">1 / 3</div>
     </div>
 
     <div style="padding: 15px; text-align: center;">
         <h3 style="margin: 0; color: #00d2ff; font-size: 1.1rem;">🔥 SPECIAL INFO ACCOUNT #1 🔥</h3>
-        <p style="font-size: 0.8rem; color: #888; margin: 5px 0;">(ပုံများကြည့်ရန် ဘယ်/ညာ နှိပ်ပါ)</p>
+        <p style="font-size: 0.8rem; color: #888; margin: 5px 0;">(ပုံကြည်ရန် ❮ ❯ ကိုနှိပ်ကြည့်ပါ)</p>
         
         <div style="background: #222; padding: 8px; border-radius: 8px; margin: 10px 0; border: 1px solid #333;">
              <p style="margin: 0; font-size: 0.9rem;">Stock: <span id="stock-info1" style="color: #ffca28; font-weight: bold;">0</span></p>
@@ -162,8 +160,8 @@
         
         <button class="btn-primary" onclick="purchase('info1', 'Special Info Account #1', 5000)" style="width: 100%; padding: 12px; font-weight: bold;">ဝယ်ယူမည်</button>
     </div>
-        </div>
-    </p>
+</div>
+  </p>
     </div>
 </div>
 
@@ -398,9 +396,9 @@ function toggleInfoSection() {
 }
 const infoAccountImages = {
     'info1': [
-        'https://i.ibb.co/YBjJt6Fv/image.png',
-        'https://i.ibb.co/DP3PYsfw/image.png',
-        'https://i.ibb.co/yJKS3Rq/image.png'
+        'https://i.ibb.co/6R8mD8Y4/YBjJt6Fv.png',
+        'https://i.ibb.co/S7XGvVfG/DP3PYsfw.png',
+        'https://i.ibb.co/v6mY9X9y/yJKS3Rq.png'
     ]
 };
 
