@@ -31,7 +31,13 @@
         th, td { border: 1px solid #333; padding: 8px; text-align: left; color: white; }
         .vpn-notice { color: #ff5252; text-align: center; font-size: 0.85rem; margin-top: 15px; font-weight: bold; display: block; border: 1px solid #ff525233; padding: 8px; border-radius: 8px; background: #ff525211; }
         .yt-link { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 15px; text-decoration: none; color: #ff0000; font-size: 0.85rem; font-weight: bold; padding: 10px; border: 1px solid #ff000044; border-radius: 8px; background: rgba(255, 0, 0, 0.05); }
-    </style>
+    .info-toggle-btn {
+    background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+    color: white; border: none; padding: 15px; width: 95%; max-width: 400px;
+    border-radius: 12px; font-weight: bold; font-size: 1rem; cursor: pointer;
+    margin: 20px auto; display: block; box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+}
+ </style>
 </head>
 <body>
 
@@ -64,7 +70,15 @@
         </a>
         <p style="text-align:center; font-size:0.7rem; margin-top:20px; color:#444; cursor:pointer;" onclick="showAdminLogin()">🛡️ Admin Panel</p>
     </div>
+    
+<button class="info-toggle-btn" onclick="toggleInfoSection()">✨ Info ပုံပါသော အကောင့်များ ✨</button>
 
+<div id="infoSection" class="hidden" style="width: 100%; text-align: center; padding: 10px;">
+    <div class="category-title" style="color: #00d2ff; border-left: 4px solid #00d2ff; padding-left: 10px; margin: 20px 0; font-size: 0.9rem; text-align: left;">SPECIAL INFO ACCOUNTS</div>
+    <div style="background: #1a1a1a; padding: 30px; border-radius: 15px; border: 1px dashed #444; color: #888;">
+        <p>🚧 အကောင့်များ မကြာမီ လာပါမည်... 🚧</p>
+    </div>
+</div>
     <div id="adminAuthSection" class="box hidden">
         <input type="password" id="adminPassInput" placeholder="Admin Key">
         <button class="btn-primary" style="background:#ffca28; color:black;" onclick="checkAdmin()">Admin Login</button>
@@ -350,6 +364,14 @@
         function closeModal() { document.getElementById('accModal').classList.add('hidden'); }
         function notify(m, c) { const s = document.getElementById('status'); s.innerText = m; s.style.backgroundColor = c; s.style.color="white"; s.style.display = 'block'; setTimeout(() => s.style.display='none', 4000); }
         function filterUsers() { let input = document.getElementById("userSearch").value.toLowerCase(); let tr = document.getElementById("userTable").getElementsByTagName("tr"); for (let i = 0; i < tr.length; i++) tr[i].style.display = tr[i].innerText.toLowerCase().includes(input) ? "" : "none"; }
+    // Toggle Function for Info Section
+function toggleInfoSection() {
+    const sec = document.getElementById('infoSection');
+    if (sec) {
+        sec.classList.toggle('hidden');
+    }
+}
+
     </script>
 </body>
 </html>
