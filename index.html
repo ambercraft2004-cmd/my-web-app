@@ -19,6 +19,7 @@
         input, select, textarea { width: 100%; padding: 12px; background: #111; color: white; border: 1px solid #444; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; outline: none; }
         .btn-primary { background: #4caf50; color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.2s; }
         .btn-primary:active { transform: scale(0.98); }
+        .btn-primary:disabled { background: #555; cursor: not-allowed; }
         .wallet-card { background: linear-gradient(135deg, var(--secondary), #000); padding: 25px; border-radius: 20px; width: 95%; max-width: 400px; text-align: center; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
         .support-btn { position: fixed; bottom: 20px; right: 20px; background: #0088cc; color: white; padding: 12px 18px; border-radius: 50px; display: flex; align-items: center; gap: 8px; text-decoration: none; z-index: 1000; font-size: 0.8rem; font-weight: bold; }
         .shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; width: 100%; max-width: 600px; margin-top: 15px; }
@@ -180,7 +181,9 @@
 
         window.onload = () => { 
             const amtSelect = document.getElementById('amount');
-            for(let i=3000; i<=50000; i+=1000) { let opt = document.createElement('option'); opt.value = i; opt.innerText = i + " Ks"; amtSelect.appendChild(opt); }
+            if(amtSelect) {
+                for(let i=3000; i<=50000; i+=1000) { let opt = document.createElement('option'); opt.value = i; opt.innerText = i + " Ks"; amtSelect.appendChild(opt); }
+            }
             if(localStorage.getItem('loggedUser')) { currentUser = localStorage.getItem('loggedUser'); showMain(); } 
             updateStocks();
         };
@@ -203,10 +206,16 @@
         }
 
         async function requestDeposit() {
+            const depositBtn = document.getElementById('depositBtn');
             const f = document.getElementById('fileInput').files[0];
             const method = document.getElementById('method').value;
             const amount = document.getElementById('amount').value;
+            
             if(!f) return notify("⚠️ Screenshot တင်ပါ", "#ff9800");
+
+            // ခလုတ်ကို ချက်ချင်းပိတ်လိုက်မယ်
+            depositBtn.disabled = true;
+            depositBtn.innerText = "Processing...";
 
             const fd = new FormData(); 
             fd.append('chat_id', ADMIN_CHAT_ID); 
@@ -217,7 +226,7 @@
                 // ၁။ Screenshot အရင်ပို့ခြင်း
                 await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
 
-                // ၂။ ခလုတ်ပါသော Message ကို သီးသန့်ထပ်ပို့ခြင်း (ဒါမှ ခလုတ်ကျိန်းသေပေါ်မှာပါ)
+                // ၂။ ခလုတ်ပါသော Message ကို သီးသန့်ထပ်ပို့ခြင်း
                 const keyboard = {
                     inline_keyboard: [
                         [
@@ -238,8 +247,18 @@
                 });
 
                 notify("✅ ပို့ပြီးပါပြီ။ Admin စစ်ဆေးပေးပါမည်", "#4caf50");
+                
+                // Form reset (Optional)
+                document.getElementById('fileInput').value = "";
+                
             } catch (e) {
                 notify("❌ Error ဖြစ်သွားပါသည်", "#f44336");
+            } finally {
+                // အောင်မြင်သည်ဖြစ်စေ၊ မအောင်မြင်သည်ဖြစ်စေ ခလုတ်ကို ပြန်ဖွင့်ပေးမယ် (ဒါပေမဲ့ စာသားကို ခဏပြောင်းထားမယ်)
+                setTimeout(() => {
+                   depositBtn.disabled = false;
+                   depositBtn.innerText = "ငွေဖြည့်မည်";
+                }, 3000);
             }
         }
 
@@ -259,13 +278,18 @@
                 fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent("📦 SALE\nUser: "+currentUser+"\nItem: "+itemName+"\nAcc: "+boughtAcc)}`);
             }
         }
+
         function updateStocks() {
             db.ref('stocks').on('value', (snap) => {
                 const data = snap.val() || {};
                 const allKeys = ['item1','tiger1','tiger2','tiger3','new1','new2','new3','new4','new5','new6','new7','new8','v4_1','v4_2','v4_3','v4_4','v4_5','v4_6','v4_7','v4_8','v4_9'];
-                allKeys.forEach(k => { if(document.getElementById('stock-'+k)) document.getElementById('stock-'+k).innerText = (data[k] || []).length; });
+                allKeys.forEach(k => { 
+                    const el = document.getElementById('stock-'+k);
+                    if(el) el.innerText = (data[k] || []).length; 
+                });
             });
         }
+
         function showAdminLogin() { document.getElementById('adminAuthSection').classList.toggle('hidden'); }
         function checkAdmin() { if(document.getElementById('adminPassInput').value === ADMIN_KEY) { document.getElementById('adminAuthSection').classList.add('hidden'); document.getElementById('adminPanel').classList.remove('hidden'); loadUsers(); } }
         function loadUsers() { db.ref('users').on('value', (s) => { const users = s.val(); let html = ''; for(let id in users) html += `<tr><td>${id}</td><td>${users[id].balance}</td><td><input type="number" id="in-${id}" style="width:60px;margin:0;"><button onclick="addBal('${id}')">Add</button></td></tr>`; document.getElementById('userTableBody').innerHTML = html; }); }
