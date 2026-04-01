@@ -1,16 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <head>
-      <meta name="google-site-verification" content="u-jHRR_pB3DVTr_LFSvwxCbQ7vqaYRb9bv41FzhR5Vc" />
-    <title>Amber Blox Hub - Best Blox Fruit Shop Myanmar</title>
-    <meta name="description" content="Amber Blox Hub မှာ Blox Fruit accounts များကို ဈေးနှုန်းအသက်သာဆုံးနဲ့ ယုံကြည်စိတ်ချစွာ ဝယ်ယူနိုင်ပါတယ်။ V4 accounts များ အစုံရှိသည်။">
-    <meta name="keywords" content="Blox Fruit Myanmar, Amber Blox Hub, Buy Blox Fruit Account, Blox Fruit V4 Shop">
-    ...
-      
-   <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amber Blox Hub - Premium Store</title>
+    <meta name="google-site-verification" content="u-jHRR_pB3DVTr_LFSvwxCbQ7vqaYRb9bv41FzhR5Vc" />
+    <title>Amber Blox Hub - Best Blox Fruit Shop Myanmar</title>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
@@ -20,7 +14,6 @@
         .box { background: var(--card); padding: 20px; border-radius: 15px; width: 95%; max-width: 450px; margin-bottom: 20px; border: 1px solid #333; box-sizing: border-box; }
         input, select, textarea { width: 100%; padding: 12px; background: #111; color: white; border: 1px solid #444; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; outline: none; }
         .btn-primary { background: #4caf50; color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        .btn-primary:active { transform: scale(0.98); }
         .wallet-card { background: linear-gradient(135deg, var(--secondary), #000); padding: 25px; border-radius: 20px; width: 95%; max-width: 400px; text-align: center; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
         .support-btn { position: fixed; bottom: 20px; right: 20px; background: #0088cc; color: white; padding: 12px 18px; border-radius: 50px; display: flex; align-items: center; gap: 8px; text-decoration: none; z-index: 1000; font-size: 0.8rem; font-weight: bold; }
         .shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; width: 100%; max-width: 600px; margin-top: 15px; }
@@ -31,52 +24,31 @@
         .category-title { color: var(--primary); align-self: flex-start; margin: 25px 0 10px 10px; font-size: 0.9rem; border-left: 4px solid var(--primary); padding-left: 10px; text-transform: uppercase; }
         .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #222; padding: 25px; border-radius: 20px; border: 2px solid var(--primary); z-index: 3000; width: 85%; max-width: 380px; text-align: center; }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2999; }
-        #status { position: fixed; top: 10px; padding: 15px; border-radius: 10px; display: none; z-index: 5000; width: 80%; text-align: center; font-weight: bold; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-        th, td { border: 1px solid #333; padding: 8px; text-align: left; color: white; }
-        .vpn-notice { color: #ff5252; text-align: center; font-size: 0.85rem; margin-top: 15px; font-weight: bold; display: block; border: 1px solid #ff525233; padding: 8px; border-radius: 8px; background: #ff525211; }
-        /* YouTube Link Style */
+        #status { position: fixed; top: 10px; padding: 15px; border-radius: 10px; display: none; z-index: 5000; width: 80%; text-align: center; font-weight: bold; color:white; }
+        .vpn-notice { color: #ff5252; text-align: center; font-size: 0.85rem; margin-top: 15px; font-weight: bold; display: block; padding: 8px; border-radius: 8px; background: #ff525211; }
         .yt-link { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 15px; text-decoration: none; color: #ff0000; font-size: 0.85rem; font-weight: bold; padding: 10px; border: 1px solid #ff000044; border-radius: 8px; background: rgba(255, 0, 0, 0.05); }
     </style>
 </head>
 <body>
 
     <div id="status"></div>
+    <div id="accModal" class="hidden"><div class="overlay"></div><div class="modal"><h2 style="color:#4caf50;">ဝယ်ယူမှု အောင်မြင်သည်! ✅</h2><div id="accDetails" style="background:#000; padding:15px; border-radius:10px; color:#ffca28; margin:15px 0; border:1px dashed #555; word-break: break-all;"></div><button class="btn-primary" onclick="copyAccount()" style="background:#2196f3; margin-bottom:10px;">📋 Copy Account</button><button class="btn-primary" onclick="closeModal()" style="background:#555;">ပိတ်မည်</button></div></div>
 
-    <div id="accModal" class="hidden">
-        <div class="overlay"></div>
-        <div class="modal">
-            <h2 style="color:#4caf50;">ဝယ်ယူမှု အောင်မြင်သည်! ✅</h2>
-            <div id="accDetails" style="background:#000; padding:15px; border-radius:10px; color:#ffca28; font-family:monospace; margin:15px 0; border:1px dashed #555; word-break: break-all;"></div>
-            <button class="btn-primary" onclick="copyAccount()" style="background:#2196f3; margin-bottom:10px;">📋 Copy Account</button>
-            <button class="btn-primary" onclick="closeModal()" style="background:#555;">ပိတ်မည်</button>
-        </div>
-    </div>
-
-    <a href="https://t.me/Botambershop" target="_blank" class="support-btn">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="20">
-        <span>အဆင်မပြေတာရှိပါက ဆက်သွယ်ရန်</span>
-    </a>
+    <a href="https://t.me/Botambershop" target="_blank" class="support-btn"><span>အဆင်မပြေတာရှိပါက ဆက်သွယ်ရန်</span></a>
 
     <div id="authSection" class="box" style="margin-top: 30px;">
         <h2 style="color:var(--primary); text-align:center;">Amber Blox Hub</h2>
         <input type="text" id="authUser" placeholder="Username">
         <input type="password" id="authPass" placeholder="Password">
         <button class="btn-primary" onclick="handleAuth()">ဝင်ရောက်မည် / အကောင့်ဖွင့်မည်</button>
-        
         <span class="vpn-notice">⚠️ Login ဝင်ရန် VPN ခံပေးပါ</span>
-
-        <a href="https://youtube.com/@ambercraftgaming?si=LY8kczw71fF3PnuW" target="_blank" class="yt-link">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" width="20">
-            <span>YouTube မှာလည်း အားပေးကြပါဦး ❤️</span>
-        </a>
-
-        <p style="text-align:center; font-size:0.7rem; margin-top:20px; color:#444; cursor:pointer;" onclick="showAdminLogin()">🛡️ Admin Panel</p>
+        <a href="https://youtube.com/@ambercraftgaming" target="_blank" class="yt-link">YouTube မှာလည်း အားပေးကြပါဦး ❤️</a>
+        <p style="text-align:center; font-size:0.7rem; margin-top:20px; color:#444; cursor:pointer;" onclick="document.getElementById('adminAuth').classList.toggle('hidden')">🛡️ Admin Panel</p>
     </div>
 
-    <div id="adminAuthSection" class="box hidden">
-        <input type="password" id="adminPassInput" placeholder="Admin Key">
-        <button class="btn-primary" style="background:#ffca28; color:black;" onclick="checkAdmin()">Admin Login</button>
+    <div id="adminAuth" class="box hidden">
+        <input type="password" id="adminKey" placeholder="Admin Key">
+        <button class="btn-primary" onclick="if(document.getElementById('adminKey').value === '200412') { document.getElementById('adminPanel').classList.remove('hidden'); document.getElementById('adminAuth').classList.add('hidden'); loadUsers(); }">Login Admin</button>
     </div>
 
     <div id="adminPanel" class="box hidden" style="max-width: 600px; width:100%;">
@@ -99,79 +71,42 @@
                 <option value="tiger2">Tiger 2 (7500)</option>
                 <option value="tiger3">Tiger 3 (9000)</option>
             </optgroup>
-            <optgroup label="MYTHICAL & OTHERS">
-                <option value="new1">GOD + 1 Mythical (3000)</option>
-                <option value="new2">GOD + 2 Mythical (3900)</option>
-                <option value="new3">GOD + 3 Mythical (4800)</option>
-                <option value="new4">Sanguine Art (6000)</option>
-                <option value="new5">CDK + Sanguine (12600)</option>
-                <option value="new6">Shark Anchor (6500)</option>
-                <option value="new7">Dough V2 (8000)</option>
-                <option value="new8">Max + God Normal (3400)</option>
-            </optgroup>
         </select>
-        <textarea id="stockData" rows="4" placeholder="acc:pass (တစ်ကြောင်းချင်းစီထည့်ပါ)"></textarea>
+        <textarea id="stockData" rows="4" placeholder="acc:pass (တစ်ကြောင်းချင်းစီ)"></textarea>
         <button class="btn-primary" onclick="addStock()">Add Stock</button>
         <hr style="border:0.5px solid #333; margin:20px 0;">
-        <input type="text" id="userSearch" placeholder="🔍 Search User..." onkeyup="filterUsers()">
-        <div style="max-height: 200px; overflow-y: auto;"><table id="userTable"><tbody id="userTableBody"></tbody></table></div>
+        <div style="max-height: 200px; overflow-y: auto;"><table style="width:100%; border-collapse: collapse; font-size:0.8rem;"><tbody id="userTableBody"></tbody></table></div>
         <button class="btn-primary" style="margin-top:15px; background:#f44336;" onclick="location.reload()">ပိတ်မည်</button>
     </div>
 
     <div id="mainContent" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
         <div class="wallet-card">
-            <span style="font-size: 0.7rem; opacity: 0.7;">WELCOME, <span id="displayUserName" style="color:#ffca28;"></span></span>
+            <span id="displayUserName" style="color:#ffca28;"></span>
             <span style="font-size: 2.5rem; font-weight: bold; display: block;" id="balanceDisplay">0 Ks</span>
-            <button onclick="logout()" style="background:rgba(255,255,255,0.1); border:none; color:white; padding:5px 12px; border-radius:20px; font-size:0.7rem;">Logout</button>
+            <button onclick="logout()" style="background:rgba(255,255,255,0.1); border:none; color:white; border-radius:20px; padding:5px 12px; font-size:0.7rem;">Logout</button>
         </div>
 
         <div class="box">
-            <h3 style="color:var(--primary); margin:0 0 10px 0;">💰 Deposit</h3>
-            <div style="background:#111; padding:10px; border-radius:8px; font-size:0.8rem; border:1px solid #333; margin-bottom:10px;">
-                <b>Kpay/Wave:</b> 09671811551 (Bhone Pyae Shan)
-            </div>
+            <h3 style="color:var(--primary);">💰 Deposit</h3>
+            <div style="background:#111; padding:10px; border-radius:8px; font-size:0.8rem; border:1px solid #333; margin-bottom:10px;"><b>Kpay/Wave:</b> 09671811551 (Bhone Pyae Shan)</div>
             <select id="method"><option value="Kpay">Kpay</option><option value="Wave">Wave</option></select>
-            <select id="amount"></select>
-            <input type="file" id="fileInput" hidden accept="image/*">
-            <button onclick="document.getElementById('fileInput').click()" style="width:100%; padding:10px; background:#222; border:1px dashed #555; color:#ccc; margin-bottom:10px; border-radius:8px; cursor:pointer;">📷 Screenshot တင်ရန်</button>
+            <select id="amountSelect"></select>
+            <input type="file" id="fileInput" accept="image/*">
             <button id="depositBtn" class="btn-primary" style="background:#2196f3;" onclick="requestDeposit()">ငွေဖြည့်မည်</button>
         </div>
 
         <div class="category-title">RACE V4 & SPECIALS (NEW)</div>
         <div class="shop-grid">
             <div class="item-card"><img src="https://i.ibb.co/7dZ3ngNf/image.png" class="item-img"><h3>GOD + DRACO [V4 FULL GEAR]</h3><p>Stock: <span id="stock-v4_1">0</span></p><span class="price-tag">19,000 Ks</span><button class="btn-primary" onclick="purchase('v4_1', 'GOD + DRACO V4', 19000)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/7dZ3ngNf/image.png" class="item-img"><h3>GOD + CDK + DRACO [V4 FULL GEAR]</h3><p>Stock: <span id="stock-v4_2">0</span></p><span class="price-tag">25,000 Ks</span><button class="btn-primary" onclick="purchase('v4_2', 'GOD + CDK + DRACO V4', 25000)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/N6bVhfW3/image.png" class="item-img"><h3>GOD + CDK + HUMAN [V4 FULL GEAR]</h3><p>Stock: <span id="stock-v4_3">0</span></p><span class="price-tag">8,800 Ks</span><button class="btn-primary" onclick="purchase('v4_3', 'GOD + CDK + HUMAN V4', 8800)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/BHCpPG9v/image.png" class="item-img"><h3>GOD + CDK + SHARK [V4 FULL GEAR]</h3><p>Stock: <span id="stock-v4_4">0</span></p><span class="price-tag">9,800 Ks</span><button class="btn-primary" onclick="purchase('v4_4', 'GOD + CDK + SHARK V4', 9800)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/HL49YVZN/image.png" class="item-img"><h3>GOD + CDK + ANGEL [V4 FULL GEAR]</h3><p>Stock: <span id="stock-v4_5">0</span></p><span class="price-tag">8,500 Ks</span><button class="btn-primary" onclick="purchase('v4_5', 'GOD + CDK + ANGEL V4', 8500)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/xK4C9z9H/image.png" class="item-img"><h3>GOD + CDK + GHOUL [V4 FULL GEAR]</h3><p>Stock: <span id="stock-v4_6">0</span></p><span class="price-tag">9,800 Ks</span><button class="btn-primary" onclick="purchase('v4_6', 'GOD + CDK + GHOUL V4', 9800)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/Qj3NN1cQ/image.png" class="item-img"><h3>GOD + CDK + CYBORG [V4 FULL GEAR]</h3><p>Stock: <span id="stock-v4_7">0</span></p><span class="price-tag">9,800 Ks</span><button class="btn-primary" onclick="purchase('v4_7', 'GOD + CDK + CYBORG V4', 9800)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/C3g6p4rZ/image.png" class="item-img"><h3>GOD + 6 RACE V4 FULL GEAR</h3><p>Stock: <span id="stock-v4_8">0</span></p><span class="price-tag">30,000 Ks</span><button class="btn-primary" onclick="purchase('v4_8', 'GOD + 6 RACE V4', 30000)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/VZdYVYM/image.png" class="item-img"><h3>MAX + GOD + CDK + TTK</h3><p>Stock: <span id="stock-v4_9">0</span></p><span class="price-tag">8,000 Ks</span><button class="btn-primary" onclick="purchase('v4_9', 'MAX + GOD + CDK + TTK', 8000)">ဝယ်ယူမည်</button></div>
+            <div class="item-card"><img src="https://i.ibb.co/7dZ3ngNf/image.png" class="item-img"><h3>GOD + CDK + DRACO [V4 GEAR]</h3><p>Stock: <span id="stock-v4_2">0</span></p><span class="price-tag">25,000 Ks</span><button class="btn-primary" onclick="purchase('v4_2', 'GOD + CDK + DRACO V4', 25000)">ဝယ်ယူမည်</button></div>
+            <div class="item-card"><img src="https://i.ibb.co/N6bVhfW3/image.png" class="item-img"><h3>GOD + CDK + HUMAN [V4 GEAR]</h3><p>Stock: <span id="stock-v4_3">0</span></p><span class="price-tag">8,800 Ks</span><button class="btn-primary" onclick="purchase('v4_3', 'GOD + CDK + HUMAN V4', 8800)">ဝယ်ယူမည်</button></div>
+            <div class="item-card"><img src="https://i.ibb.co/BHCpPG9v/image.png" class="item-img"><h3>GOD + CDK + SHARK [V4 GEAR]</h3><p>Stock: <span id="stock-v4_4">0</span></p><span class="price-tag">9,800 Ks</span><button class="btn-primary" onclick="purchase('v4_4', 'GOD + CDK + SHARK V4', 9800)">ဝယ်ယူမည်</button></div>
         </div>
 
         <div class="category-title">GAS & TIGER INVENTORY</div>
         <div class="shop-grid">
             <div class="item-card"><img src="https://i.ibb.co/CKwsLsBk/image.png" class="item-img"><h3>Lv Max + God + Gas</h3><p>Stock: <span id="stock-item1">0</span></p><span class="price-tag">5,500 Ks</span><button class="btn-primary" onclick="purchase('item1', 'Gas Account', 5500)">ဝယ်ယူမည်</button></div>
             <div class="item-card"><img src="https://i.ibb.co/cKbHjfxM/image.png" class="item-img"><h3>Lv Max + God + Tiger</h3><p>Stock: <span id="stock-tiger1">0</span></p><span class="price-tag">6,500 Ks</span><button class="btn-primary" onclick="purchase('tiger1', 'Tiger 1', 6500)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/cKbHjfxM/image.png" class="item-img"><h3>Lv Max + Tiger + Mythical</h3><p>Stock: <span id="stock-tiger2">0</span></p><span class="price-tag">7,500 Ks</span><button class="btn-primary" onclick="purchase('tiger2', 'Tiger 2', 7500)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/cKbHjfxM/image.png" class="item-img"><h3>Lv Max + God + Cdk + Tiger</h3><p>Stock: <span id="stock-tiger3">0</span></p><span class="price-tag">9,000 Ks</span><button class="btn-primary" onclick="purchase('tiger3', 'Tiger 3', 9000)">ဝယ်ယူမည်</button></div>
-        </div>
-
-        <div class="category-title">MYTHICAL FRUIT INVENTORY</div>
-        <div class="shop-grid">
-            <div class="item-card"><img src="https://i.ibb.co/gLdvdwMZ/image.png" class="item-img"><h3>GOD + 1Mythical</h3><p>Stock: <span id="stock-new1">0</span></p><span class="price-tag">3,000 Ks</span><button class="btn-primary" onclick="purchase('new1', 'GOD + 1Mythical', 3000)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/gLdvdwMZ/image.png" class="item-img"><h3>GOD + 2Mythical</h3><p>Stock: <span id="stock-new2">0</span></p><span class="price-tag">3,900 Ks</span><button class="btn-primary" onclick="purchase('new2', 'GOD + 2Mythical', 3900)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/gLdvdwMZ/image.png" class="item-img"><h3>GOD + 3Mythical</h3><p>Stock: <span id="stock-new3">0</span></p><span class="price-tag">4,800 Ks</span><button class="btn-primary" onclick="purchase('new3', 'GOD + 3Mythical', 4800)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/fz2WKFjR/image.png" class="item-img"><h3>MAX + GOD (NORMAL)</h3><p>Stock: <span id="stock-new8">0</span></p><span class="price-tag">3,400 Ks</span><button class="btn-primary" onclick="purchase('new8', 'MAX + GOD', 3400)">ဝယ်ယူမည်</button></div>
-        </div>
-
-        <div class="category-title">SPECIAL & NEW MELEE</div>
-        <div class="shop-grid">
-            <div class="item-card"><img src="https://i.ibb.co/Pztd5Pzd/image.png" class="item-img"><h3>GOD + SANGUINE ART</h3><p>Stock: <span id="stock-new4">0</span></p><span class="price-tag">6,000 Ks</span><button class="btn-primary" onclick="purchase('new4', 'SANGUINE ART', 6000)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/Pztd5Pzd/image.png" class="item-img"><h3>GOD + CDK + SANGUINE ART</h3><p>Stock: <span id="stock-new5">0</span></p><span class="price-tag">12,600 Ks</span><button class="btn-primary" onclick="purchase('new5', 'CDK + SANGUINE', 12600)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/cKC0T16q/image.png" class="item-img"><h3>MAX + GOD + SHARK ANCHOR</h3><p>Stock: <span id="stock-new6">0</span></p><span class="price-tag">6,500 Ks</span><button class="btn-primary" onclick="purchase('new6', 'SHARK ANCHOR', 6500)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/1GycKd4Y/image.png" class="item-img"><h3>GOD + DOUGH V2</h3><p>Stock: <span id="stock-new7">0</span></p><span class="price-tag">8,000 Ks</span><button class="btn-primary" onclick="purchase('new7', 'DOUGH V2', 8000)">ဝယ်ယူမည်</button></div>
         </div>
     </div>
 
@@ -181,24 +116,25 @@
         const db = firebase.database();
         const BOT_TOKEN = "8678530738:AAGkk72-WHfqcP7UPdd_WNCJKsHnqA_A3kE";
         const ADMIN_CHAT_ID = "6318450352"; 
-        const ADMIN_KEY = "200412";
         let currentUser = null;
 
         window.onload = () => { 
-            const amtSelect = document.getElementById('amount');
-            for(let i=3000; i<=50000; i+=2000) { let opt = document.createElement('option'); opt.value = i; opt.innerText = i + " Ks"; amtSelect.appendChild(opt); }
+            const amt = document.getElementById('amountSelect');
+            for(let i=3000; i<=50000; i+=2000) { let opt = document.createElement('option'); opt.value = i; opt.innerText = i + " Ks"; amt.appendChild(opt); }
             if(localStorage.getItem('loggedUser')) { currentUser = localStorage.getItem('loggedUser'); showMain(); } 
             updateStocks();
+            listenForTelegramConfirm(); // Webhook listener
         };
 
         async function handleAuth() {
             const user = document.getElementById('authUser').value.trim().toLowerCase();
             const pass = document.getElementById('authPass').value.trim();
-            if(!user || !pass) return notify("⚠️ Username နှင့် Password ဖြည့်ပါ", "#ff9800");
+            if(!user || !pass) return notify("ဖြည့်ပါ", "#ff9800");
             const snap = await db.ref('users/' + user).once('value');
-            if(snap.val()) { if(snap.val().password === pass) login(user); else notify("❌ Password မှားနေပါသည်", "#f44336"); }
+            if(snap.val()) { if(snap.val().password === pass) login(user); else notify("Password မှားသည်", "#f44336"); }
             else { await db.ref('users/' + user).set({ password: pass, balance: 0 }); login(user); }
         }
+
         function login(user) { currentUser = user; localStorage.setItem('loggedUser', user); showMain(); }
         function logout() { localStorage.removeItem('loggedUser'); location.reload(); }
         function showMain() {
@@ -207,48 +143,91 @@
             document.getElementById('displayUserName').innerText = currentUser.toUpperCase();
             db.ref('users/' + currentUser).on('value', (s) => { if(s.val()) document.getElementById('balanceDisplay').innerText = (s.val().balance || 0).toLocaleString() + " Ks"; });
         }
-        async function purchase(itemId, itemName, price) {
-            const userSnap = await db.ref('users/'+currentUser).once('value');
-            const balance = userSnap.val().balance || 0;
-            if(balance < price) return notify("❌ လက်ကျန်ငွေ မလုံလောက်ပါ", "#f44336");
-            const stockSnap = await db.ref('stocks/' + itemId).once('value');
-            const stocks = stockSnap.val();
-            if(!stocks || stocks.length === 0) return notify("❌ ပစ္စည်းပြတ်နေပါသည်", "#ff9800");
-            if(confirm(`${itemName} ကို ဝယ်ယူမှာလား?`)) {
-                const boughtAcc = stocks.shift();
-                await db.ref('stocks/' + itemId).set(stocks);
-                await db.ref('users/' + currentUser).update({ balance: balance - price });
-                document.getElementById('accDetails').innerText = boughtAcc;
-                document.getElementById('accModal').classList.remove('hidden');
-                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent("📦 SALE\nUser: "+currentUser+"\nItem: "+itemName+"\nAcc: "+boughtAcc)}`);
-            }
-        }
+
+        // Telegram သို့ ငွေသွင်းရန် တောင်းဆိုချက်ပို့ခြင်း
         async function requestDeposit() {
             const f = document.getElementById('fileInput').files[0];
+            const amount = document.getElementById('amountSelect').value;
             const method = document.getElementById('method').value;
-            const amount = document.getElementById('amount').value;
-            if(!f) return notify("⚠️ Screenshot တင်ပါ", "#ff9800");
-            const fd = new FormData(); fd.append('chat_id', ADMIN_CHAT_ID); fd.append('photo', f);
-            fd.append('caption', `💰 Deposit Request\nUser: ${currentUser}\nMethod: ${method}\nAmount: ${amount} Ks`);
-            try { await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd }); notify("✅ ပို့ပြီးပါပြီ။ Admin စစ်ဆေးပေးပါမည်", "#4caf50"); }
-            catch (e) { notify("❌ Error ဖြစ်သွားပါသည်", "#f44336"); }
+            if(!f) return notify("Screenshot တင်ပါ", "#ff9800");
+            
+            const fd = new FormData();
+            fd.append('chat_id', ADMIN_CHAT_ID);
+            fd.append('photo', f);
+            fd.append('caption', `💰 DEPOSIT REQUEST\n\n👤 User: ${currentUser}\n💵 Amount: ${amount} Ks\n💳 Method: ${method}`);
+            fd.append('reply_markup', JSON.stringify({
+                inline_keyboard: [[{ text: "✅ Confirm (ငွေသွင်းမည်)", callback_data: `confirm_${currentUser}_${amount}` }]]
+            }));
+
+            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd }); 
+            notify("✅ Admin ထံ ပို့ပြီးပါပြီ", "#4caf50");
         }
+
+        // Telegram က Confirm နှိပ်လိုက်တာကို စောင့်ကြည့်ပြီး ငွေပေါင်းပေးခြင်း
+        function listenForTelegramConfirm() {
+            db.ref('telegram_webhook').on('value', async (snap) => {
+                const update = snap.val();
+                if (update && update.callback_query) {
+                    const data = update.callback_query.data; // e.g. "confirm_user123_5000"
+                    if (data.startsWith('confirm_')) {
+                        const parts = data.split('_');
+                        const targetUser = parts[1];
+                        const amountToAdd = parseInt(parts[2]);
+
+                        // User balance ကို update လုပ်မယ်
+                        const userRef = db.ref('users/' + targetUser);
+                        const userSnap = await userRef.once('value');
+                        if (userSnap.exists()) {
+                            const newBalance = (userSnap.val().balance || 0) + amountToAdd;
+                            await userRef.update({ balance: newBalance });
+                            
+                            // Telegram မှာ ပြန်အကြောင်းကြားမယ်
+                            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=✅ Done! Added ${amountToAdd} Ks to ${targetUser}`);
+                        }
+                        // Webhook data ကို ရှင်းထုတ်ပစ်မယ် (နောက်တစ်ခါ မထပ်အောင်)
+                        db.ref('telegram_webhook').set(null);
+                    }
+                }
+            });
+        }
+
+        async function purchase(itemId, itemName, price) {
+            const snap = await db.ref('users/'+currentUser).once('value');
+            const balance = snap.val().balance || 0;
+            if(balance < price) return notify("ငွေမလုံလောက်ပါ", "#f44336");
+            const stockSnap = await db.ref('stocks/' + itemId).once('value');
+            const stocks = stockSnap.val();
+            if(!stocks || stocks.length === 0) return notify("ပစ္စည်းပြတ်နေသည်", "#ff9800");
+            if(confirm(itemName + " ဝယ်မှာလား?")) {
+                const acc = stocks.shift();
+                await db.ref('stocks/' + itemId).set(stocks);
+                await db.ref('users/' + currentUser).update({ balance: balance - price });
+                document.getElementById('accDetails').innerText = acc;
+                document.getElementById('accModal').classList.remove('hidden');
+                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=📦 SALE: ${itemName} by ${currentUser}`);
+            }
+        }
+
         function updateStocks() {
             db.ref('stocks').on('value', (snap) => {
                 const data = snap.val() || {};
-                const allKeys = ['item1','tiger1','tiger2','tiger3','new1','new2','new3','new4','new5','new6','new7','new8','v4_1','v4_2','v4_3','v4_4','v4_5','v4_6','v4_7','v4_8','v4_9'];
-                allKeys.forEach(k => { if(document.getElementById('stock-'+k)) document.getElementById('stock-'+k).innerText = (data[k] || []).length; });
+                const keys = ['v4_1','v4_2','v4_3','v4_4','item1','tiger1'];
+                keys.forEach(k => { if(document.getElementById('stock-'+k)) document.getElementById('stock-'+k).innerText = (data[k] || []).length; });
             });
         }
-        function showAdminLogin() { document.getElementById('adminAuthSection').classList.toggle('hidden'); }
-        function checkAdmin() { if(document.getElementById('adminPassInput').value === ADMIN_KEY) { document.getElementById('adminAuthSection').classList.add('hidden'); document.getElementById('adminPanel').classList.remove('hidden'); loadUsers(); } }
-        function loadUsers() { db.ref('users').on('value', (s) => { const users = s.val(); let html = ''; for(let id in users) html += `<tr><td>${id}</td><td>${users[id].balance}</td><td><input type="number" id="in-${id}" style="width:60px;margin:0;"><button onclick="addBal('${id}')">Add</button></td></tr>`; document.getElementById('userTableBody').innerHTML = html; }); }
-        async function addBal(id) { const amt = parseInt(document.getElementById('in-'+id).value); const snap = await db.ref('users/'+id+'/balance').once('value'); await db.ref('users/'+id).update({ balance: (snap.val() || 0) + amt }); notify("✅ Updated", "#4caf50"); }
-        async function addStock() { const target = document.getElementById('stockTarget').value; const rawData = document.getElementById('stockData').value.trim(); if(!rawData) return; const newAccs = rawData.split('\n').map(s => s.trim()).filter(s => s !== ""); const snap = await db.ref('stocks/' + target).once('value'); await db.ref('stocks/' + target).set([...(snap.val() || []), ...newAccs]); document.getElementById('stockData').value = ""; notify("✅ Stock Added", "#4caf50"); }
-        function copyAccount() { navigator.clipboard.writeText(document.getElementById('accDetails').innerText); notify("📋 Copied!", "#4caf50"); }
+
+        function notify(m, c) { const s = document.getElementById('status'); s.innerText = m; s.style.backgroundColor = c; s.style.display = 'block'; setTimeout(() => s.style.display='none', 4000); }
+        function copyAccount() { navigator.clipboard.writeText(document.getElementById('accDetails').innerText); notify("Copied!", "#4caf50"); }
         function closeModal() { document.getElementById('accModal').classList.add('hidden'); }
-        function notify(m, c) { const s = document.getElementById('status'); s.innerText = m; s.style.backgroundColor = c; s.style.color="white"; s.style.display = 'block'; setTimeout(() => s.style.display='none', 4000); }
-        function filterUsers() { let input = document.getElementById("userSearch").value.toLowerCase(); let tr = document.getElementById("userTable").getElementsByTagName("tr"); for (let i = 0; i < tr.length; i++) tr[i].style.display = tr[i].innerText.toLowerCase().includes(input) ? "" : "none"; }
+        async function addStock() {
+            const target = document.getElementById('stockTarget').value;
+            const newAccs = document.getElementById('stockData').value.trim().split('\n').filter(s => s !== "");
+            const snap = await db.ref('stocks/' + target).once('value');
+            await db.ref('stocks/' + target).set([...(snap.val() || []), ...newAccs]);
+            document.getElementById('stockData').value = "";
+            notify("Added!", "#4caf50");
+        }
+        function loadUsers() { db.ref('users').on('value', (s) => { let html = ''; const u = s.val(); for(let k in u) html += `<tr><td>${k}</td><td>${u[k].balance}</td></tr>`; document.getElementById('userTableBody').innerHTML = html; }); }
     </script>
 </body>
 </html>
