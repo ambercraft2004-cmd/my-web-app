@@ -37,6 +37,10 @@
     border-radius: 12px; font-weight: bold; font-size: 1rem; cursor: pointer;
     margin: 20px auto; display: block; box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
 }
+        .hidden {
+    display: none !important;
+        }
+        
  </style>
 </head>
 <body>
@@ -136,7 +140,7 @@
         </div>
 <button class="info-toggle-btn" onclick="toggleInfoSection()">✨ Info ပုံပါသော အကောင့်များ ✨</button>
 
-
+<div id="infoSection" class="hidden">
   <div class="item-card" style="max-width: 380px; margin: 10px auto; background: #1a1a1a; border: 1px solid #00d2ff; overflow: hidden; border-radius: 15px;">
     
     <div style="position: relative; width: 100%; aspect-ratio: 16/9; background: #000;">
