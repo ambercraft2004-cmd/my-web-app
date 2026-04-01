@@ -31,16 +31,7 @@
         th, td { border: 1px solid #333; padding: 8px; text-align: left; color: white; }
         .vpn-notice { color: #ff5252; text-align: center; font-size: 0.85rem; margin-top: 15px; font-weight: bold; display: block; border: 1px solid #ff525233; padding: 8px; border-radius: 8px; background: #ff525211; }
         .yt-link { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 15px; text-decoration: none; color: #ff0000; font-size: 0.85rem; font-weight: bold; padding: 10px; border: 1px solid #ff000044; border-radius: 8px; background: rgba(255, 0, 0, 0.05); }
-    .info-toggle-btn {
-    background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
-    color: white; border: none; padding: 15px; width: 95%; max-width: 400px;
-    border-radius: 12px; font-weight: bold; font-size: 1rem; cursor: pointer;
-    margin: 20px auto; display: block; box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
-}
-        .hidden {
-    display: none !important;
-        }
-        
+        .info-toggle-btn { background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%); color: white; border: none; padding: 15px; width: 95%; max-width: 400px; border-radius: 12px; font-weight: bold; font-size: 1rem; cursor: pointer; margin: 20px auto; display: block; box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4); }
  </style>
 </head>
 <body>
@@ -63,7 +54,13 @@
     </a>
 
     <div id="authSection" class="box" style="margin-top: 30px;">
-        <h2 style="color:var(--primary); text-align:center;">Amber Blox Hub</h2>
+        <h2 style="color:var(--primary); text-align:center; margin-bottom: 5px;">Amber Blox Hub</h2>
+        
+        <div style="background: rgba(0, 210, 255, 0.1); border: 1px solid var(--primary); padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center; font-size: 0.85rem; color: #00d2ff;">
+            ✨ အကောင့်များဝယ်ယူရန် Login ဝင်ပေးပါ <br>
+            <span style="color: #ffca28; font-weight: bold;">Username နှင့် Password ကို မှတ်ထားပေးပါ</span>
+        </div>
+
         <input type="text" id="authUser" placeholder="Username">
         <input type="password" id="authPass" placeholder="Password">
         <button class="btn-primary" onclick="handleAuth()">ဝင်ရောက်မည် / အကောင့်ဖွင့်မည်</button>
@@ -75,7 +72,6 @@
         <p style="text-align:center; font-size:0.7rem; margin-top:20px; color:#444; cursor:pointer;" onclick="showAdminLogin()">🛡️ Admin Panel</p>
     </div>
     
-</div>
     <div id="adminAuthSection" class="box hidden">
         <input type="password" id="adminPassInput" placeholder="Admin Key">
         <button class="btn-primary" style="background:#ffca28; color:black;" onclick="checkAdmin()">Admin Login</button>
@@ -138,37 +134,28 @@
             <button onclick="document.getElementById('fileInput').click()" style="width:100%; padding:10px; background:#222; border:1px dashed #555; color:#ccc; margin-bottom:10px; border-radius:8px; cursor:pointer;">📷 Screenshot တင်ရန်</button>
             <button id="depositBtn" class="btn-primary" style="background:#2196f3;" onclick="requestDeposit()">ငွေဖြည့်မည်</button>
         </div>
-<button class="info-toggle-btn" onclick="toggleInfoSection()">✨ Info ပုံပါသော အကောင့်များ ✨</button>
 
-<div id="infoSection" class="hidden">
-  <div class="item-card" style="max-width: 380px; margin: 10px auto; background: #1a1a1a; border: 1px solid #00d2ff; overflow: hidden; border-radius: 15px;">
-    
-    <div style="position: relative; width: 100%; aspect-ratio: 16/9; background: #000;">
-        <<img id="display-img-info1" src="https://i.ibb.co/YBjJt6Fv/image.png" style="width: 100%; height: 100%; object-fit: contain;">
-            >
-        
-        <button onclick="moveSlide('info1', -1)" style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%); background: rgba(0,210,255,0.4); color: white; border: none; padding: 12px 8px; border-radius: 5px; cursor: pointer;">❮</button>
-        <button onclick="moveSlide('info1', 1)" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: rgba(0,210,255,0.4); color: white; border: none; padding: 12px 8px; border-radius: 5px; cursor: pointer;">❯</button>
-        
-        <div id="counter-info1" style="position: absolute; bottom: 8px; right: 12px; background: rgba(0,0,0,0.7); color: #00d2ff; padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; border: 1px solid #00d2ff;">1 / 3</div>
-    </div>
+        <button class="info-toggle-btn" onclick="toggleInfoSection()">✨ Info ပုံပါသော အကောင့်များ ✨</button>
 
-    <div style="padding: 15px; text-align: center;">
-        <h3 style="margin: 0; color: #00d2ff; font-size: 1.1rem;">🔥 SPECIAL INFO ACCOUNT #1 🔥</h3>
-        <p style="font-size: 0.8rem; color: #888; margin: 5px 0;">(ပုံကြည်ရန် ❮ ❯ ကိုနှိပ်ကြည့်ပါ)</p>
-        
-        <div style="background: #222; padding: 8px; border-radius: 8px; margin: 10px 0; border: 1px solid #333;">
-             <p style="margin: 0; font-size: 0.9rem;">Stock: <span id="stock-info1" style="color: #ffca28; font-weight: bold;">0</span></p>
+        <div id="infoSection" class="hidden">
+            <div class="item-card" style="max-width: 380px; margin: 10px auto; background: #1a1a1a; border: 1px solid #00d2ff; overflow: hidden; border-radius: 15px;">
+                <div style="position: relative; width: 100%; aspect-ratio: 16/9; background: #000;">
+                    <img id="display-img-info1" src="https://i.ibb.co/YBjJt6Fv/image.png" style="width: 100%; height: 100%; object-fit: contain;">
+                    <button onclick="moveSlide('info1', -1)" style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%); background: rgba(0,210,255,0.4); color: white; border: none; padding: 12px 8px; border-radius: 5px; cursor: pointer;">❮</button>
+                    <button onclick="moveSlide('info1', 1)" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: rgba(0,210,255,0.4); color: white; border: none; padding: 12px 8px; border-radius: 5px; cursor: pointer;">❯</button>
+                    <div id="counter-info1" style="position: absolute; bottom: 8px; right: 12px; background: rgba(0,0,0,0.7); color: #00d2ff; padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; border: 1px solid #00d2ff;">1 / 3</div>
+                </div>
+                <div style="padding: 15px; text-align: center;">
+                    <h3 style="margin: 0; color: #00d2ff; font-size: 1.1rem;">🔥 SPECIAL INFO ACCOUNT #1 🔥</h3>
+                    <p style="font-size: 0.8rem; color: #888; margin: 5px 0;">(ပုံကြည်ရန် ❮ ❯ ကိုနှိပ်ကြည့်ပါ)</p>
+                    <div style="background: #222; padding: 8px; border-radius: 8px; margin: 10px 0; border: 1px solid #333;">
+                        <p style="margin: 0; font-size: 0.9rem;">Stock: <span id="stock-info1" style="color: #ffca28; font-weight: bold;">0</span></p>
+                    </div>
+                    <span class="price-tag" style="display: block; font-size: 1.4rem; color: #ffca28; margin-bottom: 15px;">5,000 Ks</span>
+                    <button class="btn-primary" onclick="purchase('info1', 'Special Info Account #1', 5000)" style="width: 100%; padding: 12px; font-weight: bold;">ဝယ်ယူမည်</button>
+                </div>
+            </div>
         </div>
-
-        <span class="price-tag" style="display: block; font-size: 1.4rem; color: #ffca28; margin-bottom: 15px;">5,000 Ks</span>
-        
-        <button class="btn-primary" onclick="purchase('info1', 'Special Info Account #1', 5000)" style="width: 100%; padding: 12px; font-weight: bold;">ဝယ်ယူမည်</button>
-    </div>
-</div>
-  </p>
-    </div>
-</div>
 
         <div class="category-title">RACE V4 & SPECIALS (NEW)</div>
         <div class="shop-grid">
@@ -222,7 +209,7 @@
             for(let i=3000; i<=50000; i+=2000) { let opt = document.createElement('option'); opt.value = i; opt.innerText = i + " Ks"; amtSelect.appendChild(opt); }
             if(localStorage.getItem('loggedUser')) { currentUser = localStorage.getItem('loggedUser'); showMain(); } 
             updateStocks();
-            listenForTelegramConfirm(); // Webhook listener ကို window load မှာ တန်းဖွင့်မယ်
+            listenForTelegramConfirm(); 
         };
 
         async function handleAuth() {
@@ -259,88 +246,62 @@
             }
         }
 
-        // --- Telegram မှာ Confirm ခလုတ်ပေါ်စေမယ့် Function ---
         async function requestDeposit() {
             const f = document.getElementById('fileInput').files[0];
             const method = document.getElementById('method').value;
             const amount = document.getElementById('amount').value;
             if(!f) return notify("⚠️ Screenshot တင်ပါ", "#ff9800");
-
             const btn = document.getElementById('depositBtn');
             btn.innerText = "ပို့နေသည်...";
             btn.disabled = true;
-
             const fd = new FormData(); 
             fd.append('chat_id', ADMIN_CHAT_ID); 
             fd.append('photo', f);
             fd.append('caption', `💰 Deposit Request\nUser: ${currentUser}\nMethod: ${method}\nAmount: ${amount} Ks`);
-            
-            // Confirm Button ထည့်ခြင်း
-            const keyboard = {
-                inline_keyboard: [[{ text: "✅ Confirm (ငွေသွင်းမည်)", callback_data: `confirm_${currentUser}_${amount}` }]]
-            };
+            const keyboard = { inline_keyboard: [[{ text: "✅ Confirm (ငွေသွင်းမည်)", callback_data: `confirm_${currentUser}_${amount}` }]] };
             fd.append('reply_markup', JSON.stringify(keyboard));
-
             try { 
                 const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd }); 
                 if(res.ok) notify("✅ ပို့ပြီးပါပြီ။ Admin စစ်ဆေးနေပါသည် ခဏစောင့်ပါ", "#4caf50"); 
                 else notify("❌ Error: Telegram သို့ ပို့၍မရပါ", "#f44336");
             }
             catch (e) { notify("❌ Error ဖြစ်သွားပါသည်", "#f44336"); }
-            finally {
-                btn.innerText = "ငွေဖြည့်မည်";
-                btn.disabled = false;
-            }
+            finally { btn.innerText = "ငွေဖြည့်မည်"; btn.disabled = false; }
         }
 
-        // --- Telegram က Confirm နှိပ်ရင် အလိုအလျောက် ငွေပေါင်းပေးမယ့်အပိုင်း ---
        function listenForTelegramConfirm() {
-    // Listener အဟောင်းတွေကို အရင်ဖြုတ်ပြီးမှ အသစ်ပြန်ဖွင့်မယ်
-    db.ref('telegram_webhook').off();
-
-    db.ref('telegram_webhook').on('value', async (snap) => {
-        const allUpdates = snap.val();
-        if (!allUpdates) return;
-
-        for (let key in allUpdates) {
-            const update = allUpdates[key];
-            
-            if (update && update.callback_query) {
-                const cbData = update.callback_query.data;
-
-                if (cbData.startsWith('confirm_')) {
-                    // အရေးကြီးဆုံးအချက် - အလုပ်မလုပ်ခင် Data ကို ချက်ချင်းအရင်ဖျက်မယ်
-                    // ဒါမှ နောက်တစ်ခါ ထပ်မဖတ်မှာဖြစ်သလို စာလည်း နှစ်ခါမပို့မှာပါ
-                    await db.ref('telegram_webhook/' + key).remove();
-
-                    const parts = cbData.split('_');
-                    const targetUser = parts[1];
-                    const amountToAdd = parseInt(parts[2]);
-
-                    const userRef = db.ref('users/' + targetUser);
-                    const userSnap = await userRef.once('value');
-                    
-                    if (userSnap.exists()) {
-                        const currentBal = userSnap.val().balance || 0;
-                        const newBal = currentBal + amountToAdd;
-                        
-                        // ငွေပေါင်းမယ်
-                        await userRef.update({ balance: newBal });
-                        
-                        // Admin ဆီကို Message တစ်ခါပဲ ပို့တော့မှာပါ
-                        const text = encodeURIComponent(`✅ အောင်မြင်ပါသည်!\nUser: ${targetUser}\nAdded: ${amountToAdd} Ks\nTotal: ${newBal} Ks`);
-                        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${text}`);
+            db.ref('telegram_webhook').off();
+            db.ref('telegram_webhook').on('value', async (snap) => {
+                const allUpdates = snap.val();
+                if (!allUpdates) return;
+                for (let key in allUpdates) {
+                    const update = allUpdates[key];
+                    if (update && update.callback_query) {
+                        const cbData = update.callback_query.data;
+                        if (cbData.startsWith('confirm_')) {
+                            await db.ref('telegram_webhook/' + key).remove();
+                            const parts = cbData.split('_');
+                            const targetUser = parts[1];
+                            const amountToAdd = parseInt(parts[2]);
+                            const userRef = db.ref('users/' + targetUser);
+                            const userSnap = await userRef.once('value');
+                            if (userSnap.exists()) {
+                                const currentBal = userSnap.val().balance || 0;
+                                const newBal = currentBal + amountToAdd;
+                                await userRef.update({ balance: newBal });
+                                const text = encodeURIComponent(`✅ အောင်မြင်ပါသည်!\nUser: ${targetUser}\nAdded: ${amountToAdd} Ks\nTotal: ${newBal} Ks`);
+                                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${text}`);
+                            }
+                        }
                     }
                 }
-            }
+            });
         }
-    });
-}
 
         function updateStocks() {
             db.ref('stocks').on('value', (snap) => {
                 const data = snap.val() || {};
-                const allKeys = ['item1','tiger1','tiger2','tiger3','new1','new2','new3','new4','new5','new6','new7','new8','v4_1','v4_2','v4_3','v4_4','v4_5','v4_6','v4_7','v4_8','v4_9'];
+                const allKeys = ['item1','tiger1','tiger2','tiger3','new1','new2','new3','new4','new5','new6','new7','new8','v4_1','v4_2','v4_3','v4_4','v4_5','v4_6','v4_7','v4_8','v4_9','info1'];
                 allKeys.forEach(k => { if(document.getElementById('stock-'+k)) document.getElementById('stock-'+k).innerText = (data[k] || []).length; });
             });
         }
@@ -348,7 +309,6 @@
         function showAdminLogin() { document.getElementById('adminAuthSection').classList.toggle('hidden'); }
         function checkAdmin() { if(document.getElementById('adminPassInput').value === ADMIN_KEY) { document.getElementById('adminAuthSection').classList.add('hidden'); document.getElementById('adminPanel').classList.remove('hidden'); loadUsers(); } }
         
-        // Admin Panel: User List & Manual Add Balance
         function loadUsers() { 
             db.ref('users').on('value', (s) => { 
                 const users = s.val(); 
@@ -392,33 +352,33 @@
         function closeModal() { document.getElementById('accModal').classList.add('hidden'); }
         function notify(m, c) { const s = document.getElementById('status'); s.innerText = m; s.style.backgroundColor = c; s.style.color="white"; s.style.display = 'block'; setTimeout(() => s.style.display='none', 4000); }
         function filterUsers() { let input = document.getElementById("userSearch").value.toLowerCase(); let tr = document.getElementById("userTable").getElementsByTagName("tr"); for (let i = 0; i < tr.length; i++) tr[i].style.display = tr[i].innerText.toLowerCase().includes(input) ? "" : "none"; }
-    // Toggle Function for Info Section
-function toggleInfoSection() {
-    const sec = document.getElementById('infoSection');
-    if (sec) {
-        sec.classList.toggle('hidden');
-    }
-}
-const infoAccountImages = {
-    'info1': [
-        'https://i.ibb.co/YBjJt6Fv/image.png',
-        'https://i.ibb.co/DP3PYsfw/image.png',
-        'https://i.ibb.co/yJKS3Rq/image.png'
-    ]
-};
+
+        function toggleInfoSection() {
+            const sec = document.getElementById('infoSection');
+            if (sec) {
+                sec.classList.toggle('hidden');
+            }
+        }
+
+        const infoAccountImages = {
+            'info1': [
+                'https://i.ibb.co/YBjJt6Fv/image.png',
+                'https://i.ibb.co/DP3PYsfw/image.png',
+                'https://i.ibb.co/yJKS3Rq/image.png'
+            ]
+        };
         
+        let currentImgIdx = { 'info1': 0 };
 
-let currentImgIdx = { 'info1': 0 };
-
-function moveSlide(id, step) {
-    const images = infoAccountImages[id];
-    if (!images) return;
-    currentImgIdx[id] += step;
-    if (currentImgIdx[id] >= images.length) currentImgIdx[id] = 0;
-    if (currentImgIdx[id] < 0) currentImgIdx[id] = images.length - 1;
-    document.getElementById(`display-img-${id}`).src = images[currentImgIdx[id]];
-    document.getElementById(`counter-${id}`).innerText = `${currentImgIdx[id] + 1} / ${images.length}`;
-}
+        function moveSlide(id, step) {
+            const images = infoAccountImages[id];
+            if (!images) return;
+            currentImgIdx[id] += step;
+            if (currentImgIdx[id] >= images.length) currentImgIdx[id] = 0;
+            if (currentImgIdx[id] < 0) currentImgIdx[id] = images.length - 1;
+            document.getElementById(`display-img-${id}`).src = images[currentImgIdx[id]];
+            document.getElementById(`counter-${id}`).innerText = `${currentImgIdx[id] + 1} / ${images.length}`;
+        }
         
     </script>
 </body>
