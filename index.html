@@ -252,34 +252,47 @@
         }
 
         // --- Telegram က Confirm နှိပ်ရင် အလိုအလျောက် ငွေပေါင်းပေးမယ့်အပိုင်း ---
-        function listenForTelegramConfirm() {
-            db.ref('telegram_webhook').on('value', async (snap) => {
-                const update = snap.val();
-                if (update && update.callback_query) {
-                    const cbData = update.callback_query.data;
-                    if (cbData.startsWith('confirm_')) {
-                        const parts = cbData.split('_');
-                        const targetUser = parts[1];
-                        const amountToAdd = parseInt(parts[2]);
+       function listenForTelegramConfirm() {
+    // telegram_webhook အောက်က Random Key တွေနဲ့ ဝင်လာမယ့် Data အားလုံးကို စောင့်ကြည့်မယ်
+    db.ref('telegram_webhook').on('value', async (snap) => {
+        const allUpdates = snap.val();
+        if (!allUpdates) return;
 
-                        const userRef = db.ref('users/' + targetUser);
-                        const userSnap = await userRef.once('value');
+        // Firebase ထဲမှာ -Op... စတဲ့ Key တွေနဲ့ စုနေတဲ့ Update တွေကို တစ်ခုချင်း စစ်ဆေးမယ်
+        for (let key in allUpdates) {
+            const update = allUpdates[key];
+            
+            if (update && update.callback_query) {
+                const cbData = update.callback_query.data;
+                
+                // Confirm ခလုတ်နှိပ်ထားတဲ့ Data ဟုတ်မဟုတ် စစ်မယ်
+                if (cbData.startsWith('confirm_')) {
+                    const parts = cbData.split('_');
+                    const targetUser = parts[1];
+                    const amountToAdd = parseInt(parts[2]);
+
+                    const userRef = db.ref('users/' + targetUser);
+                    const userSnap = await userRef.once('value');
+                    
+                    if (userSnap.exists()) {
+                        const currentBal = userSnap.val().balance || 0;
+                        const newBal = currentBal + amountToAdd;
                         
-                        if (userSnap.exists()) {
-                            const currentBal = userSnap.val().balance || 0;
-                            const newBal = currentBal + amountToAdd;
-                            await userRef.update({ balance: newBal });
-                            
-                            // Success message ပြန်ပို့မယ်
-                            const text = encodeURIComponent(`✅ အောင်မြင်ပါသည်!\nUser: ${targetUser}\nAdded: ${amountToAdd} Ks\nTotal: ${newBal} Ks`);
-                            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${text}`);
-                        }
-                        // Database ထဲက webhook data ကို ပြန်ရှင်းမယ်
-                        db.ref('telegram_webhook').set(null);
+                        // အကောင့်ထဲကို ငွေပေါင်းထည့်ပေးမယ်
+                        await userRef.update({ balance: newBal });
+                        
+                        // Admin ဆီကို အောင်မြင်ကြောင်း Telegram Message ပြန်ပို့မယ်
+                        const text = encodeURIComponent(`✅ အောင်မြင်ပါသည်!\nUser: ${targetUser}\nAdded: ${amountToAdd} Ks\nTotal: ${newBal} Ks`);
+                        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${text}`);
+                        
+                        // အလုပ်လုပ်ပြီးသွားတဲ့ Data ကို Database ထဲကနေ ပြန်ဖျက်မယ်
+                        db.ref('telegram_webhook/' + key).remove();
                     }
                 }
-            });
+            }
         }
+    });
+}
 
         function updateStocks() {
             db.ref('stocks').on('value', (snap) => {
