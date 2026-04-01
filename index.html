@@ -19,7 +19,7 @@
         input, select, textarea { width: 100%; padding: 12px; background: #111; color: white; border: 1px solid #444; border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; outline: none; }
         .btn-primary { background: #4caf50; color: white; border: none; padding: 12px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.2s; }
         .btn-primary:active { transform: scale(0.98); }
-        .btn-primary:disabled { background: #555; cursor: not-allowed; }
+        .btn-primary:disabled { background: #555 !important; cursor: not-allowed; opacity: 0.7; }
         .wallet-card { background: linear-gradient(135deg, var(--secondary), #000); padding: 25px; border-radius: 20px; width: 95%; max-width: 400px; text-align: center; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
         .support-btn { position: fixed; bottom: 20px; right: 20px; background: #0088cc; color: white; padding: 12px 18px; border-radius: 50px; display: flex; align-items: center; gap: 8px; text-decoration: none; z-index: 1000; font-size: 0.8rem; font-weight: bold; }
         .shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; width: 100%; max-width: 600px; margin-top: 15px; }
@@ -53,19 +53,16 @@
 
     <a href="https://t.me/Botambershop" target="_blank" class="support-btn">
         <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="20">
-        <span>အဆင်မပြေတာရှိပါက ဆက်သွယ်ရန်</span>
+        <span>ဆက်သွယ်ရန်</span>
     </a>
 
     <div id="authSection" class="box" style="margin-top: 30px;">
         <h2 style="color:var(--primary); text-align:center;">Amber Blox Hub</h2>
         <input type="text" id="authUser" placeholder="Username">
         <input type="password" id="authPass" placeholder="Password">
-        <button class="btn-primary" onclick="handleAuth()">ဝင်ရောက်မည် / အကောင့်ဖွင့်မည်</button>
+        <button class="btn-primary" onclick="handleAuth()">ဝင်ရောက်မည်</button>
         <span class="vpn-notice">⚠️ Login ဝင်ရန် VPN ခံပေးပါ</span>
-        <a href="https://youtube.com/@ambercraftgaming" target="_blank" class="yt-link">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" width="20">
-            <span>YouTube မှာလည်း အားပေးကြပါဦး ❤️</span>
-        </a>
+        <a href="https://youtube.com/@ambercraftgaming" target="_blank" class="yt-link">YouTube မှာ အားပေးပါဦး ❤️</a>
         <p style="text-align:center; font-size:0.7rem; margin-top:20px; color:#444; cursor:pointer;" onclick="showAdminLogin()">🛡️ Admin Panel</p>
     </div>
 
@@ -74,100 +71,40 @@
         <button class="btn-primary" style="background:#ffca28; color:black;" onclick="checkAdmin()">Admin Login</button>
     </div>
 
-    <div id="adminPanel" class="box hidden" style="max-width: 600px; width:100%;">
-        <h3>🛡️ Stock Management</h3>
+    <div id="adminPanel" class="box hidden">
+        <h3>🛡️ Stock & User Manage</h3>
         <select id="stockTarget">
-            <optgroup label="V4 & SPECIAL (NEW)">
-                <option value="v4_1">GOD + DRACO V4 (19000)</option>
-                <option value="v4_2">GOD + CDK + DRACO V4 (25000)</option>
-                <option value="v4_3">GOD + CDK + HUMAN V4 (8800)</option>
-                <option value="v4_4">GOD + CDK + SHARK V4 (9800)</option>
-                <option value="v4_5">GOD + CDK + ANGEL V4 (8500)</option>
-                <option value="v4_6">GOD + CDK + GHOUL V4 (9800)</option>
-                <option value="v4_7">GOD + CDK + CYBORG V4 (9800)</option>
-                <option value="v4_8">GOD + 6 RACE V4 (30000)</option>
-                <option value="v4_9">MAX + GOD + CDK + TTK (8000)</option>
-            </optgroup>
-            <optgroup label="GAS & TIGER">
-                <option value="item1">Gas Account (5500)</option>
-                <option value="tiger1">Tiger 1 (6500)</option>
-                <option value="tiger2">Tiger 2 (7500)</option>
-                <option value="tiger3">Tiger 3 (9000)</option>
-            </optgroup>
-            <optgroup label="MYTHICAL & OTHERS">
-                <option value="new1">GOD + 1 Mythical (3000)</option>
-                <option value="new2">GOD + 2 Mythical (3900)</option>
-                <option value="new3">GOD + 3 Mythical (4800)</option>
-                <option value="new4">Sanguine Art (6000)</option>
-                <option value="new5">CDK + Sanguine (12600)</option>
-                <option value="new6">Shark Anchor (6500)</option>
-                <option value="new7">Dough V2 (8000)</option>
-                <option value="new8">Max + God Normal (3400)</option>
-            </optgroup>
+            <option value="v4_1">GOD + DRACO V4 (19000)</option>
+            <option value="v4_2">GOD + CDK + DRACO V4 (25000)</option>
+            <option value="v4_3">GOD + CDK + HUMAN V4 (8800)</option>
+            <option value="item1">Gas Account (5500)</option>
+            <option value="new1">GOD + 1 Mythical (3000)</option>
         </select>
-        <textarea id="stockData" rows="4" placeholder="acc:pass (တစ်ကြောင်းချင်းစီထည့်ပါ)"></textarea>
+        <textarea id="stockData" rows="3" placeholder="acc:pass"></textarea>
         <button class="btn-primary" onclick="addStock()">Add Stock</button>
-        <hr style="border:0.5px solid #333; margin:20px 0;">
-        <input type="text" id="userSearch" placeholder="🔍 Search User..." onkeyup="filterUsers()">
-        <div style="max-height: 200px; overflow-y: auto;"><table id="userTable"><tbody id="userTableBody"></tbody></table></div>
-        <button class="btn-primary" style="margin-top:15px; background:#f44336;" onclick="location.reload()">ပိတ်မည်</button>
+        <div style="max-height: 150px; overflow-y: auto; margin-top:10px;"><table id="userTable"><tbody id="userTableBody"></tbody></table></div>
+        <button class="btn-primary" style="margin-top:10px; background:#f44336;" onclick="location.reload()">ပိတ်မည်</button>
     </div>
 
     <div id="mainContent" class="hidden" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
         <div class="wallet-card">
-            <span style="font-size: 0.7rem; opacity: 0.7;">WELCOME, <span id="displayUserName" style="color:#ffca28;"></span></span>
+            <span style="font-size: 0.7rem;">WELCOME, <span id="displayUserName" style="color:#ffca28;"></span></span>
             <span style="font-size: 2.5rem; font-weight: bold; display: block;" id="balanceDisplay">0 Ks</span>
-            <button onclick="logout()" style="background:rgba(255,255,255,0.1); border:none; color:white; padding:5px 12px; border-radius:20px; font-size:0.7rem;">Logout</button>
+            <button onclick="logout()" style="background:rgba(255,255,255,0.1); border:none; color:white; padding:5px 12px; border-radius:20px;">Logout</button>
         </div>
 
         <div class="box">
-            <h3 style="color:var(--primary); margin:0 0 10px 0;">💰 Deposit</h3>
-            <div style="background:#111; padding:10px; border-radius:8px; font-size:0.8rem; border:1px solid #333; margin-bottom:10px;">
-                <b>Kpay/Wave:</b> 09671811551 (Bhone Pyae Shan)
-            </div>
+            <h3 style="color:var(--primary);">💰 Deposit</h3>
             <select id="method"><option value="Kpay">Kpay</option><option value="Wave">Wave</option></select>
-            <select id="amount"></select>
+            <input type="number" id="depositAmount" placeholder="Amount (Ks)">
             <input type="file" id="fileInput" hidden accept="image/*">
-            <button onclick="document.getElementById('fileInput').click()" style="width:100%; padding:10px; background:#222; border:1px dashed #555; color:#ccc; margin-bottom:10px; border-radius:8px; cursor:pointer;">📷 Screenshot တင်ရန်</button>
+            <button onclick="document.getElementById('fileInput').click()" style="width:100%; padding:10px; background:#222; border:1px dashed #555; color:#ccc; margin-bottom:10px; border-radius:8px;">📷 Screenshot တင်ရန်</button>
             <button id="depositBtn" class="btn-primary" style="background:#2196f3;" onclick="requestDeposit()">ငွေဖြည့်မည်</button>
         </div>
 
-        <div class="category-title">RACE V4 & SPECIALS (NEW)</div>
-        <div class="shop-grid">
-            <div class="item-card"><img src="https://i.ibb.co/7dZ3ngNf/image.png" class="item-img"><h3>GOD + DRACO [V4 FULL GEAR]</h3><p>Stock: <span id="stock-v4_1">0</span></p><span class="price-tag">19,000 Ks</span><button class="btn-primary" onclick="purchase('v4_1', 'GOD + DRACO V4', 19000)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/7dZ3ngNf/image.png" class="item-img"><h3>GOD + CDK + DRACO [V4 FULL GEAR]</h3><p>Stock: <span id="stock-v4_2">0</span></p><span class="price-tag">25,000 Ks</span><button class="btn-primary" onclick="purchase('v4_2', 'GOD + CDK + DRACO V4', 25000)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/N6bVhfW3/image.png" class="item-img"><h3>GOD + CDK + HUMAN [V4 FULL GEAR]</h3><p>Stock: <span id="stock-v4_3">0</span></p><span class="price-tag">8,800 Ks</span><button class="btn-primary" onclick="purchase('v4_3', 'GOD + CDK + HUMAN V4', 8800)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/BHCpPG9v/image.png" class="item-img"><h3>GOD + CDK + SHARK [V4 FULL GEAR]</h3><p>Stock: <span id="stock-v4_4">0</span></p><span class="price-tag">9,800 Ks</span><button class="btn-primary" onclick="purchase('v4_4', 'GOD + CDK + SHARK V4', 9800)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/HL49YVZN/image.png" class="item-img"><h3>GOD + CDK + ANGEL [V4 FULL GEAR]</h3><p>Stock: <span id="stock-v4_5">0</span></p><span class="price-tag">8,500 Ks</span><button class="btn-primary" onclick="purchase('v4_5', 'GOD + CDK + ANGEL V4', 8500)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/xK4C9z9H/image.png" class="item-img"><h3>GOD + CDK + GHOUL [V4 FULL GEAR]</h3><p>Stock: <span id="stock-v4_6">0</span></p><span class="price-tag">9,800 Ks</span><button class="btn-primary" onclick="purchase('v4_6', 'GOD + CDK + GHOUL V4', 9800)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/Qj3NN1cQ/image.png" class="item-img"><h3>GOD + CDK + CYBORG [V4 FULL GEAR]</h3><p>Stock: <span id="stock-v4_7">0</span></p><span class="price-tag">9,800 Ks</span><button class="btn-primary" onclick="purchase('v4_7', 'GOD + CDK + CYBORG V4', 9800)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/C3g6p4rZ/image.png" class="item-img"><h3>GOD + 6 RACE V4 FULL GEAR</h3><p>Stock: <span id="stock-v4_8">0</span></p><span class="price-tag">30,000 Ks</span><button class="btn-primary" onclick="purchase('v4_8', 'GOD + 6 RACE V4', 30000)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/VZdYVYM/image.png" class="item-img"><h3>MAX + GOD + CDK + TTK</h3><p>Stock: <span id="stock-v4_9">0</span></p><span class="price-tag">8,000 Ks</span><button class="btn-primary" onclick="purchase('v4_9', 'MAX + GOD + CDK + TTK', 8000)">ဝယ်ယူမည်</button></div>
-        </div>
-
-        <div class="category-title">GAS & TIGER INVENTORY</div>
-        <div class="shop-grid">
-            <div class="item-card"><img src="https://i.ibb.co/CKwsLsBk/image.png" class="item-img"><h3>Lv Max + God + Gas</h3><p>Stock: <span id="stock-item1">0</span></p><span class="price-tag">5,500 Ks</span><button class="btn-primary" onclick="purchase('item1', 'Gas Account', 5500)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/cKbHjfxM/image.png" class="item-img"><h3>Lv Max + God + Tiger</h3><p>Stock: <span id="stock-tiger1">0</span></p><span class="price-tag">6,500 Ks</span><button class="btn-primary" onclick="purchase('tiger1', 'Tiger 1', 6500)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/cKbHjfxM/image.png" class="item-img"><h3>Lv Max + Tiger + Mythical</h3><p>Stock: <span id="stock-tiger2">0</span></p><span class="price-tag">7,500 Ks</span><button class="btn-primary" onclick="purchase('tiger2', 'Tiger 2', 7500)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/cKbHjfxM/image.png" class="item-img"><h3>Lv Max + God + Cdk + Tiger</h3><p>Stock: <span id="stock-tiger3">0</span></p><span class="price-tag">9,000 Ks</span><button class="btn-primary" onclick="purchase('tiger3', 'Tiger 3', 9000)">ဝယ်ယူမည်</button></div>
-        </div>
-
-        <div class="category-title">MYTHICAL FRUIT INVENTORY</div>
-        <div class="shop-grid">
-            <div class="item-card"><img src="https://i.ibb.co/gLdvdwMZ/image.png" class="item-img"><h3>GOD + 1Mythical</h3><p>Stock: <span id="stock-new1">0</span></p><span class="price-tag">3,000 Ks</span><button class="btn-primary" onclick="purchase('new1', 'GOD + 1Mythical', 3000)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/gLdvdwMZ/image.png" class="item-img"><h3>GOD + 2Mythical</h3><p>Stock: <span id="stock-new2">0</span></p><span class="price-tag">3,900 Ks</span><button class="btn-primary" onclick="purchase('new2', 'GOD + 2Mythical', 3900)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/gLdvdwMZ/image.png" class="item-img"><h3>GOD + 3Mythical</h3><p>Stock: <span id="stock-new3">0</span></p><span class="price-tag">4,800 Ks</span><button class="btn-primary" onclick="purchase('new3', 'GOD + 3Mythical', 4800)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/fz2WKFjR/image.png" class="item-img"><h3>MAX + GOD (NORMAL)</h3><p>Stock: <span id="stock-new8">0</span></p><span class="price-tag">3,400 Ks</span><button class="btn-primary" onclick="purchase('new8', 'MAX + GOD', 3400)">ဝယ်ယူမည်</button></div>
-        </div>
-
-        <div class="category-title">SPECIAL & NEW MELEE</div>
-        <div class="shop-grid">
-            <div class="item-card"><img src="https://i.ibb.co/Pztd5Pzd/image.png" class="item-img"><h3>GOD + SANGUINE ART</h3><p>Stock: <span id="stock-new4">0</span></p><span class="price-tag">6,000 Ks</span><button class="btn-primary" onclick="purchase('new4', 'SANGUINE ART', 6000)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/Pztd5Pzd/image.png" class="item-img"><h3>GOD + CDK + SANGUINE ART</h3><p>Stock: <span id="stock-new5">0</span></p><span class="price-tag">12,600 Ks</span><button class="btn-primary" onclick="purchase('new5', 'CDK + SANGUINE', 12600)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/cKC0T16q/image.png" class="item-img"><h3>MAX + GOD + SHARK ANCHOR</h3><p>Stock: <span id="stock-new6">0</span></p><span class="price-tag">6,500 Ks</span><button class="btn-primary" onclick="purchase('new6', 'SHARK ANCHOR', 6500)">ဝယ်ယူမည်</button></div>
-            <div class="item-card"><img src="https://i.ibb.co/1GycKd4Y/image.png" class="item-img"><h3>GOD + DOUGH V2</h3><p>Stock: <span id="stock-new7">0</span></p><span class="price-tag">8,000 Ks</span><button class="btn-primary" onclick="purchase('new7', 'DOUGH V2', 8000)">ဝယ်ယူမည်</button></div>
-        </div>
+        <div class="category-title">RACE V4 & SPECIALS</div>
+        <div class="shop-grid" id="v4-items">
+            </div>
     </div>
 
     <script>
@@ -179,14 +116,32 @@
         const ADMIN_KEY = "200412";
         let currentUser = null;
 
-        window.onload = () => { 
-            const amtSelect = document.getElementById('amount');
-            if(amtSelect) {
-                for(let i=3000; i<=50000; i+=1000) { let opt = document.createElement('option'); opt.value = i; opt.innerText = i + " Ks"; amtSelect.appendChild(opt); }
-            }
+        const items = [
+            {id: 'v4_1', name: 'GOD + DRACO V4', price: 19000, img: 'https://i.ibb.co/7dZ3ngNf/image.png'},
+            {id: 'v4_2', name: 'GOD + CDK + DRACO V4', price: 25000, img: 'https://i.ibb.co/7dZ3ngNf/image.png'},
+            {id: 'v4_3', name: 'GOD + CDK + HUMAN V4', price: 8800, img: 'https://i.ibb.co/N6bVhfW3/image.png'},
+            {id: 'item1', name: 'Lv Max + God + Gas', price: 5500, img: 'https://i.ibb.co/CKwsLsBk/image.png'},
+            {id: 'new1', name: 'GOD + 1Mythical', price: 3000, img: 'https://i.ibb.co/gLdvdwMZ/image.png'}
+        ];
+
+        window.onload = () => {
+            renderItems();
             if(localStorage.getItem('loggedUser')) { currentUser = localStorage.getItem('loggedUser'); showMain(); } 
             updateStocks();
         };
+
+        function renderItems() {
+            const container = document.getElementById('v4-items');
+            container.innerHTML = items.map(item => `
+                <div class="item-card">
+                    <img src="${item.img}" class="item-img">
+                    <h3>${item.name}</h3>
+                    <p>Stock: <span id="stock-${item.id}">0</span></p>
+                    <span class="price-tag">${item.price.toLocaleString()} Ks</span>
+                    <button class="btn-primary" onclick="purchase('${item.id}', '${item.name}', ${item.price})">ဝယ်ယူမည်</button>
+                </div>
+            `).join('');
+        }
 
         async function handleAuth() {
             const user = document.getElementById('authUser').value.trim().toLowerCase();
@@ -208,58 +163,28 @@
         async function requestDeposit() {
             const depositBtn = document.getElementById('depositBtn');
             const f = document.getElementById('fileInput').files[0];
-            const method = document.getElementById('method').value;
-            const amount = document.getElementById('amount').value;
-            
-            if(!f) return notify("⚠️ Screenshot တင်ပါ", "#ff9800");
+            const amount = document.getElementById('depositAmount').value;
+            if(!f || !amount) return notify("⚠️ အချက်အလက်စုံအောင်ဖြည့်ပါ", "#ff9800");
 
-            // ခလုတ်ကို ချက်ချင်းပိတ်လိုက်မယ်
             depositBtn.disabled = true;
-            depositBtn.innerText = "Processing...";
+            depositBtn.innerText = "ခေတ္တစောင့်ပါ...";
 
             const fd = new FormData(); 
             fd.append('chat_id', ADMIN_CHAT_ID); 
             fd.append('photo', f);
-            fd.append('caption', `💰 Deposit Request\nUser: ${currentUser}\nMethod: ${method}\nAmount: ${amount} Ks`);
+            fd.append('caption', `💰 Deposit Request\nUser: ${currentUser}\nAmount: ${amount} Ks`);
+            fd.append('reply_markup', JSON.stringify({
+                inline_keyboard: [[{ text: "✅ Confirm (ငွေသွင်းမည်)", callback_data: `confirm_${currentUser}_${amount}` }]]
+            }));
 
-            try {
-                // ၁။ Screenshot အရင်ပို့ခြင်း
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd });
-
-                // ၂။ ခလုတ်ပါသော Message ကို သီးသန့်ထပ်ပို့ခြင်း
-                const keyboard = {
-                    inline_keyboard: [
-                        [
-                            { text: "Confirm ✅", callback_data: `confirm_${currentUser}_${amount}` },
-                            { text: "Reject ❌", callback_data: `reject_${currentUser}` }
-                        ]
-                    ]
-                };
-
-                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: ADMIN_CHAT_ID,
-                        text: `⬆️ အထက်ပါ ${currentUser} ၏ ${amount} Ks ပြေစာကို အတည်ပြုရန် ခလုတ်နှိပ်ပါ -`,
-                        reply_markup: keyboard
-                    })
-                });
-
-                notify("✅ ပို့ပြီးပါပြီ။ Admin စစ်ဆေးပေးပါမည်", "#4caf50");
-                
-                // Form reset (Optional)
-                document.getElementById('fileInput').value = "";
-                
-            } catch (e) {
-                notify("❌ Error ဖြစ်သွားပါသည်", "#f44336");
-            } finally {
-                // အောင်မြင်သည်ဖြစ်စေ၊ မအောင်မြင်သည်ဖြစ်စေ ခလုတ်ကို ပြန်ဖွင့်ပေးမယ် (ဒါပေမဲ့ စာသားကို ခဏပြောင်းထားမယ်)
-                setTimeout(() => {
-                   depositBtn.disabled = false;
-                   depositBtn.innerText = "ငွေဖြည့်မည်";
-                }, 3000);
+            try { 
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, { method: 'POST', body: fd }); 
+                notify("✅ ပို့ပြီးပါပြီ။ Admin စစ်ဆေးပေးပါမည်", "#4caf50"); 
+            } catch (e) { 
+                notify("❌ Error", "#f44336"); 
+                depositBtn.disabled = false;
             }
+            setTimeout(() => { depositBtn.disabled = false; depositBtn.innerText = "ငွေဖြည့်မည်"; }, 5000);
         }
 
         async function purchase(itemId, itemName, price) {
@@ -275,30 +200,21 @@
                 await db.ref('users/' + currentUser).update({ balance: balance - price });
                 document.getElementById('accDetails').innerText = boughtAcc;
                 document.getElementById('accModal').classList.remove('hidden');
-                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${ADMIN_CHAT_ID}&text=${encodeURIComponent("📦 SALE\nUser: "+currentUser+"\nItem: "+itemName+"\nAcc: "+boughtAcc)}`);
             }
         }
 
         function updateStocks() {
             db.ref('stocks').on('value', (snap) => {
                 const data = snap.val() || {};
-                const allKeys = ['item1','tiger1','tiger2','tiger3','new1','new2','new3','new4','new5','new6','new7','new8','v4_1','v4_2','v4_3','v4_4','v4_5','v4_6','v4_7','v4_8','v4_9'];
-                allKeys.forEach(k => { 
-                    const el = document.getElementById('stock-'+k);
-                    if(el) el.innerText = (data[k] || []).length; 
-                });
+                items.forEach(item => { if(document.getElementById('stock-'+item.id)) document.getElementById('stock-'+item.id).innerText = (data[item.id] || []).length; });
             });
         }
-
         function showAdminLogin() { document.getElementById('adminAuthSection').classList.toggle('hidden'); }
         function checkAdmin() { if(document.getElementById('adminPassInput').value === ADMIN_KEY) { document.getElementById('adminAuthSection').classList.add('hidden'); document.getElementById('adminPanel').classList.remove('hidden'); loadUsers(); } }
-        function loadUsers() { db.ref('users').on('value', (s) => { const users = s.val(); let html = ''; for(let id in users) html += `<tr><td>${id}</td><td>${users[id].balance}</td><td><input type="number" id="in-${id}" style="width:60px;margin:0;"><button onclick="addBal('${id}')">Add</button></td></tr>`; document.getElementById('userTableBody').innerHTML = html; }); }
-        async function addBal(id) { const amt = parseInt(document.getElementById('in-'+id).value); const snap = await db.ref('users/'+id+'/balance').once('value'); await db.ref('users/'+id).update({ balance: (snap.val() || 0) + amt }); notify("✅ Updated", "#4caf50"); }
-        async function addStock() { const target = document.getElementById('stockTarget').value; const rawData = document.getElementById('stockData').value.trim(); if(!rawData) return; const newAccs = rawData.split('\n').map(s => s.trim()).filter(s => s !== ""); const snap = await db.ref('stocks/' + target).once('value'); await db.ref('stocks/' + target).set([...(snap.val() || []), ...newAccs]); document.getElementById('stockData').value = ""; notify("✅ Stock Added", "#4caf50"); }
+        function loadUsers() { db.ref('users').on('value', (s) => { const users = s.val(); let html = ''; for(let id in users) html += `<tr><td>${id}</td><td>${users[id].balance}</td><td><button onclick="addBal('${id}')">Add</button></td></tr>`; document.getElementById('userTableBody').innerHTML = html; }); }
+        function notify(m, c) { const s = document.getElementById('status'); s.innerText = m; s.style.backgroundColor = c; s.style.color="white"; s.style.display = 'block'; setTimeout(() => s.style.display='none', 4000); }
         function copyAccount() { navigator.clipboard.writeText(document.getElementById('accDetails').innerText); notify("📋 Copied!", "#4caf50"); }
         function closeModal() { document.getElementById('accModal').classList.add('hidden'); }
-        function notify(m, c) { const s = document.getElementById('status'); s.innerText = m; s.style.backgroundColor = c; s.style.color="white"; s.style.display = 'block'; setTimeout(() => s.style.display='none', 4000); }
-        function filterUsers() { let input = document.getElementById("userSearch").value.toLowerCase(); let tr = document.getElementById("userTable").getElementsByTagName("tr"); for (let i = 0; i < tr.length; i++) tr[i].style.display = tr[i].innerText.toLowerCase().includes(input) ? "" : "none"; }
     </script>
 </body>
 </html>
